@@ -13,6 +13,11 @@ variable "etcd_servers" {
   type        = "list"
 }
 
+variable "experimental_self_hosted_etcd" {
+  description = "(Experimental) Create self-hosted etcd assets"
+  default = false
+}
+
 variable "output_path" {
   description = "Path to a directory where generated assets should be placed (contains secrets)"
   type        = "string"
@@ -42,6 +47,7 @@ variable "container_images" {
 
   default = {
     hyperkube = "quay.io/coreos/hyperkube:v1.6.2_coreos.0"
+    etcd = "quay.io/coreos/etcd:v3.1.6"
   }
 }
 
@@ -55,6 +61,12 @@ variable "kube_dns_service_ip" {
   description = "Kubernetes service IP for kube-dns (must be within server_cidr)"
   type        = "string"
   default     = "10.3.0.10"
+}
+
+variable "kube_etcd_service_ip" {
+  description = "Kubernetes service IP for self-hosted etcd (must be within server_cidr)"
+  type = "string"
+  default = "10.3.0.15"
 }
 
 variable "ca_certificate" {
