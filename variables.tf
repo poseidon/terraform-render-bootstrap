@@ -38,7 +38,7 @@ variable "pod_cidr" {
 variable "service_cidr" {
   description = "CIDR IP range to assign Kubernetes services"
   type        = "string"
-  default     = "10.3.0.0/16"
+  default     = "10.3.0.0/24"
 }
 
 variable "container_images" {
