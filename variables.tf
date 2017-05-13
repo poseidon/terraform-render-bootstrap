@@ -18,7 +18,7 @@ variable "experimental_self_hosted_etcd" {
   default = false
 }
 
-variable "output_path" {
+variable "asset_dir" {
   description = "Path to a directory where generated assets should be placed (contains secrets)"
   type        = "string"
 }

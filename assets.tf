@@ -1,7 +1,7 @@
 # Self-hosted Kubernetes bootstrap manifests
 resource "template_dir" "bootstrap-manifests" {
   source_dir      = "${path.module}/resources/bootstrap-manifests"
-  destination_dir = "${var.output_path}/bootstrap-manifests"
+  destination_dir = "${var.asset_dir}/bootstrap-manifests"
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
@@ -16,7 +16,7 @@ resource "template_dir" "bootstrap-manifests" {
 # Self-hosted Kubernetes manifests
 resource "template_dir" "manifests" {
   source_dir      = "${path.module}/resources/manifests"
-  destination_dir = "${var.output_path}/manifests"
+  destination_dir = "${var.asset_dir}/manifests"
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
@@ -51,7 +51,7 @@ data "template_file" "kubeconfig" {
 
 resource "local_file" "kubeconfig" {
   content  = "${data.template_file.kubeconfig.rendered}"
-  filename = "${var.output_path}/auth/kubeconfig"
+  filename = "${var.asset_dir}/auth/kubeconfig"
 }
 
 # Generated kubeconfig (auth/kubeconfig)
@@ -69,5 +69,5 @@ data "template_file" "user-kubeconfig" {
 
 resource "local_file" "user-kubeconfig" {
   content  = "${data.template_file.user-kubeconfig.rendered}"
-  filename = "${var.output_path}/auth/${var.cluster_name}-config"
+  filename = "${var.asset_dir}/auth/${var.cluster_name}-config"
 }
