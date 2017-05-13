@@ -5,7 +5,7 @@ resource "template_dir" "bootstrap-manifests" {
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379", var.kube_etcd_service_ip) : join(",", var.etcd_servers)}"
+    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379,http://127.0.0.1:12379", var.kube_etcd_service_ip) : join(",", var.etcd_servers)}"
 
     cloud_provider = "${var.cloud_provider}"
     pod_cidr       = "${var.pod_cidr}"
