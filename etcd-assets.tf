@@ -17,7 +17,7 @@ resource "local_file" "bootstrap-etcd" {
 }
 
 data "template_file" "bootstrap-etcd-service" {
-  template = "${file("${path.module}/resources/experimental/bootstrap-manifests/bootstrap-etcd-service.json")}"
+  template = "${file("${path.module}/resources/etcd/bootstrap-etcd-service.json")}"
   vars {
     bootstrap_etcd_service_ip = "${var.kube_bootstrap_etcd_service_ip}"
   }
@@ -26,11 +26,11 @@ data "template_file" "bootstrap-etcd-service" {
 resource "local_file" "bootstrap-etcd-service" {
   count      = "${var.experimental_self_hosted_etcd ? 1 : 0}"
   content  = "${data.template_file.bootstrap-etcd-service.rendered}"
-  filename = "${var.asset_dir}/experimental/bootstrap-manifests/bootstrap-etcd-service.json"
+  filename = "${var.asset_dir}/etcd/bootstrap-etcd-service.json"
 }
 
 data "template_file" "etcd-tpr" {
-  template = "${file("${path.module}/resources/experimental/bootstrap-manifests/migrate-etcd-cluster.json")}"
+  template = "${file("${path.module}/resources/etcd/migrate-etcd-cluster.json")}"
   vars {
     bootstrap_etcd_service_ip = "${var.kube_bootstrap_etcd_service_ip}"
   }
@@ -39,7 +39,7 @@ data "template_file" "etcd-tpr" {
 resource "local_file" "etcd-tpr" {
   count      = "${var.experimental_self_hosted_etcd ? 1 : 0}"
   content  = "${data.template_file.etcd-tpr.rendered}"
-  filename = "${var.asset_dir}/experimental/bootstrap-manifests/migrate-etcd-cluster.json"
+  filename = "${var.asset_dir}/etcd/migrate-etcd-cluster.json"
 }
 
 # etcd operator deployment and service manifests
