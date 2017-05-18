@@ -5,13 +5,13 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    component: kube-proxy
+    k8s-app: kube-proxy
 spec:
   template:
     metadata:
       labels:
         tier: node
-        component: kube-proxy
+        k8s-app: kube-proxy
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:

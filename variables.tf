@@ -69,6 +69,12 @@ variable "kube_etcd_service_ip" {
   default = "10.3.0.15"
 }
 
+variable "kube_bootstrap_etcd_service_ip" {
+  description = "Kubernetes service IP for bootstrapping self-hosted etcd (must be within server_cidr)"
+  type = "string"
+  default = "10.3.0.200"
+}
+
 variable "ca_certificate" {
   description = "Existing PEM-encoded CA certificate (generated if blank)"
   type        = "string"

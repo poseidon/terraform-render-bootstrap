@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: etcd-operator
-        image: quay.io/coreos/etcd-operator:v0.2.6
+        image: quay.io/coreos/etcd-operator:v0.3.0
         command:
           - /usr/local/bin/etcd-operator
           - --analytics=false
@@ -27,6 +27,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Exists
