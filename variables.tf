@@ -36,7 +36,10 @@ variable "pod_cidr" {
 }
 
 variable "service_cidr" {
-  description = "CIDR IP range to assign Kubernetes services"
+  description = <<EOD
+CIDR IP range to assign Kubernetes services.
+The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns, the 15th IP will be reserved for self-hosted etcd, and the 200th IP will be reserved for bootstrap self-hosted etcd.
+EOD
   type        = "string"
   default     = "10.3.0.0/24"
 }
@@ -49,30 +52,6 @@ variable "container_images" {
     hyperkube = "quay.io/coreos/hyperkube:v1.6.2_coreos.0"
     etcd = "quay.io/coreos/etcd:v3.1.6"
   }
-}
-
-variable "kube_apiserver_service_ip" {
-  description = "Kubernetes service IP for kube-apiserver (must be within service_cidr)"
-  type        = "string"
-  default     = "10.3.0.1"
-}
-
-variable "kube_dns_service_ip" {
-  description = "Kubernetes service IP for kube-dns (must be within server_cidr)"
-  type        = "string"
-  default     = "10.3.0.10"
-}
-
-variable "kube_etcd_service_ip" {
-  description = "Kubernetes service IP for self-hosted etcd (must be within server_cidr)"
-  type = "string"
-  default = "10.3.0.15"
-}
-
-variable "kube_bootstrap_etcd_service_ip" {
-  description = "Kubernetes service IP for bootstrapping self-hosted etcd (must be within server_cidr)"
-  type = "string"
-  default = "10.3.0.200"
 }
 
 variable "ca_certificate" {

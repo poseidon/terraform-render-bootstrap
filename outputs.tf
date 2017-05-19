@@ -6,6 +6,14 @@ output "content_hash" {
   value = "${sha1("${template_dir.bootstrap-manifests.id} ${template_dir.manifests.id}")}"
 }
 
+output "kube_dns_service_ip" {
+  value = "${cidrhost(var.service_cidr, 10)}"
+}
+
+output "etcd_service_ip" {
+  value = "${cidrhost(var.service_cidr, 15)}"
+}
+
 output "kubeconfig" {
   value = "${data.template_file.kubeconfig.rendered}"
 }
