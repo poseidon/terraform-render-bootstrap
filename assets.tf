@@ -5,7 +5,7 @@ resource "template_dir" "bootstrap-manifests" {
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379,http://127.0.0.1:12379", var.kube_etcd_service_ip) : join(",", var.etcd_servers)}"
+    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379,http://127.0.0.1:12379", cidrhost(var.service_cidr, 15)) : join(",", var.etcd_servers)}"
 
     cloud_provider = "${var.cloud_provider}"
     pod_cidr       = "${var.pod_cidr}"
@@ -20,13 +20,13 @@ resource "template_dir" "manifests" {
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379", var.kube_etcd_service_ip) : join(",", var.etcd_servers)}"
+    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", var.etcd_servers)}"
 
     cloud_provider = "${var.cloud_provider}"
+    
     pod_cidr       = "${var.pod_cidr}"
     service_cidr   = "${var.service_cidr}"
-
-    kube_dns_service_ip = "${var.kube_dns_service_ip}"
+    kube_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     apiserver_key      = "${base64encode(tls_private_key.apiserver.private_key_pem)}"
