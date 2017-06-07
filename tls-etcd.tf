@@ -121,4 +121,3 @@ resource "tls_locally_signed_cert" "peer" {
     "client_auth",
   ]
 }
-

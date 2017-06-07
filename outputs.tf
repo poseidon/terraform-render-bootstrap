@@ -22,6 +22,28 @@ output "user-kubeconfig" {
   value = "${local_file.user-kubeconfig.filename}"
 }
 
+# etcd TLS assets
+
+output "etcd_ca_cert" {
+  value = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+}
+
+output "etcd_client_cert" {
+  value = "${tls_locally_signed_cert.client.cert_pem}"
+}
+
+output "etcd_client_key" {
+  value = "${tls_private_key.client.private_key_pem}"
+}
+
+output "etcd_peer_cert" {
+  value = "${tls_locally_signed_cert.peer.cert_pem}"
+}
+
+output "etcd_peer_key" {
+  value = "${tls_private_key.peer.private_key_pem}"
+}
+
 # Some platforms may need to reconstruct the kubeconfig directly in user-data.
 # That can't be done with the way template_file interpolates multi-line
 # contents so the raw components of the kubeconfig may be needed.

@@ -15,7 +15,7 @@ variable "etcd_servers" {
 
 variable "experimental_self_hosted_etcd" {
   description = "(Experimental) Create self-hosted etcd assets"
-  default = false
+  default     = false
 }
 
 variable "asset_dir" {
@@ -40,8 +40,9 @@ variable "service_cidr" {
 CIDR IP range to assign Kubernetes services.
 The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns, the 15th IP will be reserved for self-hosted etcd, and the 200th IP will be reserved for bootstrap self-hosted etcd.
 EOD
-  type        = "string"
-  default     = "10.3.0.0/24"
+
+  type    = "string"
+  default = "10.3.0.0/24"
 }
 
 variable "container_images" {
@@ -50,7 +51,7 @@ variable "container_images" {
 
   default = {
     hyperkube = "quay.io/coreos/hyperkube:v1.6.4_coreos.0"
-    etcd = "quay.io/coreos/etcd:v3.1.6"
+    etcd      = "quay.io/coreos/etcd:v3.1.6"
   }
 }
 
