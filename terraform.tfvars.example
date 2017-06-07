@@ -1,5 +1,5 @@
 cluster_name = "example"
 api_servers = ["node1.example.com"]
-etcd_servers = ["https://node1.example.com:2379"]
+etcd_servers = ["node1.example.com"]
 asset_dir = "/home/core/clusters/mycluster"
 experimental_self_hosted_etcd = false
