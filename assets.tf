@@ -10,6 +10,11 @@ resource "template_dir" "bootstrap-manifests" {
     cloud_provider = "${var.cloud_provider}"
     pod_cidr       = "${var.pod_cidr}"
     service_cidr   = "${var.service_cidr}"
+    
+    # TODO: Enable TLS for self-hosted etcd and remove these variables
+    etcd_ca_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-cafile=/etc/kubernetes/secrets/etcd-ca.crt"}"
+    etcd_client_cert_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt"}"
+    etcd_client_key_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key"}"
   }
 }
 
@@ -33,6 +38,11 @@ resource "template_dir" "manifests" {
     apiserver_cert     = "${base64encode(tls_locally_signed_cert.apiserver.cert_pem)}"
     serviceaccount_pub = "${base64encode(tls_private_key.service-account.public_key_pem)}"
     serviceaccount_key = "${base64encode(tls_private_key.service-account.private_key_pem)}"
+    
+    # TODO: Enable TLS for self-hosted etcd and remove these variables
+    etcd_ca_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-cafile=/etc/kubernetes/secrets/etcd-ca.crt"}"
+    etcd_client_cert_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt"}"
+    etcd_client_key_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key"}"
   }
 }
 

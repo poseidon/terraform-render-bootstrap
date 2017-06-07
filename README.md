@@ -35,7 +35,7 @@ Render bootkube assets directly with bootkube v0.4.2.
 #### On-host etcd
 
 ```sh
-bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=http://127.0.0.1:2379
+bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
 ```
 
 Compare assets. The only diffs you should see are TLS credentials.

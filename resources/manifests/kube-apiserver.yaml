@@ -33,6 +33,9 @@ spec:
         - --authorization-mode=RBAC
         - --bind-address=0.0.0.0
         - --client-ca-file=/etc/kubernetes/secrets/ca.crt
+        ${etcd_ca_flag}
+        ${etcd_client_cert_flag}
+        ${etcd_client_key_flag}
         - --cloud-provider=${cloud_provider}
         - --etcd-servers=${etcd_servers}
         - --insecure-port=0
