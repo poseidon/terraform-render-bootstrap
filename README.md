@@ -12,7 +12,7 @@ module "bootkube" {
 
   cluster_name = "example"
   api_servers = ["node1.example.com"]
-  etcd_servers = ["http://127.0.0.1:2379"]
+  etcd_servers = ["node1.example.com"]
   asset_dir = "/home/core/clusters/mycluster"
   experimental_self_hosted_etcd = false
 }
