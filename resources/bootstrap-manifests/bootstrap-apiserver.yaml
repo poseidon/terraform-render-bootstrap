@@ -9,8 +9,6 @@ spec:
     image: ${hyperkube_image}
     command:
     - /usr/bin/flock
-    - --exclusive
-    - --timeout=30
     - /var/lock/api-server.lock
     - /hyperkube
     - apiserver
@@ -20,10 +18,10 @@ spec:
     - --authorization-mode=RBAC
     - --bind-address=0.0.0.0
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
+    - --etcd-cafile=/etc/kubernetes/secrets/etcd-ca.crt 
+    - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
+    - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
     - --etcd-servers=${etcd_servers}
-    ${etcd_ca_flag}
-    ${etcd_client_cert_flag}
-    ${etcd_client_key_flag}
     - --insecure-port=0
     - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key

@@ -28,6 +28,62 @@ resource "local_file" "etcd_peer_key" {
   filename = "${var.asset_dir}/tls/etcd-peer.key"
 }
 
+# add certs / keys for self-hosted etcd
+
+# operator/etcd-ca-crt.pem
+resource "local_file" "etcd_operator_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/operator/etcd-ca-crt.pem"
+}
+
+# operator/etcd-crt.pem
+resource "local_file" "etcd_operator_client_crt" {
+  content  = "${tls_locally_signed_cert.client.cert_pem}"
+  filename = "${var.asset_dir}/tls/operator/etcd-crt.pem"
+}
+
+# operator/etcd-key.pem
+resource "local_file" "etcd_operator_client_key" {
+  content  = "${tls_private_key.client.private_key_pem}"
+  filename = "${var.asset_dir}/tls/operator/etcd-key.pem"
+}
+
+# etcdMember/client-ca-crt.pem
+resource "local_file" "etcd_member_client_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcdMember/client-ca-crt.pem"
+}
+
+# etcdMember/client-crt.pem
+resource "local_file" "etcd_member_client_crt" {
+  content  = "${tls_locally_signed_cert.client.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcdMember/client-crt.pem"
+}
+
+# etcdMember/client-key.pem
+resource "local_file" "etcd_member_client_key" {
+  content  = "${tls_private_key.client.private_key_pem}"
+  filename = "${var.asset_dir}/tls/etcdMember/client-key.pem"
+}
+
+# etcdMember/peer-ca-crt.pem
+resource "local_file" "etcd_member_peer_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcdMember/peer-ca-crt.pem"
+}
+
+# etcdMember/peer-crt.pem
+resource "local_file" "etcd_member_peer_crt" {
+  content  = "${tls_locally_signed_cert.peer.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcdMember/peer-crt.pem"
+}
+
+# etcdMember/peer-key.pem
+resource "local_file" "etcd_member_peer_key" {
+  content  = "${tls_private_key.peer.private_key_pem}"
+  filename = "${var.asset_dir}/tls/etcdMember/peer-key.pem"
+}
+
 # certificates and keys
 
 resource "tls_private_key" "etcd-ca" {
@@ -64,11 +120,23 @@ resource "tls_cert_request" "client" {
   private_key_pem = "${tls_private_key.client.private_key_pem}"
 
   subject {
-    common_name  = "etcd"
+    common_name  = "etcd-client"
     organization = "etcd"
   }
 
-  dns_names = ["${var.etcd_servers}"]
+  ip_addresses = [
+    "127.0.0.1",
+    "${cidrhost(var.service_cidr, 15)}",
+    "${cidrhost(var.service_cidr, 20)}",
+  ]
+
+  dns_names = "${concat(
+    var.etcd_servers,
+    list(
+      "localhost",
+      "*.kube-etcd.kube-system.svc.cluster.local",
+      "kube-etcd-client.kube-system.svc.cluster.local",
+    ))}"
 }
 
 resource "tls_locally_signed_cert" "client" {
@@ -98,11 +166,20 @@ resource "tls_cert_request" "peer" {
   private_key_pem = "${tls_private_key.peer.private_key_pem}"
 
   subject {
-    common_name  = "etcd"
+    common_name  = "etcd-peer"
     organization = "etcd"
   }
+  
+  dns_names = "${concat(
+    var.etcd_servers,
+    list(
+      "*.kube-etcd.kube-system.svc.cluster.local",
+      "kube-etcd-client.kube-system.svc.cluster.local",
+    ))}"
 
-  dns_names = ["${var.etcd_servers}"]
+  ip_addresses = [
+    "${cidrhost(var.service_cidr, 20)}"
+  ]
 }
 
 resource "tls_locally_signed_cert" "peer" {

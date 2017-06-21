@@ -16,8 +16,8 @@ spec:
         checkpointer.alpha.coreos.com/checkpoint: "true"
     spec:
       containers:
-      - name: checkpoint
-        image: quay.io/coreos/pod-checkpointer:2cad4cac4186611a79de1969e3ea4924f02f459e
+      - name: pod-checkpointer
+        image: quay.io/coreos/pod-checkpointer:4e7a7dab10bc4d895b66c21656291c6e0b017248
         command:
         - /checkpoint
         - --v=4
@@ -56,3 +56,7 @@ spec:
       - name: var-run
         hostPath:
           path: /var/run
+  updateStrategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate

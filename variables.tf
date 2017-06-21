@@ -9,7 +9,7 @@ variable "api_servers" {
 }
 
 variable "etcd_servers" {
-  description = "List of etcd server URLs including protocol, host, and port"
+  description = "List of etcd server URLs including protocol, host, and port. Ignored if experimental self-hosted etcd is enabled."
   type        = "list"
 }
 
@@ -38,7 +38,7 @@ variable "pod_cidr" {
 variable "service_cidr" {
   description = <<EOD
 CIDR IP range to assign Kubernetes services.
-The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns, the 15th IP will be reserved for self-hosted etcd, and the 200th IP will be reserved for bootstrap self-hosted etcd.
+The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns, the 15th IP will be reserved for self-hosted etcd, and the 20th IP will be reserved for bootstrap self-hosted etcd.
 EOD
 
   type    = "string"
@@ -50,8 +50,8 @@ variable "container_images" {
   type        = "map"
 
   default = {
-    hyperkube = "quay.io/coreos/hyperkube:v1.6.4_coreos.0"
-    etcd      = "quay.io/coreos/etcd:v3.1.6"
+    hyperkube = "quay.io/coreos/hyperkube:v1.6.6_coreos.1"
+    etcd      = "quay.io/coreos/etcd:v3.1.8"
   }
 }
 

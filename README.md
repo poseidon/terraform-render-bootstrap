@@ -8,7 +8,7 @@ Use the `bootkube-terraform` module within your existing Terraform configs. Prov
 
 ```hcl
 module "bootkube" {
-  source = "git://https://github.com/dghubble/bootkube-terraform.git"
+  source = "git://https://github.com/dghubble/bootkube-terraform.git?ref=SHA"
 
   cluster_name = "example"
   api_servers = ["node1.example.com"]
@@ -30,7 +30,7 @@ terraform apply
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.4.4.
+Render bootkube assets directly with bootkube v0.4.5.
 
 #### On-host etcd
 
@@ -41,7 +41,7 @@ bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 -
 Compare assets. The only diffs you should see are TLS credentials.
 
 ```sh
-diff -rw assets /home/core/cluster/mycluster
+diff -rw assets /home/core/mycluster
 ```
 
 #### Self-hosted etcd
@@ -53,6 +53,10 @@ bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 -
 Compare assets. Note that experimental must be generated to a separate directory for terraform applies to sync. Move the experimental `bootstrap-manifests` and `manifests` files during deployment.
 
 ```sh
-diff -rw assets /home/core/cluster/mycluster
+pushd /home/core/mycluster
+mv experimental/bootstrap-manifests/* boostrap-manifests
+mv experimental/manifests/* manifests
+popd
+diff -rw assets /home/core/mycluster
 ```
 

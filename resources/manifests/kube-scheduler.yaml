@@ -47,6 +47,9 @@ spec:
           timeoutSeconds: 15
       nodeSelector:
         node-role.kubernetes.io/master: ""
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
       tolerations:
       - key: CriticalAddonsOnly
         operator: Exists

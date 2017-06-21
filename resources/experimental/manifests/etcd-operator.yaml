@@ -6,6 +6,11 @@ metadata:
   labels:
     k8s-app: etcd-operator
 spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   replicas: 1
   template:
     metadata:
@@ -14,7 +19,7 @@ spec:
     spec:
       containers:
       - name: etcd-operator
-        image: quay.io/coreos/etcd-operator:v0.3.0
+        image: quay.io/coreos/etcd-operator:v0.3.3
         command:
           - /usr/local/bin/etcd-operator
           - --analytics=false
@@ -29,6 +34,9 @@ spec:
               fieldPath: metadata.name
       nodeSelector:
         node-role.kubernetes.io/master: ""
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Exists

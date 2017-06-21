@@ -1,20 +1,15 @@
-# Self-hosted Kubernetes bootstrap manifests
+# Self-hosted Kubernetes bootstrap-manifests
 resource "template_dir" "bootstrap-manifests" {
   source_dir      = "${path.module}/resources/bootstrap-manifests"
   destination_dir = "${var.asset_dir}/bootstrap-manifests"
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379,https://127.0.0.1:12379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
     cloud_provider = "${var.cloud_provider}"
     pod_cidr       = "${var.pod_cidr}"
     service_cidr   = "${var.service_cidr}"
-
-    # TODO: Enable TLS for self-hosted etcd and remove these variables
-    etcd_ca_flag          = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-cafile=/etc/kubernetes/secrets/etcd-ca.crt"}"
-    etcd_client_cert_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt"}"
-    etcd_client_key_flag  = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key"}"
   }
 }
 
@@ -25,10 +20,9 @@ resource "template_dir" "manifests" {
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("http://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
     cloud_provider = "${var.cloud_provider}"
-
     pod_cidr            = "${var.pod_cidr}"
     service_cidr        = "${var.service_cidr}"
     kube_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
@@ -42,15 +36,21 @@ resource "template_dir" "manifests" {
     etcd_ca_cert = "${base64encode(tls_self_signed_cert.etcd-ca.cert_pem)}"
     etcd_client_cert = "${base64encode(tls_locally_signed_cert.client.cert_pem)}"
     etcd_client_key = "${base64encode(tls_private_key.client.private_key_pem)}"
-
-    # TODO: Enable TLS for self-hosted etcd and remove these variables
-    etcd_ca_flag          = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-cafile=/etc/kubernetes/secrets/etcd-ca.crt"}"
-    etcd_client_cert_flag = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt"}"
-    etcd_client_key_flag  = "${var.experimental_self_hosted_etcd ? "# etcd TLS not supported" : "- --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key"}"
   }
 }
 
-# Generated kubeconfig (auth/kubeconfig)
+# Generated kubeconfig
+resource "local_file" "kubeconfig" {
+  content  = "${data.template_file.kubeconfig.rendered}"
+  filename = "${var.asset_dir}/auth/kubeconfig"
+}
+
+# Generated kubeconfig with user-context
+resource "local_file" "user-kubeconfig" {
+  content  = "${data.template_file.user-kubeconfig.rendered}"
+  filename = "${var.asset_dir}/auth/${var.cluster_name}-config"
+}
+
 data "template_file" "kubeconfig" {
   template = "${file("${path.module}/resources/kubeconfig")}"
 
@@ -62,12 +62,6 @@ data "template_file" "kubeconfig" {
   }
 }
 
-resource "local_file" "kubeconfig" {
-  content  = "${data.template_file.kubeconfig.rendered}"
-  filename = "${var.asset_dir}/auth/kubeconfig"
-}
-
-# Generated kubeconfig (auth/kubeconfig)
 data "template_file" "user-kubeconfig" {
   template = "${file("${path.module}/resources/user-kubeconfig")}"
 
@@ -80,7 +74,3 @@ data "template_file" "user-kubeconfig" {
   }
 }
 
-resource "local_file" "user-kubeconfig" {
-  content  = "${data.template_file.user-kubeconfig.rendered}"
-  filename = "${var.asset_dir}/auth/${var.cluster_name}-config"
-}
