@@ -24,7 +24,7 @@ resource "template_dir" "etcd-subfolder" {
 }
 
 # etcd-operator deployment and etcd-service manifests
-# etcd member peer, member client, and operator client secrets
+# etcd client, server, and peer tls secrets
 resource "template_dir" "experimental-manifests" {
   count      = "${var.experimental_self_hosted_etcd ? 1 : 0}"
   source_dir      = "${path.module}/resources/experimental/manifests"
@@ -35,9 +35,11 @@ resource "template_dir" "experimental-manifests" {
 
     # Self-hosted etcd TLS certs / keys
     etcd_ca_cert = "${base64encode(tls_self_signed_cert.etcd-ca.cert_pem)}"
+    etcd_client_cert = "${base64encode(tls_locally_signed_cert.client.cert_pem)}"
+    etcd_client_key = "${base64encode(tls_private_key.client.private_key_pem)}"
+    etcd_server_cert = "${base64encode(tls_locally_signed_cert.server.cert_pem)}"
+    etcd_server_key = "${base64encode(tls_private_key.server.private_key_pem)}"
     etcd_peer_cert = "${base64encode(tls_locally_signed_cert.peer.cert_pem)}"
     etcd_peer_key = "${base64encode(tls_private_key.peer.private_key_pem)}"
-    etcd_client_cert = "${base64encode(tls_locally_signed_cert.client.cert_pem)}"
-    etcd_client_key = "${base64encode(tls_private_key.client.private_key_pem)}" 
   }
 }

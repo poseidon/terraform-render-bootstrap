@@ -18,7 +18,7 @@ spec:
     - --authorization-mode=RBAC
     - --bind-address=0.0.0.0
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
-    - --etcd-cafile=/etc/kubernetes/secrets/etcd-ca.crt 
+    - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
     - --etcd-servers=${etcd_servers}
