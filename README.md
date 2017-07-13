@@ -30,7 +30,7 @@ terraform apply
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.4.5.
+Render bootkube assets directly with bootkube v0.5.0.
 
 #### On-host etcd
 

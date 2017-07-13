@@ -36,6 +36,14 @@ output "etcd_client_key" {
   value = "${tls_private_key.client.private_key_pem}"
 }
 
+output "etcd_server_cert" {
+  value = "${tls_locally_signed_cert.server.cert_pem}"
+}
+
+output "etcd_server_key" {
+  value = "${tls_private_key.server.private_key_pem}"
+}
+
 output "etcd_peer_cert" {
   value = "${tls_locally_signed_cert.peer.cert_pem}"
 }

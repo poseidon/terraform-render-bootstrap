@@ -1,7 +1,7 @@
-# etcd-ca.crt
-resource "local_file" "etcd_ca_crt" {
+# etcd-client-ca.crt
+resource "local_file" "etcd_client_ca_crt" {
   content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
-  filename = "${var.asset_dir}/tls/etcd-ca.crt"
+  filename = "${var.asset_dir}/tls/etcd-client-ca.crt"
 }
 
 # etcd-client.crt
@@ -16,72 +16,40 @@ resource "local_file" "etcd_client_key" {
   filename = "${var.asset_dir}/tls/etcd-client.key"
 }
 
-# etcd-peer.crt
+# server-ca.crt
+resource "local_file" "etcd_server_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcd/server-ca.crt"
+}
+
+# server.crt
+resource "local_file" "etcd_server_crt" {
+  content  = "${tls_locally_signed_cert.server.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcd/server.crt"
+}
+
+# server.key
+resource "local_file" "etcd_server_key" {
+  content  = "${tls_private_key.server.private_key_pem}"
+  filename = "${var.asset_dir}/tls/etcd/server.key"
+}
+
+# peer-ca.crt
+resource "local_file" "etcd_peer_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcd/peer-ca.crt"
+}
+
+# peer.crt
 resource "local_file" "etcd_peer_crt" {
   content  = "${tls_locally_signed_cert.peer.cert_pem}"
-  filename = "${var.asset_dir}/tls/etcd-peer.crt"
+  filename = "${var.asset_dir}/tls/etcd/peer.crt"
 }
 
-# etcd-peer.key
+# peer.key
 resource "local_file" "etcd_peer_key" {
   content  = "${tls_private_key.peer.private_key_pem}"
-  filename = "${var.asset_dir}/tls/etcd-peer.key"
-}
-
-# add certs / keys for self-hosted etcd
-
-# operator/etcd-ca-crt.pem
-resource "local_file" "etcd_operator_ca_crt" {
-  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
-  filename = "${var.asset_dir}/tls/operator/etcd-ca-crt.pem"
-}
-
-# operator/etcd-crt.pem
-resource "local_file" "etcd_operator_client_crt" {
-  content  = "${tls_locally_signed_cert.client.cert_pem}"
-  filename = "${var.asset_dir}/tls/operator/etcd-crt.pem"
-}
-
-# operator/etcd-key.pem
-resource "local_file" "etcd_operator_client_key" {
-  content  = "${tls_private_key.client.private_key_pem}"
-  filename = "${var.asset_dir}/tls/operator/etcd-key.pem"
-}
-
-# etcdMember/client-ca-crt.pem
-resource "local_file" "etcd_member_client_ca_crt" {
-  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
-  filename = "${var.asset_dir}/tls/etcdMember/client-ca-crt.pem"
-}
-
-# etcdMember/client-crt.pem
-resource "local_file" "etcd_member_client_crt" {
-  content  = "${tls_locally_signed_cert.client.cert_pem}"
-  filename = "${var.asset_dir}/tls/etcdMember/client-crt.pem"
-}
-
-# etcdMember/client-key.pem
-resource "local_file" "etcd_member_client_key" {
-  content  = "${tls_private_key.client.private_key_pem}"
-  filename = "${var.asset_dir}/tls/etcdMember/client-key.pem"
-}
-
-# etcdMember/peer-ca-crt.pem
-resource "local_file" "etcd_member_peer_ca_crt" {
-  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
-  filename = "${var.asset_dir}/tls/etcdMember/peer-ca-crt.pem"
-}
-
-# etcdMember/peer-crt.pem
-resource "local_file" "etcd_member_peer_crt" {
-  content  = "${tls_locally_signed_cert.peer.cert_pem}"
-  filename = "${var.asset_dir}/tls/etcdMember/peer-crt.pem"
-}
-
-# etcdMember/peer-key.pem
-resource "local_file" "etcd_member_peer_key" {
-  content  = "${tls_private_key.peer.private_key_pem}"
-  filename = "${var.asset_dir}/tls/etcdMember/peer-key.pem"
+  filename = "${var.asset_dir}/tls/etcd/peer.key"
 }
 
 # certificates and keys
@@ -110,6 +78,8 @@ resource "tls_self_signed_cert" "etcd-ca" {
   ]
 }
 
+# client certs are used for client (apiserver, locksmith, etcd-operator)
+# to etcd communication
 resource "tls_private_key" "client" {
   algorithm = "RSA"
   rsa_bits  = "2048"
@@ -156,6 +126,52 @@ resource "tls_locally_signed_cert" "client" {
   ]
 }
 
+resource "tls_private_key" "server" {
+  algorithm = "RSA"
+  rsa_bits  = "2048"
+}
+
+resource "tls_cert_request" "server" {
+  key_algorithm   = "${tls_private_key.server.algorithm}"
+  private_key_pem = "${tls_private_key.server.private_key_pem}"
+
+  subject {
+    common_name  = "etcd-server"
+    organization = "etcd"
+  }
+  
+  ip_addresses = [
+    "127.0.0.1",
+    "${cidrhost(var.service_cidr, 15)}",
+    "${cidrhost(var.service_cidr, 20)}",
+  ]
+
+  dns_names = "${concat(
+    var.etcd_servers,
+    list(
+      "localhost",
+      "*.kube-etcd.kube-system.svc.cluster.local",
+      "kube-etcd-client.kube-system.svc.cluster.local",
+    ))}"
+}
+
+resource "tls_locally_signed_cert" "server" {
+  cert_request_pem = "${tls_cert_request.server.cert_request_pem}"
+
+  ca_key_algorithm   = "${join(" ", tls_self_signed_cert.etcd-ca.*.key_algorithm)}"
+  ca_private_key_pem = "${join(" ", tls_private_key.etcd-ca.*.private_key_pem)}"
+  ca_cert_pem        = "${join(" ", tls_self_signed_cert.etcd-ca.*.cert_pem)}"
+
+  validity_period_hours = 8760
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+    "client_auth",
+  ]
+}
+
 resource "tls_private_key" "peer" {
   algorithm = "RSA"
   rsa_bits  = "2048"
@@ -170,16 +186,16 @@ resource "tls_cert_request" "peer" {
     organization = "etcd"
   }
   
+  ip_addresses = [
+    "${cidrhost(var.service_cidr, 20)}"
+  ]
+  
   dns_names = "${concat(
     var.etcd_servers,
     list(
       "*.kube-etcd.kube-system.svc.cluster.local",
       "kube-etcd-client.kube-system.svc.cluster.local",
     ))}"
-
-  ip_addresses = [
-    "${cidrhost(var.service_cidr, 20)}"
-  ]
 }
 
 resource "tls_locally_signed_cert" "peer" {
