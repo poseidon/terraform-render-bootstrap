@@ -72,3 +72,8 @@ variable "ca_private_key" {
   type        = "string"
   default     = ""
 }
+
+variable "operators_update_service" {
+  description = "Create CoreOS update operator"
+  default = true
+}
