@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: etcd-service
   namespace: kube-system
+  # This alpha annotation will retain the endpoints even if the etcd pod isn't ready.
+  # This feature is always enabled in endpoint controller in k8s even it is alpha.
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
     app: etcd

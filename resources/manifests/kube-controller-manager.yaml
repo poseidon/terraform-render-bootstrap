@@ -30,7 +30,7 @@ spec:
                 - key: k8s-app
                   operator: In
                   values:
-                  - kube-contoller-manager
+                  - kube-controller-manager
               topologyKey: kubernetes.io/hostname
       containers:
       - name: kube-controller-manager
