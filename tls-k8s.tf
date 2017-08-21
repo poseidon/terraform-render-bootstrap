@@ -74,8 +74,8 @@ resource "tls_cert_request" "apiserver" {
   ]
 
   ip_addresses = [
-    "${compact(distinct(list(cidrhost(var.service_cidr, 1)),
-                                      var.api_servers_ips))}"
+    "${cidrhost(var.service_cidr, 1)}",
+    "${var.api_servers_ips}",
   ]
 }
 
