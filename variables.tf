@@ -8,6 +8,12 @@ variable "api_servers" {
   type        = "list"
 }
 
+variable "api_servers_ips" {
+  description = "IPs used to reach kube-apiserver."
+  type        = "list"
+  default     = []
+}
+
 variable "etcd_servers" {
   description = "List of etcd server URLs including protocol, host, and port. Ignored if experimental self-hosted etcd is enabled."
   type        = "list"
