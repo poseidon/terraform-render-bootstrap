@@ -139,7 +139,7 @@ resource "tls_cert_request" "server" {
     common_name  = "etcd-server"
     organization = "etcd"
   }
-  
+
   ip_addresses = [
     "127.0.0.1",
     "${cidrhost(var.service_cidr, 15)}",
@@ -185,11 +185,11 @@ resource "tls_cert_request" "peer" {
     common_name  = "etcd-peer"
     organization = "etcd"
   }
-  
+
   ip_addresses = [
-    "${cidrhost(var.service_cidr, 20)}"
+    "${cidrhost(var.service_cidr, 20)}",
   ]
-  
+
   dns_names = "${concat(
     var.etcd_servers,
     list(

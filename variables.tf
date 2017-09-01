@@ -29,6 +29,12 @@ variable "cloud_provider" {
   default     = ""
 }
 
+variable "networking" {
+  description = "Choice of networking provider (flannel or calico)"
+  type        = "string"
+  default     = "flannel"
+}
+
 variable "pod_cidr" {
   description = "CIDR IP range to assign Kubernetes pods"
   type        = "string"

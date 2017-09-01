@@ -22,7 +22,7 @@ resource "template_dir" "manifests" {
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
-    cloud_provider = "${var.cloud_provider}"
+    cloud_provider      = "${var.cloud_provider}"
     pod_cidr            = "${var.pod_cidr}"
     service_cidr        = "${var.service_cidr}"
     kube_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
@@ -33,9 +33,9 @@ resource "template_dir" "manifests" {
     serviceaccount_pub = "${base64encode(tls_private_key.service-account.public_key_pem)}"
     serviceaccount_key = "${base64encode(tls_private_key.service-account.private_key_pem)}"
 
-    etcd_ca_cert = "${base64encode(tls_self_signed_cert.etcd-ca.cert_pem)}"
+    etcd_ca_cert     = "${base64encode(tls_self_signed_cert.etcd-ca.cert_pem)}"
     etcd_client_cert = "${base64encode(tls_locally_signed_cert.client.cert_pem)}"
-    etcd_client_key = "${base64encode(tls_private_key.client.private_key_pem)}"
+    etcd_client_key  = "${base64encode(tls_private_key.client.private_key_pem)}"
   }
 }
 
@@ -73,4 +73,3 @@ data "template_file" "user-kubeconfig" {
     server       = "${format("https://%s:443", element(var.api_servers, 0))}"
   }
 }
-
