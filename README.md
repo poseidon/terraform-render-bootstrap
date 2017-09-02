@@ -1,10 +1,14 @@
 # bootkube-terraform
 
-`bootkube-terraform` is a Terraform module that renders [bootkube](https://github.com/kubernetes-incubator/bootkube) assets, just like running the binary `bootkube render`. It aims to provide the same variable names, defaults, features, and outputs.
+`bootkube-terraform` is Terraform module that renders [kubernetes-incubator/bootkube](https://github.com/kubernetes-incubator/bootkube) bootstrapping assets. It functions as a low-level component of the [Typhoon](https://github.com/poseidon/typhoon) Kubernetes distribution.
+
+The module provides many of the same variable names, defaults, features, and outputs as running `bootkube render` directly.
 
 ## Usage
 
-Use the `bootkube-terraform` module within your existing Terraform configs. Provide the variables listed in `variables.tf` or check `terraform.tfvars.example` for examples.
+Use [Typhoon](https://github.com/poseidon/typhoon) to create and manage Kubernetes clusters in different environments. Use `bootkube-terraform` if you require low-level customizations to the control plane or wish to build your own distribution.
+
+Add the `bootkube-terraform` module alongside existing Terraform configs. Provide the variables listed in `variables.tf` or check `terraform.tfvars.example` for examples.
 
 ```hcl
 module "bootkube" {
@@ -30,7 +34,7 @@ terraform apply
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.6.1.
+Render bootkube assets directly with bootkube v0.6.2.
 
 #### On-host etcd
 
@@ -41,6 +45,9 @@ bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 -
 Compare assets. The only diffs you should see are TLS credentials.
 
 ```sh
+pushd /home/core/mycluster
+mv manifests-networking/* manifests
+popd
 diff -rw assets /home/core/mycluster
 ```
 
@@ -56,6 +63,7 @@ Compare assets. Note that experimental must be generated to a separate directory
 pushd /home/core/mycluster
 mv experimental/bootstrap-manifests/* boostrap-manifests
 mv experimental/manifests/* manifests
+mv manifests-networking/* manifests
 popd
 diff -rw assets /home/core/mycluster
 ```

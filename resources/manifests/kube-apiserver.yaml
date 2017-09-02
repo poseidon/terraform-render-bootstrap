@@ -82,6 +82,6 @@ spec:
         hostPath:
           path: /var/lock
   updateStrategy:
-      rollingUpdate:
-        maxUnavailable: 1
-      type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
