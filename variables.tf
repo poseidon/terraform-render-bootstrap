@@ -35,6 +35,12 @@ variable "networking" {
   default     = "flannel"
 }
 
+variable "network_mtu" {
+  description = "CNI interface MTU (applies to calico only)"
+  type        = "string"
+  default     = "1500"
+}
+
 variable "pod_cidr" {
   description = "CIDR IP range to assign Kubernetes pods"
   type        = "string"

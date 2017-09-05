@@ -13,6 +13,7 @@ data:
         "log_level": "debug",
         "datastore_type": "kubernetes",
         "nodename": "__KUBERNETES_NODE_NAME__",
+        "mtu": ${network_mtu},
         "ipam": {
             "type": "host-local",
             "subnet": "usePodCidr"

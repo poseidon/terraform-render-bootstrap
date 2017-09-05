@@ -16,7 +16,8 @@ resource "template_dir" "calico-manifests" {
   destination_dir = "${var.asset_dir}/manifests-networking"
 
   vars {
-    pod_cidr = "${var.pod_cidr}"
+    network_mtu = "${var.network_mtu}"
+    pod_cidr    = "${var.pod_cidr}"
   }
 }
 
