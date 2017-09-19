@@ -52,6 +52,12 @@ EOD
   default = "10.3.0.0/24"
 }
 
+variable "cluster_dns_fqdn" {
+  description = "The FQDN base to use for DNS within the cluster (eg, KubeDNS)"
+  type        = "string"
+  default     = "cluster.local"
+}
+
 variable "container_images" {
   description = "Container images to use"
   type        = "map"
