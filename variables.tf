@@ -4,12 +4,12 @@ variable "cluster_name" {
 }
 
 variable "api_servers" {
-  description = "URL used to reach kube-apiserver"
+  description = "List of URLs used to reach kube-apiserver"
   type        = "list"
 }
 
 variable "etcd_servers" {
-  description = "List of etcd server URLs including protocol, host, and port. Ignored if experimental self-hosted etcd is enabled."
+  description = "List of URLs used to reach etcd servers. Ignored if experimental self-hosted etcd is enabled."
   type        = "list"
 }
 
