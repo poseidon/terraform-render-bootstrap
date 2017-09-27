@@ -8,6 +8,12 @@ variable "api_servers" {
   type        = "list"
 }
 
+variable "api_port" {
+  description = "Port used to reach kube-apiserver"
+  type        = "string"
+  default     = "443"
+}
+
 variable "etcd_servers" {
   description = "List of URLs used to reach etcd servers. Ignored if experimental self-hosted etcd is enabled."
   type        = "list"
