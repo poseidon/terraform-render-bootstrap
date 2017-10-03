@@ -12,13 +12,12 @@ Add the `bootkube-terraform` module alongside existing Terraform configs. Provid
 
 ```hcl
 module "bootkube" {
-  source = "git://https://github.com/dghubble/bootkube-terraform.git?ref=SHA"
+  source = "git://https://github.com/poseidon/bootkube-terraform.git?ref=SHA"
 
   cluster_name = "example"
   api_servers = ["node1.example.com"]
   etcd_servers = ["node1.example.com"]
   asset_dir = "/home/core/clusters/mycluster"
-  experimental_self_hosted_etcd = false
 }
 ```
 
@@ -34,7 +33,7 @@ terraform apply
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.6.2.
+Render bootkube assets directly with bootkube v0.7.0.
 
 #### On-host etcd
 

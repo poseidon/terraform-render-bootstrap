@@ -40,7 +40,7 @@ spec:
         - name: flannel-cfg
           mountPath: /etc/kube-flannel/
       - name: install-cni
-        image: quay.io/coreos/flannel-cni:v0.2.0
+        image: quay.io/coreos/flannel-cni:v0.3.0
         command: ["/install-cni.sh"]
         env:
         - name: CNI_NETWORK_CONFIG

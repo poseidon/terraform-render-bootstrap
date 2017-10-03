@@ -62,7 +62,7 @@ variable "container_images" {
   type        = "map"
 
   default = {
-    hyperkube = "quay.io/coreos/hyperkube:v1.7.5_coreos.0"
+    hyperkube = "quay.io/coreos/hyperkube:v1.7.7_coreos.0"
     etcd      = "quay.io/coreos/etcd:v3.1.8"
   }
 }
