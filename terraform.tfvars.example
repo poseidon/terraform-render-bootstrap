@@ -1,5 +1,5 @@
 cluster_name = "example"
-api_servers = ["node1.example.com"]
+api_servers = ["https://node1.example.com:443"]
 etcd_servers = ["node1.example.com"]
 asset_dir = "/home/core/mycluster"
 networking = "flannel"

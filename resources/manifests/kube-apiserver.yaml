@@ -40,7 +40,7 @@ spec:
         - --insecure-port=0
         - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
         - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
-        - --secure-port=443
+        - --secure-port=${api_port}
         - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
         - --service-cluster-ip-range=${service_cidr}
         - --storage-backend=etcd3

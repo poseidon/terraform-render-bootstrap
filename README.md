@@ -15,7 +15,7 @@ module "bootkube" {
   source = "git://https://github.com/dghubble/bootkube-terraform.git?ref=SHA"
 
   cluster_name = "example"
-  api_servers = ["node1.example.com"]
+  api_servers = ["https://node1.example.com:6443"]
   etcd_servers = ["node1.example.com"]
   asset_dir = "/home/core/clusters/mycluster"
   experimental_self_hosted_etcd = false
@@ -39,7 +39,7 @@ Render bootkube assets directly with bootkube v0.6.2.
 #### On-host etcd
 
 ```sh
-bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
+bootkube render --asset-dir=assets --api-servers=https://node1.example.com:6443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
 ```
 
 Compare assets. The only diffs you should see are TLS credentials.
@@ -54,7 +54,7 @@ diff -rw assets /home/core/mycluster
 #### Self-hosted etcd
 
 ```sh
-bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --experimental-self-hosted-etcd
+bootkube render --asset-dir=assets --api-servers=https://node1.example.com:6443 --api-server-alt-names=DNS=node1.example.com --experimental-self-hosted-etcd
 ```
 
 Compare assets. Note that experimental must be generated to a separate directory for terraform applies to sync. Move the experimental `bootstrap-manifests` and `manifests` files during deployment.
@@ -67,4 +67,3 @@ mv manifests-networking/* manifests
 popd
 diff -rw assets /home/core/mycluster
 ```
-
