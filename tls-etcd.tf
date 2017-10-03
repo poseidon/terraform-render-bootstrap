@@ -100,13 +100,13 @@ resource "tls_cert_request" "client" {
     "${cidrhost(var.service_cidr, 20)}",
   ]
 
-  dns_names = "${concat(
+  dns_names = ["${concat(
     var.etcd_servers,
     list(
       "localhost",
       "*.kube-etcd.kube-system.svc.cluster.local",
       "kube-etcd-client.kube-system.svc.cluster.local",
-    ))}"
+    ))}"]
 }
 
 resource "tls_locally_signed_cert" "client" {
@@ -146,13 +146,13 @@ resource "tls_cert_request" "server" {
     "${cidrhost(var.service_cidr, 20)}",
   ]
 
-  dns_names = "${concat(
+  dns_names = ["${concat(
     var.etcd_servers,
     list(
       "localhost",
       "*.kube-etcd.kube-system.svc.cluster.local",
       "kube-etcd-client.kube-system.svc.cluster.local",
-    ))}"
+    ))}"]
 }
 
 resource "tls_locally_signed_cert" "server" {
@@ -190,12 +190,12 @@ resource "tls_cert_request" "peer" {
     "${cidrhost(var.service_cidr, 20)}",
   ]
 
-  dns_names = "${concat(
+  dns_names = ["${concat(
     var.etcd_servers,
     list(
       "*.kube-etcd.kube-system.svc.cluster.local",
       "kube-etcd-client.kube-system.svc.cluster.local",
-    ))}"
+    ))}"]
 }
 
 resource "tls_locally_signed_cert" "peer" {
