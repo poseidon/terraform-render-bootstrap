@@ -6,6 +6,7 @@ resource "template_dir" "bootstrap-manifests" {
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379,https://127.0.0.1:12379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    api_port        = "${var.api_port}"
 
     cloud_provider = "${var.cloud_provider}"
     pod_cidr       = "${var.pod_cidr}"
@@ -21,6 +22,7 @@ resource "template_dir" "manifests" {
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    api_port        = "${var.api_port}"
 
     cloud_provider      = "${var.cloud_provider}"
     pod_cidr            = "${var.pod_cidr}"
@@ -58,7 +60,7 @@ data "template_file" "kubeconfig" {
     ca_cert      = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.kubelet.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.kubelet.private_key_pem)}"
-    server       = "${format("https://%s:443", element(var.api_servers, 0))}"
+    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.api_port)}"
   }
 }
 
@@ -70,6 +72,6 @@ data "template_file" "user-kubeconfig" {
     ca_cert      = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.kubelet.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.kubelet.private_key_pem)}"
-    server       = "${format("https://%s:443", element(var.api_servers, 0))}"
+    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.api_port)}"
   }
 }
