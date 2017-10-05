@@ -84,3 +84,9 @@ variable "ca_private_key" {
   type        = "string"
   default     = ""
 }
+
+variable "repo_prefix" {
+  description = "Host and port (terminated with /) of a private repository. Ex: registry:5000/"
+  type        = "string"
+  default     = ""
+}

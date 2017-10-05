@@ -16,7 +16,7 @@ spec:
         checkpointer.alpha.coreos.com/checkpoint: "true"
     spec:
       containers:
-      - image: quay.io/coreos/kenc:0.0.2
+      - image: ${repo_prefix}quay.io/coreos/kenc:0.0.2
         name: kube-etcd-network-checkpointer
         securityContext:
           privileged: true

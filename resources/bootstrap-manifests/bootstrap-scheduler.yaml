@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
   - name: kube-scheduler
-    image: ${hyperkube_image}
+    image: ${repo_prefix}${hyperkube_image}
     command:
     - ./hyperkube
     - scheduler

@@ -4,6 +4,7 @@ resource "template_dir" "bootstrap-manifests" {
   destination_dir = "${var.asset_dir}/bootstrap-manifests"
 
   vars {
+    repo_prefix = "${var.repo_prefix}"
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379,https://127.0.0.1:12379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
@@ -19,6 +20,7 @@ resource "template_dir" "manifests" {
   destination_dir = "${var.asset_dir}/manifests"
 
   vars {
+    repo_prefix = "${var.repo_prefix}"
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 

@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
   - name: etcd
-    image: ${etcd_image}
+    image: ${repo_prefix}${etcd_image}
     command:
     - /usr/local/bin/etcd
     - --name=boot-etcd
@@ -35,7 +35,7 @@ spec:
   volumes:
   - name: secrets
     hostPath:
-      path: /etc/kubernetes/bootstrap-secrets 
+      path: /etc/kubernetes/bootstrap-secrets
   hostNetwork: true
   restartPolicy: Never
-  dnsPolicy: ClusterFirstWithHostNet 
+  dnsPolicy: ClusterFirstWithHostNet

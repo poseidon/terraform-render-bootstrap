@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: kube-proxy
-        image: ${hyperkube_image}
+        image: ${repo_prefix}${hyperkube_image}
         command:
         - ./hyperkube
         - proxy
