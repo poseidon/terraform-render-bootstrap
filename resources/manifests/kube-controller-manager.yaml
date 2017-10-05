@@ -34,7 +34,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: kube-controller-manager
-        image: ${hyperkube_image}
+        image: ${repo_prefix}${hyperkube_image}
         command:
         - ./hyperkube
         - controller-manager

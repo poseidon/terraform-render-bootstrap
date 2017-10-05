@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: kube-apiserver
-        image: ${hyperkube_image}
+        image: ${repo_prefix}${hyperkube_image}
         command:
         - /usr/bin/flock
         - /var/lock/api-server.lock

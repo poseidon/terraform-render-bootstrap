@@ -6,6 +6,7 @@ resource "template_dir" "flannel-manifests" {
   destination_dir = "${var.asset_dir}/manifests-networking"
 
   vars {
+    repo_prefix = "${var.repo_prefix}"
     pod_cidr = "${var.pod_cidr}"
   }
 }
@@ -16,6 +17,7 @@ resource "template_dir" "calico-manifests" {
   destination_dir = "${var.asset_dir}/manifests-networking"
 
   vars {
+    repo_prefix = "${var.repo_prefix}"
     network_mtu = "${var.network_mtu}"
     pod_cidr    = "${var.pod_cidr}"
   }
@@ -28,6 +30,7 @@ resource "template_dir" "experimental-bootstrap-manifests" {
   destination_dir = "${var.asset_dir}/experimental/bootstrap-manifests"
 
   vars {
+    repo_prefix           = "${var.repo_prefix}"
     etcd_image                = "${var.container_images["etcd"]}"
     bootstrap_etcd_service_ip = "${cidrhost(var.service_cidr, 20)}"
   }

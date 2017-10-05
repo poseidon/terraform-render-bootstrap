@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: etcd-operator
-        image: quay.io/coreos/etcd-operator:v0.5.0
+        image: ${repo_prefix}quay.io/coreos/etcd-operator:v0.5.0
         command:
         - /usr/local/bin/etcd-operator
         - --analytics=false

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: kube-flannel
-        image: quay.io/coreos/flannel:v0.8.0-amd64
+        image: ${repo_prefix}quay.io/coreos/flannel:v0.8.0-amd64
         command: [ "/opt/bin/flanneld", "--ip-masq", "--kube-subnet-mgr", "--iface=$(POD_IP)"]
         securityContext:
           privileged: true
@@ -40,7 +40,7 @@ spec:
         - name: flannel-cfg
           mountPath: /etc/kube-flannel/
       - name: install-cni
-        image: quay.io/coreos/flannel-cni:v0.3.0
+        image: ${repo_prefix}quay.io/coreos/flannel-cni:v0.3.0
         command: ["/install-cni.sh"]
         env:
         - name: CNI_NETWORK_CONFIG
