@@ -19,8 +19,13 @@ resource "template_dir" "manifests" {
   destination_dir = "${var.asset_dir}/manifests"
 
   vars {
-    hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    hyperkube_image        = "${var.container_images["hyperkube"]}"
+    pod_checkpointer_image = "${var.container_images["pod_checkpointer"]}"
+    kubedns_image          = "${var.container_images["kubedns"]}"
+    kubedns_dnsmasq_image  = "${var.container_images["kubedns_dnsmasq"]}"
+    kubedns_sidecar_image  = "${var.container_images["kubedns_sidecar"]}"
+
+    etcd_servers = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
     cloud_provider      = "${var.cloud_provider}"
     pod_cidr            = "${var.pod_cidr}"

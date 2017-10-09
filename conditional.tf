@@ -6,6 +6,9 @@ resource "template_dir" "flannel-manifests" {
   destination_dir = "${var.asset_dir}/manifests-networking"
 
   vars {
+    flannel_image     = "${var.container_images["flannel"]}"
+    flannel_cni_image = "${var.container_images["flannel_cni"]}"
+
     pod_cidr = "${var.pod_cidr}"
   }
 }
@@ -16,6 +19,9 @@ resource "template_dir" "calico-manifests" {
   destination_dir = "${var.asset_dir}/manifests-networking"
 
   vars {
+    calico_image     = "${var.container_images["calico"]}"
+    calico_cni_image = "${var.container_images["calico_cni"]}"
+
     network_mtu = "${var.network_mtu}"
     pod_cidr    = "${var.pod_cidr}"
   }
@@ -52,7 +58,9 @@ resource "template_dir" "experimental-manifests" {
   destination_dir = "${var.asset_dir}/experimental/manifests"
 
   vars {
-    etcd_service_ip = "${cidrhost(var.service_cidr, 15)}"
+    etcd_operator_image     = "${var.container_images["etcd_operator"]}"
+    etcd_checkpointer_image = "${var.container_images["etcd_checkpointer"]}"
+    etcd_service_ip         = "${cidrhost(var.service_cidr, 15)}"
 
     # Self-hosted etcd TLS certs / keys
     etcd_ca_cert     = "${base64encode(tls_self_signed_cert.etcd-ca.cert_pem)}"

@@ -27,7 +27,7 @@ spec:
           operator: "Exists"
       containers:
         - name: calico-node
-          image: quay.io/calico/node:v2.6.1
+          image: ${calico_image}
           env:
             # Use Kubernetes API as the backing datastore.
             - name: DATASTORE_TYPE
@@ -99,7 +99,7 @@ spec:
               readOnly: false
         # Install Calico CNI binaries and CNI network config file on nodes
         - name: install-cni
-          image: quay.io/calico/cni:v1.11.0
+          image: ${calico_cni_image}
           command: ["/install-cni.sh"]
           env:
             - name: CNI_NETWORK_CONFIG
