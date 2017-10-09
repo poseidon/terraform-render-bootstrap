@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: kube-scheduler
@@ -8,6 +8,10 @@ metadata:
     k8s-app: kube-scheduler
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      tier: control-plane
+      k8s-app: kube-scheduler
   template:
     metadata:
       labels:
