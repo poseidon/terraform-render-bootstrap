@@ -34,7 +34,7 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.7.0.
+Render bootkube assets directly with bootkube v0.8.0.
 
 #### On-host etcd (recommended)
 

@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: etcd-operator
@@ -6,12 +6,10 @@ metadata:
   labels:
     k8s-app: etcd-operator
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
   replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: etcd-operator
   template:
     metadata:
       labels:
@@ -41,3 +39,8 @@ spec:
       - key: node-role.kubernetes.io/master
         operator: Exists
         effect: NoSchedule
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
