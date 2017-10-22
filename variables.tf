@@ -67,7 +67,7 @@ variable "container_images" {
     etcd              = "quay.io/coreos/etcd:v3.1.8"
     etcd_operator     = "quay.io/coreos/etcd-operator:v0.5.0"
     etcd_checkpointer = "quay.io/coreos/kenc:0.0.2"
-    flannel           = "quay.io/coreos/flannel:v0.8.0-amd64"
+    flannel           = "quay.io/coreos/flannel:v0.9.0-amd64"
     flannel_cni       = "quay.io/coreos/flannel-cni:v0.3.0"
     hyperkube         = "quay.io/coreos/hyperkube:v1.8.1_coreos.0"
     kubedns           = "gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.5"
