@@ -4,7 +4,7 @@
 
 ## Audience
 
-`terraform-render-bootkube` is a low-level component of the [Typhoon](https://github.com/poseidon/typhoon) Kubernetes distribution. Use Typhoon to create and manage Kubernetes clusters across supported platforms. Use the lower-level bootkube module if you'd like to customize a Kubernetes control plane or build your own distribution.
+`terraform-render-bootkube` is a low-level component of the [Typhoon](https://github.com/poseidon/typhoon) Kubernetes distribution. Use Typhoon modules to create and manage Kubernetes clusters across supported platforms. Use the bootkube module if you'd like to customize a Kubernetes control plane or build your own distribution.
 
 ## Usage
 
@@ -34,7 +34,7 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.8.0.
+Render bootkube assets directly with bootkube v0.8.1.
 
 #### On-host etcd (recommended)
 
