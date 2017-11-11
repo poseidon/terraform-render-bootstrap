@@ -34,7 +34,7 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.8.1.
+Render bootkube assets directly with bootkube v0.8.2.
 
 #### On-host etcd (recommended)
 
@@ -51,7 +51,7 @@ popd
 diff -rw assets /home/core/mycluster
 ```
 
-#### Self-hosted etcd (discouraged)
+#### Self-hosted etcd (deprecated)
 
 ```sh
 bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --experimental-self-hosted-etcd
