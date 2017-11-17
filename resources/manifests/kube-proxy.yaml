@@ -43,10 +43,11 @@ spec:
         - mountPath: /etc/ssl/certs
           name: ssl-certs-host
           readOnly: true
-        - name: etc-kubernetes
+        - name: kubeconfig
           mountPath: /etc/kubernetes
           readOnly: true
       hostNetwork: true
+      serviceAccountName: kube-proxy
       tolerations:
       - key: CriticalAddonsOnly
         operator: Exists
@@ -60,9 +61,9 @@ spec:
       - name: ssl-certs-host
         hostPath:
           path: /usr/share/ca-certificates
-      - name: etc-kubernetes
-        hostPath:
-          path: /etc/kubernetes
+      - name: kubeconfig
+        secret:
+          secretName: kubeconfig-in-cluster
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1

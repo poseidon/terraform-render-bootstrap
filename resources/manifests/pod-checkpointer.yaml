@@ -25,6 +25,7 @@ spec:
         command:
         - /checkpoint
         - --lock-file=/var/run/lock/pod-checkpointer.lock
+        - --kubeconfig=/etc/checkpointer/kubeconfig
         env:
         - name: NODE_NAME
           valueFrom:
@@ -40,10 +41,13 @@ spec:
               fieldPath: metadata.namespace
         imagePullPolicy: Always
         volumeMounts:
+        - mountPath: /etc/checkpointer
+          name: kubeconfig
         - mountPath: /etc/kubernetes
           name: etc-kubernetes
         - mountPath: /var/run
           name: var-run
+      serviceAccountName: pod-checkpointer
       hostNetwork: true
       nodeSelector:
         node-role.kubernetes.io/master: ""
@@ -53,6 +57,9 @@ spec:
         operator: Exists
         effect: NoSchedule
       volumes:
+      - name: kubeconfig
+        secret:
+          secretName: kubeconfig-in-cluster
       - name: etc-kubernetes
         hostPath:
           path: /etc/kubernetes

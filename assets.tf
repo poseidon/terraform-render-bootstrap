@@ -33,6 +33,7 @@ resource "template_dir" "manifests" {
     kube_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
+    server       = "${format("https://%s:443", element(var.api_servers, 0))}"
     apiserver_key      = "${base64encode(tls_private_key.apiserver.private_key_pem)}"
     apiserver_cert     = "${base64encode(tls_locally_signed_cert.apiserver.cert_pem)}"
     serviceaccount_pub = "${base64encode(tls_private_key.service-account.public_key_pem)}"
