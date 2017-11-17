@@ -5,7 +5,7 @@ resource "template_dir" "bootstrap-manifests" {
 
   vars {
     hyperkube_image = "${var.container_images["hyperkube"]}"
-    etcd_servers    = "${var.experimental_self_hosted_etcd ? format("https://%s:2379,https://127.0.0.1:12379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    etcd_servers    = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
     cloud_provider = "${var.cloud_provider}"
     pod_cidr       = "${var.pod_cidr}"
@@ -25,7 +25,7 @@ resource "template_dir" "manifests" {
     kubedns_dnsmasq_image  = "${var.container_images["kubedns_dnsmasq"]}"
     kubedns_sidecar_image  = "${var.container_images["kubedns_sidecar"]}"
 
-    etcd_servers = "${var.experimental_self_hosted_etcd ? format("https://%s:2379", cidrhost(var.service_cidr, 15)) : join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    etcd_servers = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
     cloud_provider      = "${var.cloud_provider}"
     pod_cidr            = "${var.pod_cidr}"

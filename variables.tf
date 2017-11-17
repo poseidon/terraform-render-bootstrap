@@ -9,13 +9,8 @@ variable "api_servers" {
 }
 
 variable "etcd_servers" {
-  description = "List of URLs used to reach etcd servers. Ignored if experimental self-hosted etcd is enabled."
+  description = "List of URLs used to reach etcd servers."
   type        = "list"
-}
-
-variable "experimental_self_hosted_etcd" {
-  description = "(Experimental) Create self-hosted etcd assets"
-  default     = false
 }
 
 variable "asset_dir" {
@@ -50,7 +45,7 @@ variable "pod_cidr" {
 variable "service_cidr" {
   description = <<EOD
 CIDR IP range to assign Kubernetes services.
-The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns, the 15th IP will be reserved for self-hosted etcd, and the 20th IP will be reserved for bootstrap self-hosted etcd.
+The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns.
 EOD
 
   type    = "string"
@@ -64,9 +59,6 @@ variable "container_images" {
   default = {
     calico            = "quay.io/calico/node:v2.6.3"
     calico_cni        = "quay.io/calico/cni:v1.11.1"
-    etcd              = "quay.io/coreos/etcd:v3.1.8"
-    etcd_operator     = "quay.io/coreos/etcd-operator:v0.5.0"
-    etcd_checkpointer = "quay.io/coreos/kenc:0.0.2"
     flannel           = "quay.io/coreos/flannel:v0.9.1-amd64"
     flannel_cni       = "quay.io/coreos/flannel-cni:v0.3.0"
     hyperkube         = "gcr.io/google_containers/hyperkube:v1.8.5"

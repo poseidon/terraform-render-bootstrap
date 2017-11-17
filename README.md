@@ -36,8 +36,6 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 
 Render bootkube assets directly with bootkube v0.9.0.
 
-#### On-host etcd (recommended)
-
 ```sh
 bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
 ```
@@ -50,21 +48,3 @@ mv manifests-networking/* manifests
 popd
 diff -rw assets /home/core/mycluster
 ```
-
-#### Self-hosted etcd (deprecated)
-
-```sh
-bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --experimental-self-hosted-etcd
-```
-
-Compare assets. Note that experimental must be generated to a separate directory for terraform applies to sync. Move the experimental `bootstrap-manifests` and `manifests` files during deployment.
-
-```sh
-pushd /home/core/mycluster
-mv experimental/bootstrap-manifests/* boostrap-manifests
-mv experimental/manifests/* manifests
-mv manifests-networking/* manifests
-popd
-diff -rw assets /home/core/mycluster
-```
-
