@@ -62,8 +62,8 @@ variable "container_images" {
   type        = "map"
 
   default = {
-    calico            = "quay.io/calico/node:v2.6.1"
-    calico_cni        = "quay.io/calico/cni:v1.11.0"
+    calico            = "quay.io/calico/node:v2.6.3"
+    calico_cni        = "quay.io/calico/cni:v1.11.1"
     etcd              = "quay.io/coreos/etcd:v3.1.8"
     etcd_operator     = "quay.io/coreos/etcd-operator:v0.5.0"
     etcd_checkpointer = "quay.io/coreos/kenc:0.0.2"
