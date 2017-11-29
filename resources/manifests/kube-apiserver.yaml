@@ -23,8 +23,6 @@ spec:
       - name: kube-apiserver
         image: ${hyperkube_image}
         command:
-        - /usr/bin/flock
-        - /var/lock/api-server.lock
         - /hyperkube
         - apiserver
         - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
