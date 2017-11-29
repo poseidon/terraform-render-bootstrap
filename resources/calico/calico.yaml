@@ -13,8 +13,6 @@ spec:
     metadata:
       labels:
         k8s-app: calico-node
-      annotations:
-        scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       hostNetwork: true
       serviceAccountName: calico-node
@@ -22,9 +20,6 @@ spec:
         # Allow the pod to run on master nodes
         - key: node-role.kubernetes.io/master
           effect: NoSchedule
-        # Mark the pod as a critical add-on for rescheduling
-        - key: "CriticalAddonsOnly"
-          operator: "Exists"
       containers:
         - name: calico-node
           image: ${calico_image}
