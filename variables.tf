@@ -65,7 +65,7 @@ variable "container_images" {
     kubedns           = "gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.5"
     kubedns_dnsmasq   = "gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5"
     kubedns_sidecar   = "gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.5"
-    pod_checkpointer  = "quay.io/coreos/pod-checkpointer:e22cc0e3714378de92f45326474874eb602ca0ac"
+    pod_checkpointer  = "quay.io/coreos/pod-checkpointer:08fa021813231323e121ecca7383cc64c4afe888"
   }
 }
 
