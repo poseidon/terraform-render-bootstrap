@@ -30,7 +30,7 @@ resource "template_dir" "manifests" {
     cloud_provider      = "${var.cloud_provider}"
     pod_cidr            = "${var.pod_cidr}"
     service_cidr        = "${var.service_cidr}"
-    cluster_dns_fqdn    = "${var.cluster_dns_fqdn}"
+    cluster_domain_suffix = "${var.cluster_domain_suffix}"
     kube_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"

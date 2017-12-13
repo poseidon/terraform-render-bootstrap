@@ -70,7 +70,7 @@ resource "tls_cert_request" "apiserver" {
     "kubernetes",
     "kubernetes.default",
     "kubernetes.default.svc",
-    "kubernetes.default.svc.${var.cluster_dns_fqdn}",
+    "kubernetes.default.svc.${var.cluster_domain_suffix}",
   ]
 
   ip_addresses = [

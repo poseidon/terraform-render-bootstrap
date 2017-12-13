@@ -52,8 +52,8 @@ EOD
   default = "10.3.0.0/24"
 }
 
-variable "cluster_dns_fqdn" {
-  description = "The FQDN base to use for DNS within the cluster (eg, KubeDNS)"
+variable "cluster_domain_suffix" {
+  description = "Queries for domains with the suffix will be answered by kube-dns"
   type        = "string"
   default     = "cluster.local"
 }
