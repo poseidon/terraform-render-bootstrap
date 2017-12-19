@@ -136,6 +136,8 @@ spec:
                 name: cilium-metrics-config
                 optional: true
                 key: prometheus-serve-addr
+          - name: "MTU"
+            value: "${network_mtu}"
         livenessProbe:
           exec:
             command:

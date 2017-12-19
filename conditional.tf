@@ -35,6 +35,7 @@ resource "template_dir" "cilium-manifests" {
   vars {
     cilium_image     = "${var.container_images["cilium"]}"
 
+    network_mtu = "${var.network_mtu}"
     pod_cidr    = "${var.pod_cidr}"
   }
 }
