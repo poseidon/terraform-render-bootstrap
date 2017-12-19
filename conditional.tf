@@ -26,3 +26,15 @@ resource "template_dir" "calico-manifests" {
     pod_cidr    = "${var.pod_cidr}"
   }
 }
+
+resource "template_dir" "cilium-manifests" {
+  count           = "${var.networking == "cilium" ? 1 : 0}"
+  source_dir      = "${path.module}/resources/cilium"
+  destination_dir = "${var.asset_dir}/manifests-networking"
+
+  vars {
+    cilium_image     = "${var.container_images["cilium"]}"
+
+    pod_cidr    = "${var.pod_cidr}"
+  }
+}
