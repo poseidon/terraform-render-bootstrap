@@ -37,6 +37,5 @@ resource "template_dir" "cilium-manifests" {
     etcd_server      = "${element(var.etcd_servers,0)}"
 
     network_mtu = "${var.network_mtu}"
-    pod_cidr    = "${var.pod_cidr}"
   }
 }
