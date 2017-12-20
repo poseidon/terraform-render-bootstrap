@@ -196,7 +196,7 @@ spec:
           # To install cilium cni configuration in the host
         - name: etc-cni-netd
           hostPath:
-              path: /etc/cni/net.d
+            path: /etc/kubernetes/cni/net.d
           # To read the etcd config stored in config maps
         - name: etcd-config-path
           configMap:
