@@ -38,9 +38,9 @@ data:
   # ETCD-CERT: Each value should contain the whole certificate in base64, on a
   # single line. You can generate the base64 with: $ base64 -w 0 ./ca.pem
   # (the "-w 0" generates the output on a single line)
-  etcd-ca: "${etcd_ca_cert}"
-  etcd-client-key: "${etcd_client_key}"
-  etcd-client-crt: "${etcd_client_cert}"
+  etcd-ca: "${base64encode(ca_cert_pem)}"
+  etcd-client-key: "${base64encode(client_key_pem)}"
+  etcd-client-crt: "${base64encode(client_cert_pem)}"
 ---
 apiVersion: v1
 kind: ServiceAccount
