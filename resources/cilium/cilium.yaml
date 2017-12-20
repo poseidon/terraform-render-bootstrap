@@ -87,9 +87,9 @@ spec:
     spec:
       serviceAccountName: cilium
       containers:
-      - image: ${cilium_image}
+      - name: cilium-agent
+        image: ${cilium_image}
         imagePullPolicy: Always
-        name: cilium-agent
         command: [ "cilium-agent" ]
         args:
           - "--debug=$(CILIUM_DEBUG)"
@@ -104,10 +104,6 @@ spec:
           - name: prometheus
             containerPort: 9090
         lifecycle:
-          postStart:
-            exec:
-              command:
-                - "/cni-install.sh"
           preStop:
             exec:
               command:
@@ -127,22 +123,20 @@ spec:
               configMapKeyRef:
                 name: cilium-config
                 key: disable-ipv4
-          # Note: this variable is a no-op if not defined, and is used in the
-          # prometheus examples.
-          - name: "CILIUM_PROMETHEUS_SERVE_ADDR"
+          - name: "PROMETHEUS_SERVE_ADDR"
             valueFrom:
               configMapKeyRef:
-                name: cilium-metrics-config
-                optional: true
+                name: cilium-config
                 key: prometheus-serve-addr
-          - name: "MTU"
-            value: "${network_mtu}"
         livenessProbe:
           exec:
             command:
             - cilium
             - status
-          initialDelaySeconds: 180
+          # The initial delay for the liveness probe is intentionally large to
+          # avoid an endless kill & restart cycle if in the event that the initial
+          # bootstrapping takes longer than expected.
+          initialDelaySeconds: 120
           failureThreshold: 10
           periodSeconds: 10
         readinessProbe:
@@ -150,17 +144,13 @@ spec:
             command:
             - cilium
             - status
-          initialDelaySeconds: 180
-          periodSeconds: 15
+          initialDelaySeconds: 5
+          periodSeconds: 5
         volumeMounts:
           - name: bpf-maps
             mountPath: /sys/fs/bpf
           - name: cilium-run
             mountPath: /var/run/cilium
-          - name: cni-path
-            mountPath: /host/opt/cni/bin
-          - name: etc-cni-netd
-            mountPath: /host/etc/cni/net.d
           - name: docker-socket
             mountPath: /var/run/docker.sock
             readOnly: true
@@ -170,6 +160,21 @@ spec:
           - name: etcd-secrets
             mountPath: /var/lib/etcd-secrets
             readOnly: true
+        securityContext:
+          capabilities:
+            add:
+              - "NET_ADMIN"
+          privileged: true
+      initContainers:
+      - name: cni-install
+        image: ${cilium_image}
+        imagePullPolicy: Always
+        command: [ "/cni-install.sh" ]
+        volumeMounts:
+          - name: etc-cni-netd
+            mountPath: /host/etc/cni/net.d
+          - name: cni-path
+            mountPath: /host/opt/cni/bin
         securityContext:
           capabilities:
             add:
