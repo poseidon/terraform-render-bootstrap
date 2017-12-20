@@ -65,6 +65,7 @@ variable "container_images" {
   default = {
     calico           = "quay.io/calico/node:v2.6.3"
     calico_cni       = "quay.io/calico/cni:v1.11.1"
+    cilium           = "cilium/cilium:v0.12"
     flannel          = "quay.io/coreos/flannel:v0.9.1-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
     hyperkube        = "gcr.io/google_containers/hyperkube:v1.8.5"

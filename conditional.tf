@@ -26,3 +26,19 @@ resource "template_dir" "calico-manifests" {
     pod_cidr    = "${var.pod_cidr}"
   }
 }
+
+resource "template_dir" "cilium-manifests" {
+  count           = "${var.networking == "cilium" ? 1 : 0}"
+  source_dir      = "${path.module}/resources/cilium"
+  destination_dir = "${var.asset_dir}/manifests-networking"
+
+  vars {
+    cilium_image     = "${var.container_images["cilium"]}"
+    etcd_server      = "${element(var.etcd_servers,0)}"
+
+    network_mtu      = "${var.network_mtu}"
+    ca_cert_pem      = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+    client_key_pem   = "${tls_private_key.client.private_key_pem}"
+    client_cert_pem  = "${tls_locally_signed_cert.client.cert_pem}"
+  }
+}
