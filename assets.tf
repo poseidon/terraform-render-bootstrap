@@ -7,9 +7,11 @@ resource "template_dir" "bootstrap-manifests" {
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
-    cloud_provider = "${var.cloud_provider}"
-    pod_cidr       = "${var.pod_cidr}"
-    service_cidr   = "${var.service_cidr}"
+    cloud_provider      = "${var.cloud_provider}"
+    pod_cidr            = "${var.pod_cidr}"
+    service_cidr        = "${var.service_cidr}"
+    node_mask_size      = "${var.node_mask_size}"
+    allocate_node_cidrs = "${var.allocate_node_cidrs}"
   }
 }
 
@@ -32,6 +34,8 @@ resource "template_dir" "manifests" {
     service_cidr          = "${var.service_cidr}"
     cluster_domain_suffix = "${var.cluster_domain_suffix}"
     kube_dns_service_ip   = "${cidrhost(var.service_cidr, 10)}"
+    node_mask_size        = "${var.node_mask_size}"
+    allocate_node_cidrs   = "${var.allocate_node_cidrs}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     server             = "${format("https://%s:443", element(var.api_servers, 0))}"

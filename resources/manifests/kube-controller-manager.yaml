@@ -40,7 +40,7 @@ spec:
         command:
         - ./hyperkube
         - controller-manager
-        - --allocate-node-cidrs=true
+        - --allocate-node-cidrs=${allocate_node_cidrs}
         - --cloud-provider=${cloud_provider}
         - --cluster-cidr=${pod_cidr}
         - --service-cluster-ip-range=${service_cidr}
@@ -48,6 +48,7 @@ spec:
         - --leader-elect=true
         - --root-ca-file=/etc/kubernetes/secrets/ca.crt
         - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
+        - --node-cidr-mask-size=${node_mask_size}
         livenessProbe:
           httpGet:
             path: /healthz

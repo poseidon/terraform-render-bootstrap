@@ -52,6 +52,18 @@ EOD
   default = "10.3.0.0/24"
 }
 
+variable "node_mask_size" {
+  description = "Mask size for node cidr in cluster"
+  type        = "string"
+  default     = "24"
+}
+
+variable "allocate_node_cidrs" {
+  description = "Should CIDRs for Pods be allocated and set on the cloud provider"
+  type        = "string"
+  default     = "true"
+}
+
 variable "cluster_domain_suffix" {
   description = "Queries for domains with the suffix will be answered by kube-dns"
   type        = "string"

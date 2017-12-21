@@ -10,7 +10,7 @@ spec:
     command:
     - ./hyperkube
     - controller-manager
-    - --allocate-node-cidrs=true
+    - --allocate-node-cidrs=${allocate_node_cidrs}
     - --cluster-cidr=${pod_cidr}
     - --service-cluster-ip-range=${service_cidr}
     - --cloud-provider=${cloud_provider}
@@ -19,6 +19,7 @@ spec:
     - --leader-elect=true
     - --root-ca-file=/etc/kubernetes/bootstrap-secrets/ca.crt
     - --service-account-private-key-file=/etc/kubernetes/bootstrap-secrets/service-account.key
+    - --node-cidr-mask-size=${node_mask_size}
     volumeMounts:
     - name: kubernetes
       mountPath: /etc/kubernetes
