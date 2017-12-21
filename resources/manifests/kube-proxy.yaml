@@ -58,8 +58,8 @@ spec:
         hostPath:
           path: /usr/share/ca-certificates
       - name: kubeconfig
-        secret:
-          secretName: kubeconfig-in-cluster
+        configMap:
+          name: kubeconfig-in-cluster
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1

@@ -58,8 +58,8 @@ spec:
         effect: NoSchedule
       volumes:
       - name: kubeconfig
-        secret:
-          secretName: kubeconfig-in-cluster
+        configMap:
+          name: kubeconfig-in-cluster
       - name: etc-kubernetes
         hostPath:
           path: /etc/kubernetes
