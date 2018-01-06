@@ -101,6 +101,8 @@ spec:
           image: ${calico_cni_image}
           command: ["/install-cni.sh"]
           env:
+            - name: CNI_CONF_NAME
+              value: 10-calico.conflist
             - name: CNI_NETWORK_CONFIG
               valueFrom:
                 configMapKeyRef:
