@@ -40,6 +40,7 @@ spec:
         command:
         - ./hyperkube
         - controller-manager
+        - --use-service-account-credentials
         - --allocate-node-cidrs=true
         - --cloud-provider=${cloud_provider}
         - --cluster-cidr=${pod_cidr}
@@ -66,6 +67,7 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
+      serviceAccountName: kube-controller-manager
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Exists
