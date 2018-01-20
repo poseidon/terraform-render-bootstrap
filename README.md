@@ -34,13 +34,13 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.9.1.
+Render bootkube assets directly with bootkube v0.10.0.
 
 ```sh
 bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
 ```
 
-Compare assets. The only diffs you should see are TLS credentials.
+Compare assets. Rendered assets may differ slightly from bootkube assets to reflect decisions made by the [Typhoon](https://github.com/poseidon/typhoon) distribution.
 
 ```sh
 pushd /home/core/mycluster
