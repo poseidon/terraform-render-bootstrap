@@ -4,6 +4,7 @@ metadata:
   name: calico-config
   namespace: kube-system
 data:
+  typha_service_name: "none"
   # The CNI network configuration to install on each node.
   cni_network_config: |-
     {
@@ -31,9 +32,8 @@ data:
         },
         {
           "type": "portmap",
-          "capabilities": {
-            "portMappings": true
-          }
+          "snat": true,
+          "capabilities": {"portMappings": true}
         }
       ]
     }

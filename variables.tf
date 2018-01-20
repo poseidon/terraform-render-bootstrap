@@ -63,8 +63,8 @@ variable "container_images" {
   type        = "map"
 
   default = {
-    calico           = "quay.io/calico/node:v2.6.6"
-    calico_cni       = "quay.io/calico/cni:v1.11.2"
+    calico           = "quay.io/calico/node:v3.0.1"
+    calico_cni       = "quay.io/calico/cni:v2.0.0"
     flannel          = "quay.io/coreos/flannel:v0.9.1-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
     hyperkube        = "gcr.io/google_containers/hyperkube:v1.9.2"

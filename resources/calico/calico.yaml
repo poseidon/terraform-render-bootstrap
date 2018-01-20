@@ -10,9 +10,9 @@ spec:
     matchLabels:
       k8s-app: calico-node
   updateStrategy:
+    type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -61,15 +61,20 @@ spec:
             # Enable IP-in-IP within Felix.
             - name: FELIX_IPINIPENABLED
               value: "true"
+            # Typha support: controlled by the ConfigMap.
+            - name: FELIX_TYPHAK8SSERVICENAME
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: typha_service_name
             # Set node name based on k8s nodeName.
             - name: NODENAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            # Auto-detect the BGP IP address.
             - name: IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
+              value: "autodetect"
             - name: FELIX_HEALTHENABLED
               value: "true"
           securityContext:
@@ -101,20 +106,22 @@ spec:
           image: ${calico_cni_image}
           command: ["/install-cni.sh"]
           env:
+            # Name of the CNI config file to create on each node.
             - name: CNI_CONF_NAME
-              value: 10-calico.conflist
+              value: "10-calico.conflist"
+            # Contents of the CNI config to create on each node.
             - name: CNI_NETWORK_CONFIG
               valueFrom:
                 configMapKeyRef:
                   name: calico-config
                   key: cni_network_config
-            - name: CNI_NET_DIR
-              value: "/etc/kubernetes/cni/net.d"
             # Set node name based on k8s nodeName
             - name: KUBERNETES_NODE_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: CNI_NET_DIR
+              value: "/etc/kubernetes/cni/net.d"
           volumeMounts:
             - mountPath: /host/opt/cni/bin
               name: cni-bin-dir
@@ -122,12 +129,14 @@ spec:
               name: cni-net-dir
       terminationGracePeriodSeconds: 0
       volumes:
+        # Used by calico/node
         - name: lib-modules
           hostPath:
             path: /lib/modules
         - name: var-run-calico
           hostPath:
             path: /var/run/calico
+        # Used by install-cni
         - name: cni-bin-dir
           hostPath:
             path: /opt/cni/bin
