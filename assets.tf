@@ -43,6 +43,11 @@ resource "template_dir" "manifests" {
     etcd_ca_cert     = "${base64encode(tls_self_signed_cert.etcd-ca.cert_pem)}"
     etcd_client_cert = "${base64encode(tls_locally_signed_cert.client.cert_pem)}"
     etcd_client_key  = "${base64encode(tls_private_key.client.private_key_pem)}"
+
+    feature_gates                       = "${length(var.feature_gates) > 0 ? format("- --feature-gates=%s", join(",", formatlist("%s=true", var.feature_gates))) : ""}"
+    extra_flags_kube_apiserver          = "${indent(8, join("\n", formatlist("- %s", var.extra_flags_kube_apiserver)))}"
+    extra_flags_kube_scheduler          = "${indent(8, join("\n", formatlist("- %s", var.extra_flags_kube_scheduler)))}"
+    extra_flags_kube_controller_manager = "${indent(8, join("\n", formatlist("- %s", var.extra_flags_kube_controller_manager)))}"
   }
 }
 
