@@ -48,6 +48,8 @@ spec:
         - --tls-ca-file=/etc/kubernetes/secrets/ca.crt
         - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
         - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
+        ${feature_gates}
+        ${extra_flags_kube_apiserver}
         env:
         - name: POD_IP
           valueFrom:

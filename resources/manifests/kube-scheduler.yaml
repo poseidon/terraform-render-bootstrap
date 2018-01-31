@@ -41,6 +41,8 @@ spec:
         - ./hyperkube
         - scheduler
         - --leader-elect=true
+        ${feature_gates}
+        ${extra_flags_kube_scheduler}
         livenessProbe:
           httpGet:
             path: /healthz
