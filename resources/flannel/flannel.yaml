@@ -17,6 +17,7 @@ spec:
         tier: node
         k8s-app: flannel
     spec:
+      serviceAccountName: flannel
       containers:
       - name: kube-flannel
         image: ${flannel_image}
