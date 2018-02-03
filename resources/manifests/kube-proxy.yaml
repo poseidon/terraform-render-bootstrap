@@ -47,9 +47,10 @@ spec:
       hostNetwork: true
       serviceAccountName: kube-proxy
       tolerations:
-      - key: node-role.kubernetes.io/master
+      - effect: NoSchedule
         operator: Exists
-        effect: NoSchedule
+      - effect: NoExecute
+        operator: Exists
       volumes:
       - name: lib-modules
         hostPath:
