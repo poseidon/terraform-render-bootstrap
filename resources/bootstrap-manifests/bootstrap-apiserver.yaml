@@ -19,7 +19,6 @@ spec:
     - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
-    - --etcd-quorum-read=true
     - --etcd-servers=${etcd_servers}
     - --insecure-port=0
     - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
