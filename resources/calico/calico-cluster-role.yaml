@@ -57,6 +57,7 @@ rules:
       - bgpconfigurations
       - ippools
       - globalnetworkpolicies
+      - globalnetworksets
       - networkpolicies
       - clusterinformations
     verbs:
