@@ -63,7 +63,7 @@ variable "container_images" {
   type        = "map"
 
   default = {
-    calico           = "quay.io/calico/node:v3.0.1"
+    calico           = "quay.io/calico/node:v3.0.2"
     calico_cni       = "quay.io/calico/cni:v2.0.0"
     flannel          = "quay.io/coreos/flannel:v0.10.0-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
