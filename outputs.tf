@@ -15,7 +15,7 @@ output "kubeconfig" {
 }
 
 output "user-kubeconfig" {
-  value = "${local_file.user-kubeconfig.filename}"
+  value = "${data.template_file.user-kubeconfig.rendered}"
 }
 
 # etcd TLS assets
