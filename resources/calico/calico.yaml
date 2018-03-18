@@ -102,6 +102,9 @@ spec:
             - mountPath: /var/run/calico
               name: var-run-calico
               readOnly: false
+            - mountPath: /var/lib/calico
+              name: var-lib-calico
+              readOnly: false
         # Install Calico CNI binaries and CNI network config file on nodes
         - name: install-cni
           image: ${calico_cni_image}
@@ -137,6 +140,9 @@ spec:
         - name: var-run-calico
           hostPath:
             path: /var/run/calico
+        - name: var-lib-calico
+          hostPath:
+            path: /var/lib/calico
         # Used by install-cni
         - name: cni-bin-dir
           hostPath:

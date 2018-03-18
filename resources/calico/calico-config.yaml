@@ -4,6 +4,7 @@ metadata:
   name: calico-config
   namespace: kube-system
 data:
+  # Disable Typha for now.
   typha_service_name: "none"
   # The CNI network configuration to install on each node.
   cni_network_config: |-
