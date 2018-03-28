@@ -24,6 +24,12 @@ variable "cloud_provider" {
   default     = ""
 }
 
+variable "cloud_config" {
+  description = "The path of the configuration file for cloud services (empty string for no file)"
+  type        = "string"
+  default     = ""
+}
+
 variable "networking" {
   description = "Choice of networking provider (flannel or calico)"
   type        = "string"

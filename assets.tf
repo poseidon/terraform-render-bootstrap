@@ -1,3 +1,15 @@
+data "template_file" "cloud_config_opts" {
+  template = "${format("\n        - --cloud-config=%s",var.cloud_config)}"
+}
+
+data "template_file" "cloud_config_volume_mount" {
+  template = "${format("\n        - mountPath: %s\n          name: cloud-config\n          readOnly: true",var.cloud_config)}"
+}
+
+data "template_file" "cloud_config_volume" {
+  template = "${format("\n      - name: cloud-config\n        hostPath:\n          path: %s",var.cloud_config)}"
+}
+
 # Self-hosted Kubernetes bootstrap-manifests
 resource "template_dir" "bootstrap-manifests" {
   source_dir      = "${path.module}/resources/bootstrap-manifests"
@@ -7,9 +19,8 @@ resource "template_dir" "bootstrap-manifests" {
     hyperkube_image = "${var.container_images["hyperkube"]}"
     etcd_servers    = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
-    cloud_provider = "${var.cloud_provider}"
-    pod_cidr       = "${var.pod_cidr}"
-    service_cidr   = "${var.service_cidr}"
+    pod_cidr                  = "${var.pod_cidr}"
+    service_cidr              = "${var.service_cidr}"
   }
 }
 
@@ -27,7 +38,11 @@ resource "template_dir" "manifests" {
 
     etcd_servers = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
-    cloud_provider        = "${var.cloud_provider}"
+    cloud_provider            = "${var.cloud_provider}"
+    cloud_config_opts         = "${var.cloud_provider == "openstack" ? data.template_file.cloud_config_opts.rendered : "" }"
+    cloud_config_volume_mount = "${var.cloud_provider == "openstack" ? data.template_file.cloud_config_volume_mount.rendered : "" }"
+    cloud_config_volume       = "${var.cloud_provider == "openstack" ? data.template_file.cloud_config_volume.rendered : "" }"
+
     pod_cidr              = "${var.pod_cidr}"
     service_cidr          = "${var.service_cidr}"
     cluster_domain_suffix = "${var.cluster_domain_suffix}"
