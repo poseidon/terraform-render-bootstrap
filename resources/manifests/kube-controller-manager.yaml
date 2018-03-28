@@ -42,7 +42,7 @@ spec:
         - controller-manager
         - --use-service-account-credentials
         - --allocate-node-cidrs=true
-        - --cloud-provider=${cloud_provider}
+        - --cloud-provider=${cloud_provider} ${cloud_config_opts}
         - --cluster-cidr=${pod_cidr}
         - --service-cluster-ip-range=${service_cidr}
         - --configure-cloud-routes=false
@@ -61,7 +61,7 @@ spec:
           readOnly: true
         - name: ssl-host
           mountPath: /etc/ssl/certs
-          readOnly: true
+          readOnly: true ${cloud_config_mount}
       nodeSelector:
         node-role.kubernetes.io/master: ""
       securityContext:
@@ -78,5 +78,5 @@ spec:
           secretName: kube-controller-manager
       - name: ssl-host
         hostPath:
-          path: /usr/share/ca-certificates
+          path: /usr/share/ca-certificates  ${cloud_config_volume}
       dnsPolicy: Default # Don't use cluster DNS.

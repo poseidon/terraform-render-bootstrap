@@ -32,7 +32,7 @@ spec:
         - --authorization-mode=RBAC
         - --bind-address=0.0.0.0
         - --client-ca-file=/etc/kubernetes/secrets/ca.crt
-        - --cloud-provider=${cloud_provider}
+        - --cloud-provider=${cloud_provider} ${cloud_config_opts}
         - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
         - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
         - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
@@ -61,7 +61,7 @@ spec:
           readOnly: true
         - mountPath: /var/lock
           name: var-lock
-          readOnly: false
+          readOnly: false ${cloud_config_mount}
       hostNetwork: true
       nodeSelector:
         node-role.kubernetes.io/master: ""
@@ -78,7 +78,7 @@ spec:
           secretName: kube-apiserver
       - name: var-lock
         hostPath:
-          path: /var/lock
+          path: /var/lock ${cloud_config_volume}
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1
