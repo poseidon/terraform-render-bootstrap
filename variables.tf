@@ -75,6 +75,12 @@ variable "container_images" {
   }
 }
 
+variable "trusted_certs_dir" {
+  description = "Path to the directory on cluster nodes where trust TLS certs are kept"
+  type        = "string"
+  default     = "/usr/share/ca-certificates"
+}
+
 variable "ca_certificate" {
   description = "Existing PEM-encoded CA certificate (generated if blank)"
   type        = "string"

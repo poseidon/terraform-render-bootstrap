@@ -53,7 +53,7 @@ spec:
       path: /etc/kubernetes/bootstrap-secrets
   - name: ssl-certs-host
     hostPath:
-      path: /usr/share/ca-certificates
+      path: ${trusted_certs_dir}
   - name: var-lock
     hostPath:
       path: /var/lock

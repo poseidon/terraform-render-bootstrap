@@ -78,5 +78,5 @@ spec:
           secretName: kube-controller-manager
       - name: ssl-host
         hostPath:
-          path: /usr/share/ca-certificates
+          path: ${trusted_certs_dir}
       dnsPolicy: Default # Don't use cluster DNS.

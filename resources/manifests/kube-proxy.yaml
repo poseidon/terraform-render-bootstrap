@@ -57,7 +57,7 @@ spec:
           path: /lib/modules
       - name: ssl-certs-host
         hostPath:
-          path: /usr/share/ca-certificates
+          path: ${trusted_certs_dir}
       - name: kubeconfig
         configMap:
           name: kubeconfig-in-cluster
