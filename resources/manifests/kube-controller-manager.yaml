@@ -47,6 +47,7 @@ spec:
         - --service-cluster-ip-range=${service_cidr}
         - --configure-cloud-routes=false
         - --leader-elect=true
+        - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
         - --root-ca-file=/etc/kubernetes/secrets/ca.crt
         - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
         livenessProbe:
@@ -59,6 +60,9 @@ spec:
         - name: secrets
           mountPath: /etc/kubernetes/secrets
           readOnly: true
+        - name: volumeplugins
+          mountPath: /var/lib/kubelet/volumeplugins
+          readOnly: true          
         - name: ssl-host
           mountPath: /etc/ssl/certs
           readOnly: true
@@ -79,4 +83,7 @@ spec:
       - name: ssl-host
         hostPath:
           path: ${trusted_certs_dir}
+      - name: volumeplugins
+        hostPath:
+          path: /var/lib/kubelet/volumeplugins          
       dnsPolicy: Default # Don't use cluster DNS.
