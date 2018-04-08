@@ -67,10 +67,10 @@ variable "container_images" {
     calico_cni       = "quay.io/calico/cni:v2.0.1"
     flannel          = "quay.io/coreos/flannel:v0.10.0-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
-    hyperkube        = "gcr.io/google_containers/hyperkube:v1.10.0"
-    kubedns          = "gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.9"
-    kubedns_dnsmasq  = "gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.9"
-    kubedns_sidecar  = "gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.9"
+    hyperkube        = "k8s.gcr.io/hyperkube:v1.10.0"
+    kubedns          = "k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.9"
+    kubedns_dnsmasq  = "k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.9"
+    kubedns_sidecar  = "k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.9"
     pod_checkpointer = "quay.io/coreos/pod-checkpointer:9dc83e1ab3bc36ca25c9f7c18ddef1b91d4a0558"
   }
 }
