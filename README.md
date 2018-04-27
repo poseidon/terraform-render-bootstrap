@@ -12,7 +12,7 @@ Use the module to declare bootkube assets. Check [variables.tf](variables.tf) fo
 
 ```hcl
 module "bootkube" {
-  source = "git://https://github.com/poseidon/terraform-render-bootkube.git?ref=SHA"
+  source = "git::https://github.com/poseidon/terraform-render-bootkube.git?ref=SHA"
 
   cluster_name = "example"
   api_servers = ["node1.example.com"]
