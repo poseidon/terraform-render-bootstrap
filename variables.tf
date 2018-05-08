@@ -98,3 +98,9 @@ variable "ca_private_key" {
   type        = "string"
   default     = ""
 }
+
+variable "validity_period_hours" {
+  description = "The number of hours after initial issuing that the certificate will become invalid"
+  type        = "string"
+  default      = 8760
+}
