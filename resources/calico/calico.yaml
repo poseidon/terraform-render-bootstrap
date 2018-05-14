@@ -76,6 +76,8 @@ spec:
             # Auto-detect the BGP IP address.
             - name: IP
               value: "autodetect"
+            - name: IP_AUTODETECTION_METHOD
+              value: "${network_ip_autodetection_method}"
             - name: FELIX_HEALTHENABLED
               value: "true"
           securityContext:

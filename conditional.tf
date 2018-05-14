@@ -22,7 +22,8 @@ resource "template_dir" "calico-manifests" {
     calico_image     = "${var.container_images["calico"]}"
     calico_cni_image = "${var.container_images["calico_cni"]}"
 
-    network_mtu = "${var.network_mtu}"
-    pod_cidr    = "${var.pod_cidr}"
+    network_mtu                     = "${var.network_mtu}"
+    network_ip_autodetection_method = "${var.network_ip_autodetection_method}"
+    pod_cidr                        = "${var.pod_cidr}"
   }
 }
