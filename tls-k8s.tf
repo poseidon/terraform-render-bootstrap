@@ -62,7 +62,7 @@ resource "tls_cert_request" "apiserver" {
 
   subject {
     common_name  = "kube-apiserver"
-    organization = "kube-master"
+    organization = "system:masters"
   }
 
   dns_names = [
