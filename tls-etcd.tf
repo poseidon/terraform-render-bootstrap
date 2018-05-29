@@ -69,7 +69,7 @@ resource "tls_self_signed_cert" "etcd-ca" {
   }
 
   is_ca_certificate     = true
-  validity_period_hours = 8760
+  validity_period_hours = 87600
 
   allowed_uses = [
     "key_encipherment",
@@ -112,7 +112,7 @@ resource "tls_locally_signed_cert" "client" {
   ca_private_key_pem = "${join(" ", tls_private_key.etcd-ca.*.private_key_pem)}"
   ca_cert_pem        = "${join(" ", tls_self_signed_cert.etcd-ca.*.cert_pem)}"
 
-  validity_period_hours = 8760
+  validity_period_hours = 87600
 
   allowed_uses = [
     "key_encipherment",
@@ -154,7 +154,7 @@ resource "tls_locally_signed_cert" "server" {
   ca_private_key_pem = "${join(" ", tls_private_key.etcd-ca.*.private_key_pem)}"
   ca_cert_pem        = "${join(" ", tls_self_signed_cert.etcd-ca.*.cert_pem)}"
 
-  validity_period_hours = 8760
+  validity_period_hours = 87600
 
   allowed_uses = [
     "key_encipherment",
@@ -188,7 +188,7 @@ resource "tls_locally_signed_cert" "peer" {
   ca_private_key_pem = "${join(" ", tls_private_key.etcd-ca.*.private_key_pem)}"
   ca_cert_pem        = "${join(" ", tls_self_signed_cert.etcd-ca.*.cert_pem)}"
 
-  validity_period_hours = 8760
+  validity_period_hours = 87600
 
   allowed_uses = [
     "key_encipherment",
