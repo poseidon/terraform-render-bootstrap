@@ -50,6 +50,10 @@ spec:
         - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
         - --root-ca-file=/etc/kubernetes/secrets/ca.crt
         - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
+        - --concurrent-endpoint-syncs=15
+        - --kube-api-qps=300
+        - --kube-api-burst=325
+        - --node-cidr-mask-size=25
         livenessProbe:
           httpGet:
             path: /healthz
