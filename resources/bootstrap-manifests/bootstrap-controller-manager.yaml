@@ -14,6 +14,7 @@ spec:
     - --cluster-cidr=${pod_cidr}
     - --service-cluster-ip-range=${service_cidr}
     - --cloud-provider=${cloud_provider}
+    - --cloud-config=""   
     - --configure-cloud-routes=false
     - --kubeconfig=/etc/kubernetes/kubeconfig
     - --leader-elect=true

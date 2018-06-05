@@ -43,6 +43,7 @@ spec:
         - --use-service-account-credentials
         - --allocate-node-cidrs=true
         - --cloud-provider=${cloud_provider}
+        - --cloud-config=""
         - --cluster-cidr=${pod_cidr}
         - --service-cluster-ip-range=${service_cidr}
         - --configure-cloud-routes=false
