@@ -26,7 +26,6 @@ spec:
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
     - --service-cluster-ip-range=${service_cidr}
     - --cloud-provider=${cloud_provider}
-    - --cloud-config=""
     - --storage-backend=etcd3
     - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
@@ -42,6 +41,9 @@ spec:
     - mountPath: /etc/kubernetes/secrets
       name: secrets
       readOnly: true
+    - mountPath: /etc/kubernetes/cloud
+      name: etc-kubernetes-cloud
+      readOnly: true
     - mountPath: /var/lock
       name: var-lock
       readOnly: false
@@ -50,6 +52,9 @@ spec:
   - name: secrets
     hostPath:
       path: /etc/kubernetes/bootstrap-secrets
+  - name: etc-kubernetes-cloud
+    hostPath:
+      path: /etc/kubernetes/cloud
   - name: ssl-certs-host
     hostPath:
       path: ${trusted_certs_dir}

@@ -32,7 +32,6 @@ spec:
         - --bind-address=0.0.0.0
         - --client-ca-file=/etc/kubernetes/secrets/ca.crt
         - --cloud-provider=${cloud_provider}
-        - --cloud-config=""
         - --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultTolerationSeconds,DefaultStorageClass,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota
         - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
         - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
@@ -58,6 +57,9 @@ spec:
         - mountPath: /etc/kubernetes/secrets
           name: secrets
           readOnly: true
+        - mountPath: /etc/kubernetes/cloud
+          name: cloud-config
+          readOnly: true
         - mountPath: /var/lock
           name: var-lock
           readOnly: false
@@ -75,6 +77,9 @@ spec:
       - name: secrets
         secret:
           secretName: kube-apiserver
+      - name: cloud-config
+        secret:
+          secretName: kube-cloud-cfg
       - name: var-lock
         hostPath:
           path: /var/lock

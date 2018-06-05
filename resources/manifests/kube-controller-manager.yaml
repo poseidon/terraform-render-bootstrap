@@ -43,7 +43,6 @@ spec:
         - --use-service-account-credentials
         - --allocate-node-cidrs=true
         - --cloud-provider=${cloud_provider}
-        - --cloud-config=""
         - --cluster-cidr=${pod_cidr}
         - --service-cluster-ip-range=${service_cidr}
         - --configure-cloud-routes=false
@@ -71,6 +70,9 @@ spec:
         - name: ssl-host
           mountPath: /etc/ssl/certs
           readOnly: true
+        - mountPath: /etc/kubernetes/cloud
+          name: cloud-config
+          readOnly: true
       nodeSelector:
         node-role.kubernetes.io/master: ""
       securityContext:
@@ -90,5 +92,8 @@ spec:
           path: ${trusted_certs_dir}
       - name: volumeplugins
         hostPath:
-          path: /var/lib/kubelet/volumeplugins          
+          path: /var/lib/kubelet/volumeplugins   
+      - name: cloud-config
+        secret:
+          secretName: kube-cloud-cfg       
       dnsPolicy: Default # Don't use cluster DNS.

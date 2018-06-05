@@ -13,8 +13,7 @@ spec:
     - --allocate-node-cidrs=true
     - --cluster-cidr=${pod_cidr}
     - --service-cluster-ip-range=${service_cidr}
-    - --cloud-provider=${cloud_provider}
-    - --cloud-config=""   
+    - --cloud-provider=${cloud_provider} 
     - --configure-cloud-routes=false
     - --kubeconfig=/etc/kubernetes/kubeconfig
     - --leader-elect=true
@@ -27,6 +26,9 @@ spec:
     - name: ssl-host
       mountPath: /etc/ssl/certs
       readOnly: true
+    - name: etc-kubernetes-cloud
+      mountPath: /etc/kubernetes/cloud
+      readOnly: true      
   hostNetwork: true
   volumes:
   - name: kubernetes
@@ -35,3 +37,6 @@ spec:
   - name: ssl-host
     hostPath:
       path: ${trusted_certs_dir}
+  - name: etc-kubernetes-cloud
+    hostPath:
+      path: /etc/kubernetes/cloud
