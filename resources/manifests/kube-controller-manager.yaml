@@ -43,6 +43,8 @@ spec:
         - --use-service-account-credentials
         - --allocate-node-cidrs=true
         - --cloud-provider=${cloud_provider}
+        - --node-monitor-grace-period=2m
+        - --pod-eviction-timeout=6m
         - --cluster-cidr=${pod_cidr}
         - --service-cluster-ip-range=${service_cidr}
         - --configure-cloud-routes=false
@@ -50,7 +52,7 @@ spec:
         - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
         - --root-ca-file=/etc/kubernetes/secrets/ca.crt
         - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
-        - --concurrent-endpoint-syncs=15
+        - --concurrent-endpoint-syncs=10
         - --kube-api-qps=300
         - --kube-api-burst=325
         - --node-cidr-mask-size=25
