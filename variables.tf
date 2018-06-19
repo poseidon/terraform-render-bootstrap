@@ -104,3 +104,11 @@ variable "ca_private_key" {
   type        = "string"
   default     = ""
 }
+
+# unofficial, temporary, may be removed without notice
+
+variable "apiserver_port" {
+  description = "kube-apiserver port"
+  type        = "string"
+  default     = "6443"
+}

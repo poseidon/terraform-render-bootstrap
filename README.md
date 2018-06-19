@@ -37,7 +37,7 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 Render bootkube assets directly with bootkube v0.12.0.
 
 ```sh
-bootkube render --asset-dir=assets --api-servers=https://node1.example.com:443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
+bootkube render --asset-dir=assets --api-servers=https://node1.example.com:6443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
 ```
 
 Compare assets. Rendered assets may differ slightly from bootkube assets to reflect decisions made by the [Typhoon](https://github.com/poseidon/typhoon) distribution.

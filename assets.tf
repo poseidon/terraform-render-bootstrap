@@ -12,6 +12,7 @@ resource "template_dir" "bootstrap-manifests" {
     service_cidr   = "${var.service_cidr}"
 
     trusted_certs_dir = "${var.trusted_certs_dir}"
+    apiserver_port    = "${var.apiserver_port}"
   }
 }
 
@@ -35,9 +36,10 @@ resource "template_dir" "manifests" {
     cluster_domain_suffix = "${var.cluster_domain_suffix}"
     kube_dns_service_ip   = "${cidrhost(var.service_cidr, 10)}"
     trusted_certs_dir     = "${var.trusted_certs_dir}"
+    apiserver_port        = "${var.apiserver_port}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
-    server             = "${format("https://%s:443", element(var.api_servers, 0))}"
+    server             = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
     apiserver_key      = "${base64encode(tls_private_key.apiserver.private_key_pem)}"
     apiserver_cert     = "${base64encode(tls_locally_signed_cert.apiserver.cert_pem)}"
     serviceaccount_pub = "${base64encode(tls_private_key.service-account.public_key_pem)}"
@@ -68,7 +70,7 @@ data "template_file" "kubeconfig" {
     ca_cert      = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.kubelet.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.kubelet.private_key_pem)}"
-    server       = "${format("https://%s:443", element(var.api_servers, 0))}"
+    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
   }
 }
 
@@ -80,6 +82,6 @@ data "template_file" "user-kubeconfig" {
     ca_cert      = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.kubelet.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.kubelet.private_key_pem)}"
-    server       = "${format("https://%s:443", element(var.api_servers, 0))}"
+    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
   }
 }

@@ -65,5 +65,5 @@ output "kubelet_key" {
 }
 
 output "server" {
-  value = "${format("https://%s:443", element(var.api_servers, 0))}"
+  value = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
 }

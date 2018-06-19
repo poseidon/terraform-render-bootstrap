@@ -22,7 +22,7 @@ spec:
     - --etcd-servers=${etcd_servers}
     - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
-    - --secure-port=443
+    - --secure-port=${apiserver_port}
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
     - --service-cluster-ip-range=${service_cidr}
     - --cloud-provider=${cloud_provider}
@@ -41,9 +41,6 @@ spec:
     - mountPath: /etc/kubernetes/secrets
       name: secrets
       readOnly: true
-    - mountPath: /var/lock
-      name: var-lock
-      readOnly: false
   hostNetwork: true
   volumes:
   - name: secrets
@@ -52,6 +49,3 @@ spec:
   - name: ssl-certs-host
     hostPath:
       path: ${trusted_certs_dir}
-  - name: var-lock
-    hostPath:
-      path: /var/lock

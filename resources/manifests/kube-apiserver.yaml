@@ -39,7 +39,7 @@ spec:
         - --etcd-servers=${etcd_servers}
         - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
         - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
-        - --secure-port=443
+        - --secure-port=${apiserver_port}
         - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
         - --service-cluster-ip-range=${service_cidr}
         - --storage-backend=etcd3
@@ -57,9 +57,6 @@ spec:
         - mountPath: /etc/kubernetes/secrets
           name: secrets
           readOnly: true
-        - mountPath: /var/lock
-          name: var-lock
-          readOnly: false
       hostNetwork: true
       nodeSelector:
         node-role.kubernetes.io/master: ""
@@ -74,9 +71,6 @@ spec:
       - name: secrets
         secret:
           secretName: kube-apiserver
-      - name: var-lock
-        hostPath:
-          path: /var/lock
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1
