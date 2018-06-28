@@ -20,6 +20,7 @@ spec:
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
     - --etcd-servers=${etcd_servers}
+    - --insecure-port=0
     - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
     - --secure-port=${apiserver_port}
