@@ -45,6 +45,7 @@ spec:
         - --storage-backend=etcd3
         - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
         - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
+        - --endpoint-reconciler-type=lease
         env:
         - name: POD_IP
           valueFrom:
