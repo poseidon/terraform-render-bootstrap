@@ -6,7 +6,12 @@ output "content_hash" {
   value = "${sha1("${template_dir.bootstrap-manifests.id} ${template_dir.manifests.id}")}"
 }
 
+// Deprecated
 output "kube_dns_service_ip" {
+  value = "${cidrhost(var.service_cidr, 10)}"
+}
+
+output "cluster_dns_service_ip" {
   value = "${cidrhost(var.service_cidr, 10)}"
 }
 

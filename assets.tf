@@ -24,19 +24,17 @@ resource "template_dir" "manifests" {
   vars {
     hyperkube_image        = "${var.container_images["hyperkube"]}"
     pod_checkpointer_image = "${var.container_images["pod_checkpointer"]}"
-    kubedns_image          = "${var.container_images["kubedns"]}"
-    kubedns_dnsmasq_image  = "${var.container_images["kubedns_dnsmasq"]}"
-    kubedns_sidecar_image  = "${var.container_images["kubedns_sidecar"]}"
+    coredns_image          = "${var.container_images["coredns"]}"
 
     etcd_servers = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
 
-    cloud_provider        = "${var.cloud_provider}"
-    pod_cidr              = "${var.pod_cidr}"
-    service_cidr          = "${var.service_cidr}"
-    cluster_domain_suffix = "${var.cluster_domain_suffix}"
-    kube_dns_service_ip   = "${cidrhost(var.service_cidr, 10)}"
-    trusted_certs_dir     = "${var.trusted_certs_dir}"
-    apiserver_port        = "${var.apiserver_port}"
+    cloud_provider         = "${var.cloud_provider}"
+    pod_cidr               = "${var.pod_cidr}"
+    service_cidr           = "${var.service_cidr}"
+    cluster_domain_suffix  = "${var.cluster_domain_suffix}"
+    cluster_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
+    trusted_certs_dir      = "${var.trusted_certs_dir}"
+    apiserver_port         = "${var.apiserver_port}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     server             = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"

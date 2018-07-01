@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: kube-system
+  labels:
+    k8s-app: coredns
+    kubernetes.io/name: "CoreDNS"
+    kubernetes.io/cluster-service: "true"
+spec:
+  # replicas: not specified here:
+  # 1. In order to make Addon Manager do not reconcile this replicas parameter.
+  # 2. Default is 1.
+  # 3. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      k8s-app: coredns
+  template:
+    metadata:
+      labels:
+        k8s-app: coredns
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+    spec:
+      serviceAccountName: coredns
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+      containers:
+        - name: coredns
+          image: ${coredns_image}
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: 170Mi
+            requests:
+              cpu: 100m
+              memory: 70Mi
+          args: [ "-conf", "/etc/coredns/Corefile" ]
+          volumeMounts:
+            - name: config
+              mountPath: /etc/coredns
+              readOnly: true
+          ports:
+            - name: dns
+              protocol: UDP
+              containerPort: 53
+            - name: dns-tcp
+              protocol: TCP
+              containerPort: 53
+            - name: metrics
+              protocol: TCP
+              containerPort: 9153
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+              - NET_BIND_SERVICE
+              drop:
+              - all
+            readOnlyRootFilesystem: true
+      dnsPolicy: Default
+      volumes:
+        - name: config
+          configMap:
+            name: coredns
+            items:
+            - key: Corefile
+              path: Corefile
