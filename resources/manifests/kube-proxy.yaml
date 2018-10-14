@@ -32,6 +32,12 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 10256
+          initialDelaySeconds: 15
+          timeoutSeconds: 15
         securityContext:
           privileged: true
         volumeMounts:
