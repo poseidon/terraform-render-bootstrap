@@ -17,6 +17,8 @@ spec:
     metadata:
       labels:
         k8s-app: calico-node
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       hostNetwork: true
       serviceAccountName: calico-node

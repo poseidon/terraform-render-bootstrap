@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: bootstrap-kube-scheduler
   namespace: kube-system
+  annotations:
+    seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
 spec:
   containers:
   - name: kube-scheduler

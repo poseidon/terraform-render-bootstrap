@@ -16,6 +16,8 @@ spec:
       labels:
         tier: node
         k8s-app: kube-proxy
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       containers:
       - name: kube-proxy

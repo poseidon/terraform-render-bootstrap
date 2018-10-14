@@ -17,6 +17,8 @@ spec:
       labels:
         tier: control-plane
         k8s-app: kube-scheduler
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       affinity:
         podAntiAffinity:

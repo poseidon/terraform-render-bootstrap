@@ -16,6 +16,8 @@ spec:
       labels:
         tier: node
         k8s-app: flannel
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       serviceAccountName: flannel
       containers:
