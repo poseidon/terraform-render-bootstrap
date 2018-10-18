@@ -39,7 +39,7 @@ spec:
                 - key: k8s-app
                   operator: In
                   values:
-                  - codedns
+                  - coredns
               topologyKey: kubernetes.io/hostname
       serviceAccountName: coredns
       tolerations:
