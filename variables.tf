@@ -74,7 +74,7 @@ variable "container_images" {
     flannel          = "quay.io/coreos/flannel:v0.10.0-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
     hyperkube        = "k8s.gcr.io/hyperkube:v1.12.1"
-    coredns          = "k8s.gcr.io/coredns:1.2.2"
+    coredns          = "k8s.gcr.io/coredns:1.2.4"
     pod_checkpointer = "quay.io/coreos/pod-checkpointer:018007e77ccd61e8e59b7e15d7fc5e318a5a2682"
   }
 }
