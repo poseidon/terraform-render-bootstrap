@@ -112,17 +112,17 @@ spec:
                 - -felix-ready
             periodSeconds: 10
           volumeMounts:
-            - mountPath: /lib/modules
-              name: lib-modules
+            - name: lib-modules
+              mountPath: /lib/modules
               readOnly: true
-            - mountPath: /run/xtables.lock
-              name: xtables-lock
+            - name: var-lib-calico
+              mountPath: /var/lib/calico
               readOnly: false
-            - mountPath: /var/run/calico
-              name: var-run-calico
+            - name: var-run-calico
+              mountPath: /var/run/calico
               readOnly: false
-            - mountPath: /var/lib/calico
-              name: var-lib-calico
+            - name: xtables-lock
+              mountPath: /run/xtables.lock
               readOnly: false
         # Install Calico CNI binaries and CNI network config file on nodes
         - name: install-cni
@@ -151,22 +151,22 @@ spec:
                   name: calico-config
                   key: veth_mtu
           volumeMounts:
-            - mountPath: /host/opt/cni/bin
-              name: cni-bin-dir
-            - mountPath: /host/etc/cni/net.d
-              name: cni-net-dir
+            - name: cni-bin-dir
+              mountPath: /host/opt/cni/bin
+            - name: cni-conf-dir
+              mountPath: /host/etc/cni/net.d
       terminationGracePeriodSeconds: 0
       volumes:
         # Used by calico/node
         - name: lib-modules
           hostPath:
             path: /lib/modules
-        - name: var-run-calico
-          hostPath:
-            path: /var/run/calico
         - name: var-lib-calico
           hostPath:
             path: /var/lib/calico
+        - name: var-run-calico
+          hostPath:
+            path: /var/run/calico
         - name: xtables-lock
           hostPath:
             type: FileOrCreate
@@ -175,6 +175,6 @@ spec:
         - name: cni-bin-dir
           hostPath:
             path: /opt/cni/bin
-        - name: cni-net-dir
+        - name: cni-conf-dir
           hostPath:
             path: /etc/kubernetes/cni/net.d

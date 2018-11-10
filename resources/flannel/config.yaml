@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-flannel-cfg
+  name: flannel-config
   namespace: kube-system
   labels:
     tier: node
