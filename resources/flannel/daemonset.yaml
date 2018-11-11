@@ -46,13 +46,14 @@ spec:
                   fieldPath: status.podIP
           securityContext:
             privileged: true
+          resources:
+            requests:
+              cpu: 100m
           volumeMounts:
             - name: flannel-config
               mountPath: /etc/kube-flannel/
-            - name: cni-conf-dir
-              mountPath: /etc/cni/net.d
-            - name: run
-              mountPath: /run
+            - name: run-flannel
+              mountPath: /run/flannel
         - name: install-cni
           image: ${flannel_cni_image}
           command: ["/install-cni.sh"]
@@ -68,12 +69,12 @@ spec:
             - name: cni-conf-dir
               mountPath: /host/etc/cni/net.d
       volumes:
-        - name: run
-          hostPath:
-            path: /run
         - name: flannel-config
           configMap:
             name: flannel-config
+        - name: run-flannel
+          hostPath:
+            path: /run/flannel
         # Used by install-cni
         - name: cni-bin-dir
           hostPath:
