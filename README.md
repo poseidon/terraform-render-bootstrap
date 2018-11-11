@@ -34,7 +34,7 @@ Find bootkube assets rendered to the `asset_dir` path. That's it.
 
 ### Comparison
 
-Render bootkube assets directly with bootkube v0.12.0.
+Render bootkube assets directly with bootkube v0.14.0.
 
 ```sh
 bootkube render --asset-dir=assets --api-servers=https://node1.example.com:6443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
