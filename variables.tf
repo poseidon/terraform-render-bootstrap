@@ -25,19 +25,19 @@ variable "cloud_provider" {
 }
 
 variable "networking" {
-  description = "Choice of networking provider (flannel or calico)"
+  description = "Choice of networking provider (flannel or calico or kube-router)"
   type        = "string"
   default     = "flannel"
 }
 
 variable "network_mtu" {
-  description = "CNI interface MTU (applies to calico only)"
+  description = "CNI interface MTU (only applies to calico and kube-router)"
   type        = "string"
   default     = "1500"
 }
 
 variable "network_ip_autodetection_method" {
-  description = "Method to autodetect the host IPv4 address (applies to calico only)"
+  description = "Method to autodetect the host IPv4 address (only applies to calico)"
   type        = "string"
   default     = "first-found"
 }
@@ -73,6 +73,7 @@ variable "container_images" {
     calico_cni       = "quay.io/calico/cni:v3.3.1"
     flannel          = "quay.io/coreos/flannel:v0.10.0-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
+    kube_router      = "cloudnativelabs/kube-router:v0.2.3"
     hyperkube        = "k8s.gcr.io/hyperkube:v1.12.3"
     coredns          = "k8s.gcr.io/coredns:1.2.6"
     pod_checkpointer = "quay.io/coreos/pod-checkpointer:83e25e5968391b9eb342042c435d1b3eeddb2be1"
