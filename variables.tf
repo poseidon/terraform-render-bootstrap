@@ -79,6 +79,12 @@ variable "container_images" {
   }
 }
 
+variable "enable_reporting" {
+  type = "string"
+  description = "Enable usage or analytics reporting to upstream component owners (Tigera: Calico)"
+  default = "false"
+}
+
 variable "trusted_certs_dir" {
   description = "Path to the directory on cluster nodes where trust TLS certs are kept"
   type        = "string"

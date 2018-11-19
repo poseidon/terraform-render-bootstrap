@@ -25,5 +25,6 @@ resource "template_dir" "calico-manifests" {
     network_mtu                     = "${var.network_mtu}"
     network_ip_autodetection_method = "${var.network_ip_autodetection_method}"
     pod_cidr                        = "${var.pod_cidr}"
+    enable_reporting                = "${var.enable_reporting}"
   }
 }

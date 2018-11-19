@@ -43,6 +43,8 @@ spec:
                 configMapKeyRef:
                   name: calico-config
                   key: typha_service_name
+            - name: FELIX_USAGEREPORTINGENABLED
+              value: "${enable_reporting}"
             # Set node name based on k8s nodeName.
             - name: NODENAME
               valueFrom:
