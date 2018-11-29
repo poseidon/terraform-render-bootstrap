@@ -78,6 +78,16 @@ resource "tls_self_signed_cert" "etcd-ca" {
   ]
 }
 
+resource "local_file" "etcd_ca_key" {
+  content  = "${join(" ", tls_private_key.etcd-ca.*.private_key_pem)}"
+  filename = "${var.asset_dir}/tls/etcd-ca.key"
+}
+
+resource "local_file" "etcd_ca_crt" {
+  content  = "${join(" ", tls_self_signed_cert.etcd-ca.*.cert_pem)}"
+  filename = "${var.asset_dir}/tls/etcd-ca.crt"
+}
+
 # client certs are used for client (apiserver, locksmith, etcd-operator)
 # to etcd communication
 resource "tls_private_key" "client" {
