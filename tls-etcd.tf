@@ -1,3 +1,15 @@
+# etcd-ca.crt
+resource "local_file" "etcd_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcd-ca.crt"
+}
+
+# etcd-ca.key
+resource "local_file" "etcd_ca_key" {
+  content  = "${tls_private_key.etcd-ca.private_key_pem}"
+  filename = "${var.asset_dir}/tls/etcd-ca.key"
+}
+
 # etcd-client-ca.crt
 resource "local_file" "etcd_client_ca_crt" {
   content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
