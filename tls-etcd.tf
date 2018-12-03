@@ -1,3 +1,15 @@
+# etcd-ca.key
+resource "local_file" "etcd_ca_key" {
+  content  = "${tls_private_key.etcd-ca.private_key_pem}"
+  filename = "${var.asset_dir}/tls/etcd-ca.key"
+}
+
+# etcd-ca.crt
+resource "local_file" "etcd_ca_crt" {
+  content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
+  filename = "${var.asset_dir}/tls/etcd-ca.crt"
+}
+
 # etcd-client-ca.crt
 resource "local_file" "etcd_client_ca_crt" {
   content  = "${tls_self_signed_cert.etcd-ca.cert_pem}"
@@ -76,16 +88,6 @@ resource "tls_self_signed_cert" "etcd-ca" {
     "digital_signature",
     "cert_signing",
   ]
-}
-
-resource "local_file" "etcd_ca_key" {
-  content  = "${join(" ", tls_private_key.etcd-ca.*.private_key_pem)}"
-  filename = "${var.asset_dir}/tls/etcd-ca.key"
-}
-
-resource "local_file" "etcd_ca_crt" {
-  content  = "${join(" ", tls_self_signed_cert.etcd-ca.*.cert_pem)}"
-  filename = "${var.asset_dir}/tls/etcd-ca.crt"
 }
 
 # client certs are used for client (apiserver, locksmith, etcd-operator)
