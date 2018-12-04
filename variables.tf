@@ -80,9 +80,9 @@ variable "container_images" {
 }
 
 variable "enable_reporting" {
-  type = "string"
+  type        = "string"
   description = "Enable usage or analytics reporting to upstream component owners (Tigera: Calico)"
-  default = "false"
+  default     = "false"
 }
 
 variable "trusted_certs_dir" {

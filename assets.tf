@@ -26,7 +26,7 @@ resource "template_dir" "manifests" {
     pod_checkpointer_image = "${var.container_images["pod_checkpointer"]}"
     coredns_image          = "${var.container_images["coredns"]}"
 
-    etcd_servers = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
+    etcd_servers           = "${join(",", formatlist("https://%s:2379", var.etcd_servers))}"
     control_plane_replicas = "${max(2, length(var.etcd_servers))}"
 
     cloud_provider         = "${var.cloud_provider}"
