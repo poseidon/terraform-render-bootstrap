@@ -36,6 +36,7 @@ resource "template_dir" "manifests" {
     cluster_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
     trusted_certs_dir      = "${var.trusted_certs_dir}"
     apiserver_port         = "${var.apiserver_port}"
+    nodeport_addresses     = "${var.nodeport_addresses}"
 
     ca_cert            = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
     server             = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"

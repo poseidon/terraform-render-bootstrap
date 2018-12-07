@@ -110,6 +110,12 @@ variable "ca_private_key" {
   default     = ""
 }
 
+variable "nodeport_addresses" {
+  description = "IP range(s) where kube-proxy is allowed to proxy nodeport services to"
+  type        = "string"
+  default     = "[]"
+}
+
 # unofficial, temporary, may be removed without notice
 
 variable "apiserver_port" {
