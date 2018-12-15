@@ -5,55 +5,57 @@ metadata:
 rules:
   - apiGroups: [""]
     resources:
-      - namespaces
-      - serviceaccounts
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups: [""]
-    resources:
-      - pods/status
-    verbs:
-      - patch
-  - apiGroups: [""]
-    resources:
       - pods
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups: [""]
-    resources:
-      - services
+      - nodes
+      - namespaces
     verbs:
       - get
   - apiGroups: [""]
     resources:
       - endpoints
+      - services
     verbs:
-      - get
+      - watch
+      - list
+  # Used by Calico for policy information
+  - apiGroups: [""]
+    resources:
+      - pods
+      - namespaces
+      - serviceaccounts
+    verbs:
+      - list
+      - watch
+  - apiGroups: [""]
+    resources:
+      - nodes/status
+    verbs:
+      # Calico patches the node NetworkUnavilable status
+      - patch
+      # Calico updates some info in node annotations
+      - update
+  # CNI plugin patches pods/status
+  - apiGroups: [""]
+    resources:
+      - pods/status
+    verbs:
+      - patch
+  # Calico reads some info on nodes
   - apiGroups: [""]
     resources:
       - nodes
     verbs:
       - get
       - list
-      - update
       - watch
-  - apiGroups: ["extensions"]
-    resources:
-      - networkpolicies
-    verbs:
-      - get
-      - list
-      - watch
+  # Calico monitors Kubernetes NetworkPolicies
   - apiGroups: ["networking.k8s.io"]
     resources:
       - networkpolicies
     verbs:
       - watch
       - list
+  # Calico monitors its CRDs
   - apiGroups: ["crd.projectcalico.org"]
     resources:
       - globalfelixconfigs
@@ -68,8 +70,15 @@ rules:
       - clusterinformations
       - hostendpoints
     verbs:
-      - create
       - get
       - list
-      - update
       - watch
+  - apiGroups: ["crd.projectcalico.org"]
+    resources:
+      - felixconfigurations
+      - ippools
+      - clusterinformations
+    verbs:
+      - create
+      - update
+
