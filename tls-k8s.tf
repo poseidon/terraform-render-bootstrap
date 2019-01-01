@@ -26,7 +26,7 @@ resource "tls_self_signed_cert" "kube-ca" {
   private_key_pem = "${tls_private_key.kube-ca.private_key_pem}"
 
   subject {
-    common_name  = "kube-ca"
+    common_name  = "kubernetes-ca"
     organization = "bootkube"
   }
 
