@@ -1,5 +1,5 @@
 output "id" {
-  value = "${sha1("${template_dir.bootstrap-manifests.id} ${local_file.kubeconfig.id}")}"
+  value = "${sha1("${template_dir.bootstrap-manifests.id} ${template_dir.manifests.id}")}"
 }
 
 output "content_hash" {
@@ -15,12 +15,29 @@ output "cluster_dns_service_ip" {
   value = "${cidrhost(var.service_cidr, 10)}"
 }
 
-output "kubeconfig" {
-  value = "${data.template_file.kubeconfig.rendered}"
+// Intentionally Removed! (kubelets should now use kubeconfig-kubelet)
+// output "kubeconfig" {
+//  value = "${data.template_file.kubeconfig.rendered}"
+// }
+
+// Deprecated (use kubeconfig-admin-context)
+output "user-kubeconfig" {
+  value = "${data.template_file.kubeconfig-admin-context.rendered}"
 }
 
-output "user-kubeconfig" {
-  value = "${data.template_file.user-kubeconfig.rendered}"
+// Generated kubeconfig for Kubelets (i.e. lower privilege than admin)
+output "kubeconfig-kubelet" {
+  value = "${data.template_file.kubeconfig-kubelet.rendered}"
+}
+
+// Generated kubeconfig for admins (i.e. human super-user)
+output "kubeconfig-admin" {
+  value = "${data.template_file.kubeconfig-admin.rendered}"
+}
+
+// Generated kubeconfig for admins with a context
+output "kubeconfig-admin-context" {
+  value = "${data.template_file.kubeconfig-admin-context.rendered}"
 }
 
 # etcd TLS assets

@@ -12,14 +12,14 @@ spec:
     command:
     - ./hyperkube
     - scheduler
-    - --kubeconfig=/etc/kubernetes/kubeconfig
+    - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
     - --leader-elect=true
     volumeMounts:
-    - name: kubernetes
-      mountPath: /etc/kubernetes
+    - name: secrets
+      mountPath: /etc/kubernetes/secrets
       readOnly: true
   hostNetwork: true
   volumes:
-  - name: kubernetes
+  - name: secrets
     hostPath:
-      path: /etc/kubernetes
+      path: /etc/kubernetes/bootstrap-secrets

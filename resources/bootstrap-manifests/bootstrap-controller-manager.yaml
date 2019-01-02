@@ -17,22 +17,22 @@ spec:
     - --service-cluster-ip-range=${service_cidr}
     - --cloud-provider=${cloud_provider}
     - --configure-cloud-routes=false
-    - --kubeconfig=/etc/kubernetes/kubeconfig
+    - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
     - --leader-elect=true
-    - --root-ca-file=/etc/kubernetes/bootstrap-secrets/ca.crt
-    - --service-account-private-key-file=/etc/kubernetes/bootstrap-secrets/service-account.key
+    - --root-ca-file=/etc/kubernetes/secrets/ca.crt
+    - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
     volumeMounts:
-    - name: kubernetes
-      mountPath: /etc/kubernetes
+    - name: secrets
+      mountPath: /etc/kubernetes/secrets
       readOnly: true
     - name: ssl-host
       mountPath: /etc/ssl/certs
       readOnly: true
   hostNetwork: true
   volumes:
-  - name: kubernetes
+  - name: secrets
     hostPath:
-      path: /etc/kubernetes
+      path: /etc/kubernetes/bootstrap-secrets
   - name: ssl-host
     hostPath:
       path: ${trusted_certs_dir}

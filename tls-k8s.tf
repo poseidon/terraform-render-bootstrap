@@ -51,6 +51,7 @@ resource "local_file" "kube-ca-crt" {
 }
 
 # Kubernetes API Server (tls/{apiserver.key,apiserver.crt})
+
 resource "tls_private_key" "apiserver" {
   algorithm = "RSA"
   rsa_bits  = "2048"
@@ -105,7 +106,51 @@ resource "local_file" "apiserver-crt" {
   filename = "${var.asset_dir}/tls/apiserver.crt"
 }
 
+# Kubernetes Admin (tls/{admin.key,admin.crt})
+
+resource "tls_private_key" "admin" {
+  algorithm = "RSA"
+  rsa_bits  = "2048"
+}
+
+resource "tls_cert_request" "admin" {
+  key_algorithm   = "${tls_private_key.admin.algorithm}"
+  private_key_pem = "${tls_private_key.admin.private_key_pem}"
+
+  subject {
+    common_name  = "kubernetes-admin"
+    organization = "system:masters"
+  }
+}
+
+resource "tls_locally_signed_cert" "admin" {
+  cert_request_pem = "${tls_cert_request.admin.cert_request_pem}"
+
+  ca_key_algorithm   = "${var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.key_algorithm) : var.ca_key_alg}"
+  ca_private_key_pem = "${var.ca_certificate == "" ? join(" ", tls_private_key.kube-ca.*.private_key_pem) : var.ca_private_key}"
+  ca_cert_pem        = "${var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem): var.ca_certificate}"
+
+  validity_period_hours = 8760
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "client_auth",
+  ]
+}
+
+resource "local_file" "admin-key" {
+  content  = "${tls_private_key.admin.private_key_pem}"
+  filename = "${var.asset_dir}/tls/admin.key"
+}
+
+resource "local_file" "admin-crt" {
+  content  = "${tls_locally_signed_cert.admin.cert_pem}"
+  filename = "${var.asset_dir}/tls/admin.crt"
+}
+
 # Kubernete's Service Account (tls/{service-account.key,service-account.pub})
+
 resource "tls_private_key" "service-account" {
   algorithm = "RSA"
   rsa_bits  = "2048"
@@ -122,6 +167,7 @@ resource "local_file" "service-account-crt" {
 }
 
 # Kubelet
+
 resource "tls_private_key" "kubelet" {
   algorithm = "RSA"
   rsa_bits  = "2048"
@@ -133,7 +179,7 @@ resource "tls_cert_request" "kubelet" {
 
   subject {
     common_name  = "kubelet"
-    organization = "system:masters"
+    organization = "system:nodes"
   }
 }
 
