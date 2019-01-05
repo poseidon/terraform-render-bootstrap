@@ -63,9 +63,9 @@ resource "local_file" "kubeconfig-admin" {
   filename = "${var.asset_dir}/auth/kubeconfig"
 }
 
-# Generated admin kubeconfig with a named context
-resource "local_file" "kubeconfig-admin-context" {
-  content  = "${data.template_file.kubeconfig-admin-context.rendered}"
+# Generated admin kubeconfig in a file named after the cluster
+resource "local_file" "kubeconfig-admin-named" {
+  content  = "${data.template_file.kubeconfig-admin.rendered}"
   filename = "${var.asset_dir}/auth/${var.cluster_name}-config"
 }
 
@@ -82,17 +82,6 @@ data "template_file" "kubeconfig-kubelet" {
 
 data "template_file" "kubeconfig-admin" {
   template = "${file("${path.module}/resources/kubeconfig-admin")}"
-
-  vars {
-    ca_cert      = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
-    kubelet_cert = "${base64encode(tls_locally_signed_cert.admin.cert_pem)}"
-    kubelet_key  = "${base64encode(tls_private_key.admin.private_key_pem)}"
-    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
-  }
-}
-
-data "template_file" "kubeconfig-admin-context" {
-  template = "${file("${path.module}/resources/kubeconfig-admin-context")}"
 
   vars {
     name         = "${var.cluster_name}"
