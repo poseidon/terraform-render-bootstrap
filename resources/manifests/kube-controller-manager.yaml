@@ -47,6 +47,8 @@ spec:
         - --cloud-provider=${cloud_provider}
         - --cluster-cidr=${pod_cidr}
         - --service-cluster-ip-range=${service_cidr}
+        - --cluster-signing-cert-file=/etc/kubernetes/secrets/ca.crt
+        - --cluster-signing-key-file=/etc/kubernetes/secrets/ca.key
         - --configure-cloud-routes=false
         - --leader-elect=true
         - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
