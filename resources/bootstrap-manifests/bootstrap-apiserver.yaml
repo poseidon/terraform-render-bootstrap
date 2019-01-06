@@ -6,6 +6,7 @@ metadata:
   annotations:
     seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
 spec:
+  hostNetwork: true
   containers:
   - name: kube-apiserver
     image: ${hyperkube_image}
@@ -17,6 +18,7 @@ spec:
     - --authorization-mode=RBAC
     - --bind-address=0.0.0.0
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
+    - --cloud-provider=${cloud_provider}
     - --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultTolerationSeconds,DefaultStorageClass,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Priority
     - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
@@ -29,7 +31,6 @@ spec:
     - --secure-port=${apiserver_port}
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
     - --service-cluster-ip-range=${service_cidr}
-    - --cloud-provider=${cloud_provider}
     - --storage-backend=etcd3
     - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
@@ -39,13 +40,12 @@ spec:
         fieldRef:
           fieldPath: status.podIP
     volumeMounts:
-    - mountPath: /etc/ssl/certs
-      name: ssl-certs-host
+    - name: secrets
+      mountPath: /etc/kubernetes/secrets
       readOnly: true
-    - mountPath: /etc/kubernetes/secrets
-      name: secrets
+    - name: ssl-certs-host
+      mountPath: /etc/ssl/certs
       readOnly: true
-  hostNetwork: true
   volumes:
   - name: secrets
     hostPath:

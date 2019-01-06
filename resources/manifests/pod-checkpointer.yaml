@@ -11,6 +11,10 @@ spec:
     matchLabels:
       tier: control-plane
       k8s-app: pod-checkpointer
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -20,6 +24,14 @@ spec:
         checkpointer.alpha.coreos.com/checkpoint: "true"
         seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
+      hostNetwork: true
+      serviceAccountName: pod-checkpointer
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
       containers:
       - name: pod-checkpointer
         image: ${pod_checkpointer_image}
@@ -42,21 +54,12 @@ spec:
               fieldPath: metadata.namespace
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /etc/checkpointer
-          name: kubeconfig
-        - mountPath: /etc/kubernetes
-          name: etc-kubernetes
-        - mountPath: /var/run
-          name: var-run
-      serviceAccountName: pod-checkpointer
-      hostNetwork: true
-      nodeSelector:
-        node-role.kubernetes.io/master: ""
-      restartPolicy: Always
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
+        - name: kubeconfig
+          mountPath: /etc/checkpointer
+        - name: etc-kubernetes
+          mountPath: /etc/kubernetes
+        - name: var-run
+          mountPath: /var/run
       volumes:
       - name: kubeconfig
         configMap:
@@ -67,7 +70,3 @@ spec:
       - name: var-run
         hostPath:
           path: /var/run
-  updateStrategy:
-    rollingUpdate:
-      maxUnavailable: 1
-    type: RollingUpdate

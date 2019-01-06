@@ -11,6 +11,10 @@ spec:
     matchLabels:
       tier: node
       k8s-app: kube-proxy
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -19,6 +23,13 @@ spec:
       annotations:
         seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
+      hostNetwork: true
+      serviceAccountName: kube-proxy
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
       containers:
       - name: kube-proxy
         image: ${hyperkube_image}
@@ -43,33 +54,22 @@ spec:
         securityContext:
           privileged: true
         volumeMounts:
-        - mountPath: /lib/modules
-          name: lib-modules
-          readOnly: true
-        - mountPath: /etc/ssl/certs
-          name: ssl-certs-host
-          readOnly: true
         - name: kubeconfig
           mountPath: /etc/kubernetes
           readOnly: true
-      hostNetwork: true
-      serviceAccountName: kube-proxy
-      tolerations:
-      - effect: NoSchedule
-        operator: Exists
-      - effect: NoExecute
-        operator: Exists
+        - name: lib-modules
+          mountPath: /lib/modules
+          readOnly: true
+        - name: ssl-certs-host
+          mountPath: /etc/ssl/certs
+          readOnly: true
       volumes:
+      - name: kubeconfig
+        configMap:
+          name: kubeconfig-in-cluster
       - name: lib-modules
         hostPath:
           path: /lib/modules
       - name: ssl-certs-host
         hostPath:
           path: ${trusted_certs_dir}
-      - name: kubeconfig
-        configMap:
-          name: kubeconfig-in-cluster
-  updateStrategy:
-    rollingUpdate:
-      maxUnavailable: 1
-    type: RollingUpdate

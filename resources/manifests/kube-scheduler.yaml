@@ -36,6 +36,16 @@ spec:
                   values:
                   - kube-scheduler
               topologyKey: kubernetes.io/hostname
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+      serviceAccountName: kube-scheduler
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
       containers:
       - name: kube-scheduler
         image: ${hyperkube_image}
@@ -49,13 +59,3 @@ spec:
             port: 10251  # Note: Using default port. Update if --port option is set differently.
           initialDelaySeconds: 15
           timeoutSeconds: 15
-      nodeSelector:
-        node-role.kubernetes.io/master: ""
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-      serviceAccountName: kube-scheduler
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
