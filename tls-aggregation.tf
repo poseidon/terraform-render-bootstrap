@@ -1,3 +1,12 @@
+# NOTE: Across this module, the following workaround is used:
+# `"${var.some_var == "condition" ? join(" ", tls_private_key.aggregation-ca.*.private_key_pem) : ""}"`
+# Due to https://github.com/hashicorp/hil/issues/50, both sides of conditions
+# are evaluated, until one of them is discarded. When a `count` is used resources
+# can be referenced as lists with the `.*` notation, and arrays are allowed to be
+# empty. The `join()` interpolation function is then used to cast them back to
+# a string. Since `count` can only be 0 or 1, the returned value is either empty
+# (and discarded anyways) or the desired value.
+
 # Kubernetes Aggregation CA (i.e. front-proxy-ca)
 # Files: tls/{aggregation-ca.crt,aggregation-ca.key}
 

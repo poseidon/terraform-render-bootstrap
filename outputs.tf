@@ -65,7 +65,7 @@ output "etcd_peer_key" {
 # contents so the raw components of the kubeconfig may be needed.
 
 output "ca_cert" {
-  value = "${base64encode(var.ca_certificate == "" ? join(" ", tls_self_signed_cert.kube-ca.*.cert_pem) : var.ca_certificate)}"
+  value = "${base64encode(tls_self_signed_cert.kube-ca.*.cert_pem)}"
 }
 
 output "kubelet_cert" {
