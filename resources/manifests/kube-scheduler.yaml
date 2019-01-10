@@ -53,9 +53,11 @@ spec:
         - ./hyperkube
         - scheduler
         - --leader-elect=true
+        - --port=0
         livenessProbe:
           httpGet:
+            scheme: HTTPS
             path: /healthz
-            port: 10251  # Note: Using default port. Update if --port option is set differently.
+            port: 10259
           initialDelaySeconds: 15
           timeoutSeconds: 15

@@ -51,13 +51,15 @@ spec:
         - --cluster-signing-key-file=/etc/kubernetes/secrets/ca.key
         - --configure-cloud-routes=false
         - --leader-elect=true
+        - --port=0
         - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
         - --root-ca-file=/etc/kubernetes/secrets/ca.crt
         - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
         livenessProbe:
           httpGet:
+            scheme: HTTPS
             path: /healthz
-            port: 10252  # Note: Using default port. Update if --port option is set differently.
+            port: 10257
           initialDelaySeconds: 15
           timeoutSeconds: 15
         volumeMounts:
