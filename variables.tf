@@ -69,8 +69,8 @@ variable "container_images" {
   type        = "map"
 
   default = {
-    calico           = "quay.io/calico/node:v3.4.0"
-    calico_cni       = "quay.io/calico/cni:v3.4.0"
+    calico           = "quay.io/calico/node:v3.5.0"
+    calico_cni       = "quay.io/calico/cni:v3.5.0"
     flannel          = "quay.io/coreos/flannel:v0.10.0-amd64"
     flannel_cni      = "quay.io/coreos/flannel-cni:v0.3.0"
     kube_router      = "cloudnativelabs/kube-router:v0.2.4"
