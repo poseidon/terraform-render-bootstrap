@@ -38,6 +38,19 @@ resource "template_dir" "kube-router-manifests" {
     kube_router_image = "${var.container_images["kube_router"]}"
     flannel_cni_image = "${var.container_images["flannel_cni"]}"
 
-    network_mtu = "${var.network_mtu}"
+    service_proxy = "${var.service_proxy}"
+    network_mtu   = "${var.network_mtu}"
+  }
+}
+
+resource "template_dir" "kube-proxy-manifests" {
+  count           = "${var.service_proxy == "false" ? 1 : 0}"
+  source_dir      = "${path.module}/resources/kube-router"
+  destination_dir = "${var.asset_dir}/manifests"
+
+  vars {
+    hyperkube_image   = "${var.container_images["hyperkube"]}"
+    pod_cidr          = "${var.pod_cidr}"
+    trusted_certs_dir = "${var.trusted_certs_dir}"
   }
 }

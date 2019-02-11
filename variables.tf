@@ -42,6 +42,11 @@ variable "network_ip_autodetection_method" {
   default     = "first-found"
 }
 
+variable "service_proxy" {
+  description = "Run kube-router as a service proxy (only applies to kube-router)"
+  default     = "false"
+}
+
 variable "pod_cidr" {
   description = "CIDR IP range to assign Kubernetes pods"
   type        = "string"

@@ -34,7 +34,7 @@ spec:
             - --kubeconfig=/etc/kubernetes/kubeconfig
             - --run-router=true
             - --run-firewall=true
-            - --run-service-proxy=false
+            - --run-service-proxy="${service_proxy}"
             - --v=5
           env:
             - name: NODE_NAME
