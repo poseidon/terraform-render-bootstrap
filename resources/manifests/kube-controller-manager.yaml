@@ -36,6 +36,17 @@ spec:
                   values:
                   - kube-controller-manager
               topologyKey: kubernetes.io/hostname
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+      serviceAccountName: kube-controller-manager
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
       containers:
       - name: kube-controller-manager
         image: ${hyperkube_image}
@@ -72,16 +83,6 @@ spec:
         - name: ssl-host
           mountPath: /etc/ssl/certs
           readOnly: true
-      nodeSelector:
-        node-role.kubernetes.io/master: ""
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-      serviceAccountName: kube-controller-manager
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
       volumes:
       - name: secrets
         secret:

@@ -38,6 +38,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       nodeSelector:
         node-role.kubernetes.io/master: ""
+      priorityClassName: system-cluster-critical
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534

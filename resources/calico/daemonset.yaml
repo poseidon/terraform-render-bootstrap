@@ -21,6 +21,7 @@ spec:
         seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       hostNetwork: true
+      priorityClassName: system-node-critical
       serviceAccountName: calico-node
       tolerations:
         - effect: NoSchedule

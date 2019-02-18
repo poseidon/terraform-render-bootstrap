@@ -41,6 +41,7 @@ spec:
                   values:
                   - coredns
               topologyKey: kubernetes.io/hostname
+      priorityClassName: system-cluster-critical
       serviceAccountName: coredns
       tolerations:
         - key: node-role.kubernetes.io/master
@@ -48,7 +49,6 @@ spec:
       containers:
         - name: coredns
           image: ${coredns_image}
-          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 170Mi
