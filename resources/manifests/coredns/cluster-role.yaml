@@ -1,11 +1,13 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: system:coredns
   labels:
     kubernetes.io/bootstrapping: rbac-defaults
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: system:coredns
 rules:
-  - apiGroups: [""]
+  - apiGroups:
+    - ""
     resources:
       - endpoints
       - services
@@ -14,8 +16,3 @@ rules:
     verbs:
       - list
       - watch
-  - apiGroups: [""]
-    resources:
-      - nodes
-    verbs:
-      - get

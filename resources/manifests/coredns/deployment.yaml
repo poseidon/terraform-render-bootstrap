@@ -1,54 +1,42 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: coredns
   namespace: kube-system
   labels:
-    k8s-app: coredns
-    kubernetes.io/name: "CoreDNS"
+    k8s-app: kube-dns
     kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+    kubernetes.io/name: "CoreDNS"
 spec:
-  replicas: ${control_plane_replicas}
+  # replicas: not specified here:
+  # 1. In order to make Addon Manager do not reconcile this replicas parameter.
+  # 2. Default is 1.
+  # 3. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
   selector:
     matchLabels:
-      tier: control-plane
-      k8s-app: coredns
+      k8s-app: kube-dns
   template:
     metadata:
       labels:
-        tier: control-plane
-        k8s-app: coredns
+        k8s-app: kube-dns
       annotations:
         seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: tier
-                  operator: In
-                  values:
-                  - control-plane
-                - key: k8s-app
-                  operator: In
-                  values:
-                  - coredns
-              topologyKey: kubernetes.io/hostname
-      priorityClassName: system-cluster-critical
       serviceAccountName: coredns
       tolerations:
         - key: node-role.kubernetes.io/master
           effect: NoSchedule
+        - key: "CriticalAddonsOnly"
+          operator: "Exists"
       containers:
         - name: coredns
           image: ${coredns_image}
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 170Mi
@@ -57,19 +45,19 @@ spec:
               memory: 70Mi
           args: [ "-conf", "/etc/coredns/Corefile" ]
           volumeMounts:
-            - name: config
-              mountPath: /etc/coredns
-              readOnly: true
+          - name: config-volume
+            mountPath: /etc/coredns
+            readOnly: true
           ports:
-            - name: dns
-              protocol: UDP
-              containerPort: 53
-            - name: dns-tcp
-              protocol: TCP
-              containerPort: 53
-            - name: metrics
-              protocol: TCP
-              containerPort: 9153
+          - containerPort: 53
+            name: dns
+            protocol: UDP
+          - containerPort: 53
+            name: dns-tcp
+            protocol: TCP
+          - containerPort: 9153
+            name: metrics
+            protocol: TCP
           livenessProbe:
             httpGet:
               path: /health
@@ -94,7 +82,7 @@ spec:
             readOnlyRootFilesystem: true
       dnsPolicy: Default
       volumes:
-        - name: config
+        - name: config-volume
           configMap:
             name: coredns
             items:
