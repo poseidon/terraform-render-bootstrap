@@ -99,9 +99,6 @@ spec:
               value: "autodetect"
             - name: IP_AUTODETECTION_METHOD
               value: "${network_ip_autodetection_method}"
-            # Enable IPIP
-            - name: CALICO_IPV4POOL_IPIP
-              value: "Always"
             # Enable IP-in-IP within Felix.
             - name: FELIX_IPINIPENABLED
               value: "true"
@@ -111,9 +108,8 @@ spec:
                 configMapKeyRef:
                   name: calico-config
                   key: veth_mtu
-            # The Calico IPv4 pool CIDR (should match `--cluster-cidr`).
-            - name: CALICO_IPV4POOL_CIDR
-              value: "${pod_cidr}"
+            - name: NO_DEFAULT_POOLS
+              value: "true"
             # Disable file logging so `kubectl logs` works.
             - name: CALICO_DISABLE_FILE_LOGGING
               value: "true"
