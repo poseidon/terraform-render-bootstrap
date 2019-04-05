@@ -92,6 +92,12 @@ variable "trusted_certs_dir" {
   default     = "/usr/share/ca-certificates"
 }
 
+variable "enable_aggregation" {
+  description = "Enable the Kubernetes Aggregation Layer (defaults to false, recommended)"
+  type        = "string"
+  default     = "false"
+}
+
 variable "ca_certificate" {
   description = "Existing PEM-encoded CA certificate (generated if blank)"
   type        = "string"
