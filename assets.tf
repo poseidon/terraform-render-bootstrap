@@ -102,7 +102,7 @@ data "template_file" "kubeconfig-admin" {
 
   vars {
     name         = "${var.cluster_name}"
-    ca_cert      = "${base64encode(tls_self_signed_cert.kube-ca.*.cert_pem)}"
+    ca_cert      = "${base64encode(tls_self_signed_cert.kube-ca.cert_pem)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.admin.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.admin.private_key_pem)}"
     server       = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
