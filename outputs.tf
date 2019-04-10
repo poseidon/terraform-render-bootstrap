@@ -10,16 +10,6 @@ output "cluster_dns_service_ip" {
   value = "${cidrhost(var.service_cidr, 10)}"
 }
 
-// Intentionally Removed! (kubelets should now use kubeconfig-kubelet)
-// output "kubeconfig" {
-//  value = "${data.template_file.kubeconfig.rendered}"
-// }
-
-// Deprecated (use kubeconfig-admin)
-output "user-kubeconfig" {
-  value = "${data.template_file.kubeconfig-admin.rendered}"
-}
-
 // Generated kubeconfig for Kubelets (i.e. lower privilege than admin)
 output "kubeconfig-kubelet" {
   value = "${data.template_file.kubeconfig-kubelet.rendered}"
