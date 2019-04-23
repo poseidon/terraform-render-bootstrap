@@ -40,6 +40,7 @@ resource "template_dir" "manifests" {
     ca_cert            = "${base64encode(tls_self_signed_cert.kube-ca.cert_pem)}"
     ca_key             = "${base64encode(tls_private_key.kube-ca.private_key_pem)}"
     server             = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
+    k8s_api_url        = "${local.k8s_api_url}"
     apiserver_key      = "${base64encode(tls_private_key.apiserver.private_key_pem)}"
     apiserver_cert     = "${base64encode(tls_locally_signed_cert.apiserver.cert_pem)}"
     serviceaccount_pub = "${base64encode(tls_private_key.service-account.public_key_pem)}"
@@ -86,6 +87,10 @@ resource "local_file" "kubeconfig-admin-named" {
   filename = "${var.asset_dir}/auth/${var.cluster_name}-config"
 }
 
+locals {
+  k8s_api_url = "${format("https://%s:%s", var.lb_api_server_ip == "" ? element(var.api_servers, 0) : var.lb_api_server_ip, var.apiserver_port)}"
+}
+
 data "template_file" "kubeconfig-kubelet" {
   template = "${file("${path.module}/resources/kubeconfig-kubelet")}"
 
@@ -93,7 +98,7 @@ data "template_file" "kubeconfig-kubelet" {
     ca_cert      = "${base64encode(tls_self_signed_cert.kube-ca.cert_pem)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.kubelet.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.kubelet.private_key_pem)}"
-    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
+    server       = "${local.k8s_api_url}"
   }
 }
 
@@ -105,6 +110,6 @@ data "template_file" "kubeconfig-admin" {
     ca_cert      = "${base64encode(tls_self_signed_cert.kube-ca.cert_pem)}"
     kubelet_cert = "${base64encode(tls_locally_signed_cert.admin.cert_pem)}"
     kubelet_key  = "${base64encode(tls_private_key.admin.private_key_pem)}"
-    server       = "${format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)}"
+    server       = "${local.k8s_api_url}"
   }
 }

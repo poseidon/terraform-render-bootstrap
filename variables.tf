@@ -8,6 +8,12 @@ variable "api_servers" {
   type        = "list"
 }
 
+variable "lb_api_server_ip" {
+  description = "IP of loadbalancer to access api server URL"
+  type        = "string"
+  default     = ""
+}
+
 variable "etcd_servers" {
   description = "List of URLs used to reach etcd servers."
   type        = "list"
