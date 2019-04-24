@@ -98,6 +98,48 @@ variable "enable_aggregation" {
   default     = "false"
 }
 
+variable "oidc_ca_cert" {
+  description = "The certificate for the CA that signed your identity provider’s web certificate"
+  type       = "string"
+  default    = ""
+}
+
+variable "oidc_client_id" {
+  description = "The client ID for the OpenID Connect client"
+  type        = "string"
+  default     = ""
+}
+
+variable "oidc_groups_claim" {
+  description = "The OpenID claim to use for specifying user groups (string or array of strings)"
+  type        = "string"
+  default     = ""
+}
+
+variable "oidc_groups_prefix" {
+  description = "Prefix prepended to group claims to prevent clashes with existing names"
+  type        = "string"
+  default     = "oidc:"
+}
+
+variable "oidc_issuer_url" {
+  description = "The URL of the OpenID issuer, only HTTPS scheme will be accepted"
+  type        = "string"
+  default     = ""
+}
+
+variable "oidc_username_claim" {
+  description = "The OpenID claim to use as the user name"
+  type        = "string"
+  default     = ""
+}
+
+variable "oidc_username_prefix" {
+  description = "Prefix prepended to username claims to prevent clashes with existing names"
+  type        = "string"
+  default     = "oidc:"
+}
+
 # unofficial, temporary, may be removed without notice
 
 variable "apiserver_port" {

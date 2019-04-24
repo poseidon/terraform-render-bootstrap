@@ -53,6 +53,14 @@ resource "template_dir" "manifests" {
     aggregation_ca_cert     = "${var.enable_aggregation == "true" ? base64encode(join(" ", tls_self_signed_cert.aggregation-ca.*.cert_pem)) : ""}"
     aggregation_client_cert = "${var.enable_aggregation == "true" ? base64encode(join(" ", tls_locally_signed_cert.aggregation-client.*.cert_pem)) : ""}"
     aggregation_client_key  = "${var.enable_aggregation == "true" ? base64encode(join(" ", tls_private_key.aggregation-client.*.private_key_pem)) : ""}"
+
+    oidc_issuer_url      = "${var.oidc_issuer_url}"
+    oidc_client_id       = "${var.oidc_client_id}"
+    oidc_username_prefix = "${var.oidc_username_prefix}"
+    oidc_username_claim  = "${var.oidc_username_claim}"
+    oidc_groups_prefix   = "${var.oidc_groups_prefix}"
+    oidc_groups_claim    = "${var.oidc_groups_claim}"
+    oidc_ca_cert         = "${base64encode(var.oidc_ca_cert)}"
   }
 }
 
