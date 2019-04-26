@@ -13,6 +13,8 @@ resource "template_dir" "bootstrap-manifests" {
 
     trusted_certs_dir = "${var.trusted_certs_dir}"
     apiserver_port    = "${var.apiserver_port}"
+
+    admission_plugins = "${join(",",distinct(compact(concat(var.default_admission_plugins_list,var.extra_admission_plugins_list))))}"
   }
 }
 
