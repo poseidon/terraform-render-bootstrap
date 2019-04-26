@@ -39,7 +39,6 @@ spec:
         command:
         - /hyperkube
         - apiserver
-        - --advertise-address=$(POD_IP)
         - --allow-privileged=true
         - --anonymous-auth=false
         - --authorization-mode=RBAC
@@ -61,11 +60,6 @@ spec:
         - --storage-backend=etcd3
         - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
         - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
-        env:
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
         volumeMounts:
         - name: secrets
           mountPath: /etc/kubernetes/secrets
