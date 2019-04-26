@@ -53,6 +53,8 @@ resource "template_dir" "manifests" {
     aggregation_ca_cert     = "${var.enable_aggregation == "true" ? base64encode(join(" ", tls_self_signed_cert.aggregation-ca.*.cert_pem)) : ""}"
     aggregation_client_cert = "${var.enable_aggregation == "true" ? base64encode(join(" ", tls_locally_signed_cert.aggregation-client.*.cert_pem)) : ""}"
     aggregation_client_key  = "${var.enable_aggregation == "true" ? base64encode(join(" ", tls_private_key.aggregation-client.*.private_key_pem)) : ""}"
+
+    admission_plugins = "${join(",",distinct(compact(concat(var.default_admission_plugins_list,var.extra_admission_plugins_list))))}"
   }
 }
 

@@ -98,6 +98,28 @@ variable "enable_aggregation" {
   default     = "false"
 }
 
+variable "default_admission_plugins_list" {
+  description = "Default admission plugins to enable"
+  type        = "list"
+  default     = [
+    "DefaultStorageClass",
+    "DefaultTolerationSeconds",
+    "LimitRanger",
+    "MutatingAdmissionWebhook",
+    "NamespaceLifecycle",
+    "Priority",
+    "ResourceQuota",
+    "ServiceAccount",
+    "ValidatingAdmissionWebhook"
+  ]
+}
+
+variable "extra_admission_plugins_list" {
+  description = "Extra admission plugins to enable"
+  type        = "list"
+  default     = []
+}
+
 # unofficial, temporary, may be removed without notice
 
 variable "apiserver_port" {
