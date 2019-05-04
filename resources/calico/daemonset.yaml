@@ -99,11 +99,20 @@ spec:
               value: "autodetect"
             - name: IP_AUTODETECTION_METHOD
               value: "${network_ip_autodetection_method}"
-            # Enable IP-in-IP within Felix.
+            # Whether Felix should enable IP-in-IP tunnel
             - name: FELIX_IPINIPENABLED
-              value: "true"
-            # Set MTU for tunnel device used if ipip is enabled
+              value: "${ipip_enabled}"
+            # MTU to set on the IPIP tunnel (if enabled)
             - name: FELIX_IPINIPMTU
+              valueFrom:
+                configMapKeyRef:
+                  name: calico-config
+                  key: veth_mtu
+            # Whether Felix should enable VXLAN tunnel
+            - name: FELIX_VXLANENABLED
+              value: "${vxlan_enabled}"
+            # MTU to set on the VXLAN tunnel (if enabled)
+            - name: FELIX_VXLANMTU
               valueFrom:
                 configMapKeyRef:
                   name: calico-config
@@ -141,8 +150,8 @@ spec:
             exec:
               command:
                 - /bin/calico-node
-                - -bird-ready
                 - -felix-ready
+                ${ipip_readiness}
             periodSeconds: 10
           volumeMounts:
             - name: lib-modules

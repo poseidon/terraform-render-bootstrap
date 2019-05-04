@@ -5,6 +5,6 @@ metadata:
 spec:
   blockSize: 24
   cidr: ${pod_cidr}
-  ipipMode: Always
+  ${network_encapsulation}
   natOutgoing: true
   nodeSelector: all()

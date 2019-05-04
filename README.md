@@ -25,7 +25,6 @@ Generate the assets.
 
 ```sh
 terraform init
-terraform get --update
 terraform plan
 terraform apply
 ```

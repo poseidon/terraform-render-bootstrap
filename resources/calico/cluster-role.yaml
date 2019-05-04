@@ -67,6 +67,7 @@ rules:
       - ipamblocks
       - globalnetworkpolicies
       - globalnetworksets
+      - networksets
       - networkpolicies
       - clusterinformations
       - hostendpoints
@@ -82,7 +83,7 @@ rules:
     verbs:
       - create
       - update
-  # Calico may perform IPAM allocations (not yet used)
+  # Calico may perform IPAM allocations
   - apiGroups: ["crd.projectcalico.org"]
     resources:
       - blockaffinities
@@ -99,6 +100,7 @@ rules:
       - ipamconfigs
     verbs:
       - get
+  # Watch block affinities for route aggregation
   - apiGroups: ["crd.projectcalico.org"]
     resources:
       - blockaffinities
