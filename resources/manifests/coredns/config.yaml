@@ -8,12 +8,12 @@ data:
     .:53 {
         errors
         health
+        ready
         log . {
             class error
         }
         kubernetes ${cluster_domain_suffix} in-addr.arpa ip6.arpa {
             pods insecure
-            upstream
             fallthrough in-addr.arpa ip6.arpa
         }
         prometheus :9153
