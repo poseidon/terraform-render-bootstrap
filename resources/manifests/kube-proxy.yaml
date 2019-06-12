@@ -36,7 +36,7 @@ spec:
         image: ${hyperkube_image}
         command:
         - ./hyperkube
-        - proxy
+        - kube-proxy
         - --cluster-cidr=${pod_cidr}
         - --hostname-override=$(NODE_NAME)
         - --kubeconfig=/etc/kubernetes/kubeconfig

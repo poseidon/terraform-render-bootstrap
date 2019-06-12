@@ -6,7 +6,6 @@ metadata:
   labels:
     k8s-app: coredns
     kubernetes.io/name: "CoreDNS"
-    kubernetes.io/cluster-service: "true"
 spec:
   replicas: ${control_plane_replicas}
   strategy:

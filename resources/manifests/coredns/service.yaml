@@ -8,7 +8,6 @@ metadata:
     prometheus.io/port: "9153"
   labels:
     k8s-app: coredns
-    kubernetes.io/cluster-service: "true"
     kubernetes.io/name: "CoreDNS"
 spec:
   selector:

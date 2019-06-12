@@ -11,7 +11,7 @@ spec:
     image: ${hyperkube_image}
     command:
     - ./hyperkube
-    - controller-manager
+    - kube-controller-manager
     - --allocate-node-cidrs=true
     - --cluster-cidr=${pod_cidr}
     - --service-cluster-ip-range=${service_cidr}

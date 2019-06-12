@@ -52,7 +52,7 @@ spec:
         image: ${hyperkube_image}
         command:
         - ./hyperkube
-        - controller-manager
+        - kube-controller-manager
         - --use-service-account-credentials
         - --allocate-node-cidrs=true
         - --cloud-provider=${cloud_provider}
