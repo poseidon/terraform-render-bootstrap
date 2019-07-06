@@ -67,6 +67,6 @@ output "kubelet_key" {
 }
 
 output "server" {
-  value = format("https://%s:%s", element(var.api_servers, 0), var.apiserver_port)
+  value = format("https://%s:%s", element(var.api_servers, 0), var.external_apiserver_port)
 }
 

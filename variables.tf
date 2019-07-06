@@ -107,8 +107,8 @@ variable "enable_aggregation" {
 
 # unofficial, temporary, may be removed without notice
 
-variable "apiserver_port" {
-  description = "kube-apiserver port"
+variable "external_apiserver_port" {
+  description = "External kube-apiserver port (e.g. 6443 to match internal kube-apiserver port)"
   type = string
   default = "6443"
 }
