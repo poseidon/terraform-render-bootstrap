@@ -1,9 +1,9 @@
 output "id" {
-  value = sha1("${template_dir.bootstrap-manifests.id} ${template_dir.manifests.id}")
+  value = sha1("${template_dir.static-manifests.id} ${template_dir.manifests.id}")
 }
 
 output "content_hash" {
-  value = sha1("${template_dir.bootstrap-manifests.id} ${template_dir.manifests.id}")
+  value = sha1("${template_dir.static-manifests.id} ${template_dir.manifests.id}")
 }
 
 output "cluster_dns_service_ip" {

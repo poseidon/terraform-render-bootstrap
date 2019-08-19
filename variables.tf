@@ -83,7 +83,6 @@ variable "container_images" {
     kube_router = "cloudnativelabs/kube-router:v0.3.2"
     hyperkube = "k8s.gcr.io/hyperkube:v1.15.3"
     coredns = "k8s.gcr.io/coredns:1.6.2"
-    pod_checkpointer = "quay.io/coreos/pod-checkpointer:83e25e5968391b9eb342042c435d1b3eeddb2be1"
   }
 }
 

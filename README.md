@@ -1,17 +1,17 @@
 # terraform-render-bootkube
 
-`terraform-render-bootkube` is a Terraform module that renders [kubernetes-incubator/bootkube](https://github.com/kubernetes-incubator/bootkube) assets for bootstrapping a Kubernetes cluster.
+`terraform-render-bootkube` is a Terraform module that renders TLS certificates, static pods, and manifests for bootstrapping a Kubernetes cluster.
 
 ## Audience
 
-`terraform-render-bootkube` is a low-level component of the [Typhoon](https://github.com/poseidon/typhoon) Kubernetes distribution. Use Typhoon modules to create and manage Kubernetes clusters across supported platforms. Use the bootkube module if you'd like to customize a Kubernetes control plane or build your own distribution.
+`terraform-render-bootstrap` is a low-level component of the [Typhoon](https://github.com/poseidon/typhoon) Kubernetes distribution. Use Typhoon modules to create and manage Kubernetes clusters across supported platforms. Use the bootstrap module if you'd like to customize a Kubernetes control plane or build your own distribution.
 
 ## Usage
 
-Use the module to declare bootkube assets. Check [variables.tf](variables.tf) for options and [terraform.tfvars.example](terraform.tfvars.example) for examples.
+Use the module to declare bootstrap assets. Check [variables.tf](variables.tf) for options and [terraform.tfvars.example](terraform.tfvars.example) for examples.
 
 ```hcl
-module "bootkube" {
+module "bootstrap" {
   source = "git::https://github.com/poseidon/terraform-render-bootkube.git?ref=SHA"
 
   cluster_name = "example"
@@ -29,21 +29,5 @@ terraform plan
 terraform apply
 ```
 
-Find bootkube assets rendered to the `asset_dir` path. That's it.
+Find bootstrap assets rendered to the `asset_dir` path. That's it.
 
-### Comparison
-
-Render bootkube assets directly with bootkube v0.14.0.
-
-```sh
-bootkube render --asset-dir=assets --api-servers=https://node1.example.com:6443 --api-server-alt-names=DNS=node1.example.com --etcd-servers=https://node1.example.com:2379
-```
-
-Compare assets. Rendered assets may differ slightly from bootkube assets to reflect decisions made by the [Typhoon](https://github.com/poseidon/typhoon) distribution.
-
-```sh
-pushd /home/core/mycluster
-mv manifests-networking/* manifests
-popd
-diff -rw assets /home/core/mycluster
-```

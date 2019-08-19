@@ -1,12 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: bootstrap-kube-apiserver
+  name: kube-apiserver
   namespace: kube-system
+  labels:
+    k8s-app: kube-apiserver
+    tier: control-plane
   annotations:
     seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
 spec:
   hostNetwork: true
+  priorityClassName: system-cluster-critical
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
   containers:
   - name: kube-apiserver
     image: ${hyperkube_image}
@@ -28,7 +35,7 @@ spec:
     - --insecure-port=0
     - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
-    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
     - --secure-port=6443
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
     - --service-cluster-ip-range=${service_cidr}
