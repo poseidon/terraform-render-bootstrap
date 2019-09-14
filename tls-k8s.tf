@@ -11,7 +11,7 @@ resource "tls_self_signed_cert" "kube-ca" {
 
   subject {
     common_name  = "kubernetes-ca"
-    organization = "bootkube"
+    organization = "typhoon"
   }
 
   is_ca_certificate     = true
