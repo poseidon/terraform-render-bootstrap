@@ -61,54 +61,54 @@ The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for
 EOD
 
 
-  type = string
+  type    = string
   default = "10.3.0.0/24"
 }
 
 variable "cluster_domain_suffix" {
   description = "Queries for domains with the suffix will be answered by kube-dns"
-  type = string
-  default = "cluster.local"
+  type        = string
+  default     = "cluster.local"
 }
 
 variable "container_images" {
   description = "Container images to use"
-  type = map(string)
+  type        = map(string)
 
   default = {
-    calico = "quay.io/calico/node:v3.8.2"
-    calico_cni = "quay.io/calico/cni:v3.8.2"
-    flannel = "quay.io/coreos/flannel:v0.11.0-amd64"
+    calico      = "quay.io/calico/node:v3.8.2"
+    calico_cni  = "quay.io/calico/cni:v3.8.2"
+    flannel     = "quay.io/coreos/flannel:v0.11.0-amd64"
     flannel_cni = "quay.io/coreos/flannel-cni:v0.3.0"
     kube_router = "cloudnativelabs/kube-router:v0.3.2"
-    hyperkube = "k8s.gcr.io/hyperkube:v1.15.3"
-    coredns = "k8s.gcr.io/coredns:1.6.2"
+    hyperkube   = "k8s.gcr.io/hyperkube:v1.15.3"
+    coredns     = "k8s.gcr.io/coredns:1.6.2"
   }
 }
 
 variable "enable_reporting" {
-  type = string
+  type        = string
   description = "Enable usage or analytics reporting to upstream component owners (Tigera: Calico)"
-  default = "false"
+  default     = "false"
 }
 
 variable "trusted_certs_dir" {
   description = "Path to the directory on cluster nodes where trust TLS certs are kept"
-  type = string
-  default = "/usr/share/ca-certificates"
+  type        = string
+  default     = "/usr/share/ca-certificates"
 }
 
 variable "enable_aggregation" {
   description = "Enable the Kubernetes Aggregation Layer (defaults to false, recommended)"
-  type = string
-  default = "false"
+  type        = string
+  default     = "false"
 }
 
 # unofficial, temporary, may be removed without notice
 
 variable "external_apiserver_port" {
   description = "External kube-apiserver port (e.g. 6443 to match internal kube-apiserver port)"
-  type = string
-  default = "6443"
+  type        = string
+  default     = "6443"
 }
 
