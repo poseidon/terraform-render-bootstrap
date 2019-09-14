@@ -1,6 +1,6 @@
-# terraform-render-bootkube
+# terraform-render-bootstrap
 
-`terraform-render-bootkube` is a Terraform module that renders TLS certificates, static pods, and manifests for bootstrapping a Kubernetes cluster.
+`terraform-render-bootstrap` is a Terraform module that renders TLS certificates, static pods, and manifests for bootstrapping a Kubernetes cluster.
 
 ## Audience
 
@@ -12,7 +12,7 @@ Use the module to declare bootstrap assets. Check [variables.tf](variables.tf) f
 
 ```hcl
 module "bootstrap" {
-  source = "git::https://github.com/poseidon/terraform-render-bootkube.git?ref=SHA"
+  source = "git::https://github.com/poseidon/terraform-render-bootstrap.git?ref=SHA"
 
   cluster_name = "example"
   api_servers = ["node1.example.com"]
