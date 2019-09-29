@@ -67,18 +67,19 @@ rules:
       - ipamblocks
       - globalnetworkpolicies
       - globalnetworksets
-      - networksets
       - networkpolicies
+      - networksets
       - clusterinformations
       - hostendpoints
+      - blockaffinities
     verbs:
       - get
       - list
       - watch
   - apiGroups: ["crd.projectcalico.org"]
     resources:
-      - felixconfigurations
       - ippools
+      - felixconfigurations
       - clusterinformations
     verbs:
       - create
