@@ -24,10 +24,8 @@ spec:
     - --allow-privileged=true
     - --anonymous-auth=false
     - --authorization-mode=RBAC
-    - --bind-address=0.0.0.0
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
     - --cloud-provider=${cloud_provider}
-    - --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultTolerationSeconds,DefaultStorageClass,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,Priority
     - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
@@ -39,7 +37,6 @@ spec:
     - --secure-port=6443
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
     - --service-cluster-ip-range=${service_cidr}
-    - --storage-backend=etcd3
     - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
     env:

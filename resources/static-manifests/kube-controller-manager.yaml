@@ -18,7 +18,7 @@ spec:
   - name: kube-controller-manager
     image: ${hyperkube_image}
     command:
-    - ./hyperkube
+    - /hyperkube
     - kube-controller-manager
     - --allocate-node-cidrs=true
     - --cluster-cidr=${pod_cidr}
