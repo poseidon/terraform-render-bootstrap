@@ -2,14 +2,14 @@
 # Files: tls/{aggregation-ca.crt,aggregation-ca.key}
 
 resource "tls_private_key" "aggregation-ca" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   algorithm = "RSA"
   rsa_bits  = "2048"
 }
 
 resource "tls_self_signed_cert" "aggregation-ca" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   key_algorithm   = tls_private_key.aggregation-ca[0].algorithm
   private_key_pem = tls_private_key.aggregation-ca[0].private_key_pem
@@ -29,14 +29,14 @@ resource "tls_self_signed_cert" "aggregation-ca" {
 }
 
 resource "local_file" "aggregation-ca-key" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   content  = tls_private_key.aggregation-ca[0].private_key_pem
   filename = "${var.asset_dir}/tls/aggregation-ca.key"
 }
 
 resource "local_file" "aggregation-ca-crt" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   content  = tls_self_signed_cert.aggregation-ca[0].cert_pem
   filename = "${var.asset_dir}/tls/aggregation-ca.crt"
@@ -46,14 +46,14 @@ resource "local_file" "aggregation-ca-crt" {
 # Files: tls/{aggregation-client.crt,aggregation-client.key}
 
 resource "tls_private_key" "aggregation-client" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   algorithm = "RSA"
   rsa_bits  = "2048"
 }
 
 resource "tls_cert_request" "aggregation-client" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   key_algorithm   = tls_private_key.aggregation-client[0].algorithm
   private_key_pem = tls_private_key.aggregation-client[0].private_key_pem
@@ -64,7 +64,7 @@ resource "tls_cert_request" "aggregation-client" {
 }
 
 resource "tls_locally_signed_cert" "aggregation-client" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   cert_request_pem = tls_cert_request.aggregation-client[0].cert_request_pem
 
@@ -82,14 +82,14 @@ resource "tls_locally_signed_cert" "aggregation-client" {
 }
 
 resource "local_file" "aggregation-client-key" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   content  = tls_private_key.aggregation-client[0].private_key_pem
   filename = "${var.asset_dir}/tls/aggregation-client.key"
 }
 
 resource "local_file" "aggregation-client-crt" {
-  count = var.enable_aggregation == "true" ? 1 : 0
+  count = var.enable_aggregation ? 1 : 0
 
   content  = tls_locally_signed_cert.aggregation-client[0].cert_pem
   filename = "${var.asset_dir}/tls/aggregation-client.crt"

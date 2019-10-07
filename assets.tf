@@ -10,7 +10,7 @@ resource "template_dir" "static-manifests" {
     pod_cidr          = var.pod_cidr
     service_cidr      = var.service_cidr
     trusted_certs_dir = var.trusted_certs_dir
-    aggregation_flags = var.enable_aggregation == "true" ? indent(4, local.aggregation_flags) : ""
+    aggregation_flags = var.enable_aggregation ? indent(4, local.aggregation_flags) : ""
   }
 }
 
