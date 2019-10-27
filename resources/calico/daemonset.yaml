@@ -139,10 +139,10 @@ spec:
             requests:
               cpu: 150m
           livenessProbe:
-            httpGet:
-              path: /liveness
-              port: 9099
-              host: localhost
+            exec:
+              command:
+                - /bin/calico-node
+                - -felix-ready
             periodSeconds: 10
             initialDelaySeconds: 10
             failureThreshold: 6
