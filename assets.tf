@@ -1,9 +1,9 @@
 # Kubernetes static pod manifests
-resource "template_dir" "static-manifests" {
-  source_dir      = "${path.module}/resources/static-manifests"
-  destination_dir = "${var.asset_dir}/static-manifests"
+resource "local_file" "static-manifests" {
+  for_each = fileset("${path.module}/resources/static-manifests", "**/*.yaml")
 
-  vars = {
+  filename = "${var.asset_dir}/static-manifests/${each.value}"
+  content = templatefile("${path.module}/resources/static-manifests/${each.value}", {
     hyperkube_image   = var.container_images["hyperkube"]
     etcd_servers      = join(",", formatlist("https://%s:2379", var.etcd_servers))
     cloud_provider    = var.cloud_provider
@@ -11,15 +11,15 @@ resource "template_dir" "static-manifests" {
     service_cidr      = var.service_cidr
     trusted_certs_dir = var.trusted_certs_dir
     aggregation_flags = var.enable_aggregation ? indent(4, local.aggregation_flags) : ""
-  }
+  })
 }
 
 # Kubernetes control plane manifests
-resource "template_dir" "manifests" {
-  source_dir      = "${path.module}/resources/manifests"
-  destination_dir = "${var.asset_dir}/manifests"
+resource "local_file" "manifests" {
+  for_each = fileset("${path.module}/resources/manifests", "**/*.yaml")
 
-  vars = {
+  filename = "${var.asset_dir}/manifests/${each.value}"
+  content = templatefile("${path.module}/resources/manifests/${each.value}", {
     hyperkube_image        = var.container_images["hyperkube"]
     coredns_image          = var.container_images["coredns"]
     control_plane_replicas = max(2, length(var.etcd_servers))
@@ -28,7 +28,7 @@ resource "template_dir" "manifests" {
     cluster_dns_service_ip = cidrhost(var.service_cidr, 10)
     trusted_certs_dir      = var.trusted_certs_dir
     server                 = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
-  }
+  })
 }
 
 locals {

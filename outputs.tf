@@ -1,9 +1,16 @@
+locals {
+  combined-static-manifest-contents = [for manifest in local_file.static-manifests : "${manifest.filename}${manifest.content}"]
+  combined-manifest-contents        = [for manifest in local_file.manifests : "${manifest.filename}${manifest.content}"]
+  static-manifests-hash             = sha1(join("", local.combined-static-manifest-contents))
+  manifests-hash                    = sha1(join("", local.combined-manifest-contents))
+}
+
 output "id" {
-  value = sha1("${template_dir.static-manifests.id} ${template_dir.manifests.id}")
+  value = sha1("${local.static-manifests-hash} ${local.manifests-hash}")
 }
 
 output "content_hash" {
-  value = sha1("${template_dir.static-manifests.id} ${template_dir.manifests.id}")
+  value = sha1("${local.static-manifests-hash} ${local.manifests-hash}")
 }
 
 output "cluster_dns_service_ip" {
