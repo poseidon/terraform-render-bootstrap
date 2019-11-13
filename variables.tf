@@ -75,7 +75,7 @@ variable "container_images" {
     flannel_cni = "quay.io/coreos/flannel-cni:v0.3.0"
     kube_router = "cloudnativelabs/kube-router:v0.3.2"
     hyperkube   = "k8s.gcr.io/hyperkube:v1.16.3"
-    coredns     = "k8s.gcr.io/coredns:1.6.2"
+    coredns     = "k8s.gcr.io/coredns:1.6.5"
   }
 }
 
