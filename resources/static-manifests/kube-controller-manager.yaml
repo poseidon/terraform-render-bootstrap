@@ -39,6 +39,9 @@ spec:
         port: 10257
       initialDelaySeconds: 15
       timeoutSeconds: 15
+    resources:
+      requests:
+        cpu: 200m
     volumeMounts:
     - name: secrets
       mountPath: /etc/kubernetes/secrets
