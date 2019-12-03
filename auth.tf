@@ -1,3 +1,10 @@
+locals {
+  # auth kubeconfig assets map
+  auth_kubeconfigs = {
+    "auth/kubeconfig" = data.template_file.kubeconfig-admin.rendered,
+  }
+}
+
 # Generated kubeconfig for Kubelets
 data "template_file" "kubeconfig-kubelet" {
   template = file("${path.module}/resources/kubeconfig-kubelet")

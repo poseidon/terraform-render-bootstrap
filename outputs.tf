@@ -13,6 +13,23 @@ output "kubeconfig-admin" {
   value = data.template_file.kubeconfig-admin.rendered
 }
 
+# assets to distribute to controllers
+# { some/path => content }
+output "assets_dist" {
+  # combine maps of assets
+  value = merge(
+    local.auth_kubeconfigs,
+    local.etcd_tls,
+    local.kubernetes_tls,
+    local.aggregation_tls,
+    local.static_manifests,
+    local.manifests,
+    local.flannel_manifests,
+    local.calico_manifests,
+    local.kube_router_manifests,
+  )
+}
+
 # etcd TLS assets
 
 output "etcd_ca_cert" {

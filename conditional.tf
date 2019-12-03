@@ -1,7 +1,8 @@
 # Assets generated only when certain options are chosen
 
 locals {
-  # flannel manifests (manifest.yaml => content)
+  # flannel manifests map
+  # { manifests-networking/manifest.yaml => content }
   flannel_manifests = {
     for name in fileset("${path.module}/resources/flannel", "*.yaml"):
     "manifests-networking/${name}" => templatefile(
@@ -15,7 +16,8 @@ locals {
     if var.networking == "flannel"
   }
 
-  # calico manifests (manifest.yaml => content)
+  # calico manifests map
+  # { manifests-networking/manifest.yaml => content }
   calico_manifests = {
     for name in fileset("${path.module}/resources/calico", "*.yaml"):
     "manifests-networking/${name}" => templatefile(
@@ -36,7 +38,8 @@ locals {
     if var.networking == "calico"
   }
 
-  # kube-router manifests (manifest.yaml => content)
+  # kube-router manifests map
+  # { manifests-networking/manifest.yaml => content }
   kube_router_manifests = {
     for name in fileset("${path.module}/resources/kube-router", "*.yaml"):
     "manifests-networking/${name}" => templatefile(

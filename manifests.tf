@@ -1,5 +1,6 @@
 locals {
-  # Kubernetes static pod manifests (manifest.yaml => content)
+  # Kubernetes static pod manifests map
+  # {static-manifests/manifest.yaml => content }
   static_manifests = {
     for name in fileset("${path.module}/resources/static-manifests", "*.yaml"):
     "static-manifests/${name}" => templatefile(
@@ -16,7 +17,8 @@ locals {
     )
   }
 
-  # Kubernetes control plane manifests (manifest.yaml => content)
+  # Kubernetes control plane manifests map
+  # { manifests/manifest.yaml => content }
   manifests = {
     for name in fileset("${path.module}/resources/manifests", "**/*.yaml"):
     "manifests/${name}" => templatefile(
