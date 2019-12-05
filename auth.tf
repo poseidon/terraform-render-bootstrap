@@ -32,18 +32,24 @@ data "template_file" "kubeconfig-admin" {
 
 # Generated kubeconfig for Kubelets
 resource "local_file" "kubeconfig-kubelet" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = data.template_file.kubeconfig-kubelet.rendered
   filename = "${var.asset_dir}/auth/kubeconfig-kubelet"
 }
 
 # Generated admin kubeconfig to bootstrap control plane
 resource "local_file" "kubeconfig-admin" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = data.template_file.kubeconfig-admin.rendered
   filename = "${var.asset_dir}/auth/kubeconfig"
 }
 
 # Generated admin kubeconfig in a file named after the cluster
 resource "local_file" "kubeconfig-admin-named" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = data.template_file.kubeconfig-admin.rendered
   filename = "${var.asset_dir}/auth/${var.cluster_name}-config"
 }

@@ -40,14 +40,14 @@ resource "tls_self_signed_cert" "aggregation-ca" {
 }
 
 resource "local_file" "aggregation-ca-key" {
-  count = var.enable_aggregation ? 1 : 0
+  count = var.enable_aggregation && var.asset_dir != "" ? 1 : 0
 
   content  = tls_private_key.aggregation-ca[0].private_key_pem
   filename = "${var.asset_dir}/tls/aggregation-ca.key"
 }
 
 resource "local_file" "aggregation-ca-crt" {
-  count = var.enable_aggregation ? 1 : 0
+  count = var.enable_aggregation && var.asset_dir != "" ? 1 : 0
 
   content  = tls_self_signed_cert.aggregation-ca[0].cert_pem
   filename = "${var.asset_dir}/tls/aggregation-ca.crt"
@@ -93,14 +93,14 @@ resource "tls_locally_signed_cert" "aggregation-client" {
 }
 
 resource "local_file" "aggregation-client-key" {
-  count = var.enable_aggregation ? 1 : 0
+  count = var.enable_aggregation && var.asset_dir != "" ? 1 : 0
 
   content  = tls_private_key.aggregation-client[0].private_key_pem
   filename = "${var.asset_dir}/tls/aggregation-client.key"
 }
 
 resource "local_file" "aggregation-client-crt" {
-  count = var.enable_aggregation ? 1 : 0
+  count = var.enable_aggregation && var.asset_dir != "" ? 1 : 0
 
   content  = tls_locally_signed_cert.aggregation-client[0].cert_pem
   filename = "${var.asset_dir}/tls/aggregation-client.crt"

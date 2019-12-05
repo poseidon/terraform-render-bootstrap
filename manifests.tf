@@ -39,7 +39,7 @@ locals {
 
 # Kubernetes static pod manifests
 resource "local_file" "static-manifests" {
-  for_each = local.static_manifests
+  for_each = var.asset_dir == "" ? {} : local.static_manifests
 
   content  = each.value
   filename = "${var.asset_dir}/${each.key}"
@@ -47,7 +47,7 @@ resource "local_file" "static-manifests" {
 
 # Kubernetes control plane manifests
 resource "local_file" "manifests" {
-  for_each = local.manifests
+  for_each = var.asset_dir == "" ? {} : local.manifests
 
   content  = each.value
   filename = "${var.asset_dir}/${each.key}"

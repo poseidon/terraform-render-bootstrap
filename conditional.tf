@@ -56,7 +56,7 @@ locals {
 
 # flannel manifests
 resource "local_file" "flannel-manifests" {
-  for_each = local.flannel_manifests
+  for_each = var.asset_dir == "" ? {} : local.flannel_manifests
 
   filename = "${var.asset_dir}/${each.key}"
   content  = each.value
@@ -64,7 +64,7 @@ resource "local_file" "flannel-manifests" {
 
 # Calico manifests
 resource "local_file" "calico-manifests" {
-  for_each = local.calico_manifests
+  for_each = var.asset_dir == "" ? {} : local.calico_manifests
 
   filename = "${var.asset_dir}/${each.key}"
   content  = each.value
@@ -72,7 +72,7 @@ resource "local_file" "calico-manifests" {
 
 # kube-router manifests
 resource "local_file" "kube-router-manifests" {
-  for_each = local.kube_router_manifests
+  for_each = var.asset_dir == "" ? {} : local.kube_router_manifests
 
   filename = "${var.asset_dir}/${each.key}"
   content  = each.value

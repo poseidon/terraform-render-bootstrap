@@ -17,7 +17,6 @@ module "bootstrap" {
   cluster_name = "example"
   api_servers = ["node1.example.com"]
   etcd_servers = ["node1.example.com"]
-  asset_dir = "/home/core/clusters/mycluster"
 }
 ```
 

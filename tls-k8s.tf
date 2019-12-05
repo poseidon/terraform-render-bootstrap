@@ -37,11 +37,15 @@ resource "tls_self_signed_cert" "kube-ca" {
 }
 
 resource "local_file" "kube-ca-key" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_private_key.kube-ca.private_key_pem
   filename = "${var.asset_dir}/tls/ca.key"
 }
 
 resource "local_file" "kube-ca-crt" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_self_signed_cert.kube-ca.cert_pem
   filename = "${var.asset_dir}/tls/ca.crt"
 }
@@ -93,11 +97,15 @@ resource "tls_locally_signed_cert" "apiserver" {
 }
 
 resource "local_file" "apiserver-key" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_private_key.apiserver.private_key_pem
   filename = "${var.asset_dir}/tls/apiserver.key"
 }
 
 resource "local_file" "apiserver-crt" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_locally_signed_cert.apiserver.cert_pem
   filename = "${var.asset_dir}/tls/apiserver.crt"
 }
@@ -136,11 +144,15 @@ resource "tls_locally_signed_cert" "admin" {
 }
 
 resource "local_file" "admin-key" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_private_key.admin.private_key_pem
   filename = "${var.asset_dir}/tls/admin.key"
 }
 
 resource "local_file" "admin-crt" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_locally_signed_cert.admin.cert_pem
   filename = "${var.asset_dir}/tls/admin.crt"
 }
@@ -153,11 +165,15 @@ resource "tls_private_key" "service-account" {
 }
 
 resource "local_file" "service-account-key" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_private_key.service-account.private_key_pem
   filename = "${var.asset_dir}/tls/service-account.key"
 }
 
 resource "local_file" "service-account-crt" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_private_key.service-account.public_key_pem
   filename = "${var.asset_dir}/tls/service-account.pub"
 }
@@ -197,11 +213,15 @@ resource "tls_locally_signed_cert" "kubelet" {
 }
 
 resource "local_file" "kubelet-key" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_private_key.kubelet.private_key_pem
   filename = "${var.asset_dir}/tls/kubelet.key"
 }
 
 resource "local_file" "kubelet-crt" {
+  count = var.asset_dir == "" ? 0 : 1
+
   content  = tls_locally_signed_cert.kubelet.cert_pem
   filename = "${var.asset_dir}/tls/kubelet.crt"
 }
