@@ -1,7 +1,7 @@
 locals {
   # Kubernetes Aggregation TLS assets map
   aggregation_tls = var.enable_aggregation ? {
-    "tls/k8s/aggregation-ca.crt" = tls_self_signed_cert.aggregation-ca[0].cert_pem,
+    "tls/k8s/aggregation-ca.crt"     = tls_self_signed_cert.aggregation-ca[0].cert_pem,
     "tls/k8s/aggregation-client.crt" = tls_locally_signed_cert.aggregation-client[0].cert_pem,
     "tls/k8s/aggregation-client.key" = tls_private_key.aggregation-client[0].private_key_pem,
   } : {}

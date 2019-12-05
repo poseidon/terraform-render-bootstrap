@@ -2,14 +2,14 @@ locals {
   # etcd TLS assets map
   etcd_tls = {
     "tls/etcd/etcd-client-ca.crt" = tls_self_signed_cert.etcd-ca.cert_pem,
-    "tls/etcd/etcd-client.crt" = tls_locally_signed_cert.client.cert_pem,
-    "tls/etcd/etcd-client.key" = tls_private_key.client.private_key_pem
-    "tls/etcd/server-ca.crt" = tls_self_signed_cert.etcd-ca.cert_pem,
-    "tls/etcd/server.crt" = tls_locally_signed_cert.server.cert_pem
-    "tls/etcd/server.key" = tls_private_key.server.private_key_pem
-    "tls/etcd/peer-ca.crt" = tls_self_signed_cert.etcd-ca.cert_pem,
-    "tls/etcd/peer.crt" = tls_locally_signed_cert.peer.cert_pem
-    "tls/etcd/peer.key" = tls_private_key.peer.private_key_pem
+    "tls/etcd/etcd-client.crt"    = tls_locally_signed_cert.client.cert_pem,
+    "tls/etcd/etcd-client.key"    = tls_private_key.client.private_key_pem
+    "tls/etcd/server-ca.crt"      = tls_self_signed_cert.etcd-ca.cert_pem,
+    "tls/etcd/server.crt"         = tls_locally_signed_cert.server.cert_pem
+    "tls/etcd/server.key"         = tls_private_key.server.private_key_pem
+    "tls/etcd/peer-ca.crt"        = tls_self_signed_cert.etcd-ca.cert_pem,
+    "tls/etcd/peer.crt"           = tls_locally_signed_cert.peer.cert_pem
+    "tls/etcd/peer.key"           = tls_private_key.peer.private_key_pem
   }
 }
 

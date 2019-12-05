@@ -56,12 +56,12 @@ variable "pod_cidr" {
 }
 
 variable "service_cidr" {
-  type    = string
+  type        = string
   description = <<EOD
 CIDR IP range to assign Kubernetes services.
 The 1st IP will be reserved for kube_apiserver, the 10th IP will be reserved for kube-dns.
 EOD
-  default = "10.3.0.0/24"
+  default     = "10.3.0.0/24"
 }
 
 

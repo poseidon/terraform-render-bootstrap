@@ -4,7 +4,7 @@ locals {
   # flannel manifests map
   # { manifests-networking/manifest.yaml => content }
   flannel_manifests = {
-    for name in fileset("${path.module}/resources/flannel", "*.yaml"):
+    for name in fileset("${path.module}/resources/flannel", "*.yaml") :
     "manifests-networking/${name}" => templatefile(
       "${path.module}/resources/flannel/${name}",
       {
@@ -19,7 +19,7 @@ locals {
   # calico manifests map
   # { manifests-networking/manifest.yaml => content }
   calico_manifests = {
-    for name in fileset("${path.module}/resources/calico", "*.yaml"):
+    for name in fileset("${path.module}/resources/calico", "*.yaml") :
     "manifests-networking/${name}" => templatefile(
       "${path.module}/resources/calico/${name}",
       {
@@ -41,7 +41,7 @@ locals {
   # kube-router manifests map
   # { manifests-networking/manifest.yaml => content }
   kube_router_manifests = {
-    for name in fileset("${path.module}/resources/kube-router", "*.yaml"):
+    for name in fileset("${path.module}/resources/kube-router", "*.yaml") :
     "manifests-networking/${name}" => templatefile(
       "${path.module}/resources/kube-router/${name}",
       {

@@ -1,10 +1,10 @@
 locals {
   # Kubernetes TLS assets map
   kubernetes_tls = {
-    "tls/k8s/ca.crt" = tls_self_signed_cert.kube-ca.cert_pem,
-    "tls/k8s/ca.key" = tls_private_key.kube-ca.private_key_pem,
-    "tls/k8s/apiserver.crt" = tls_locally_signed_cert.apiserver.cert_pem,
-    "tls/k8s/apiserver.key" = tls_private_key.apiserver.private_key_pem,
+    "tls/k8s/ca.crt"              = tls_self_signed_cert.kube-ca.cert_pem,
+    "tls/k8s/ca.key"              = tls_private_key.kube-ca.private_key_pem,
+    "tls/k8s/apiserver.crt"       = tls_locally_signed_cert.apiserver.cert_pem,
+    "tls/k8s/apiserver.key"       = tls_private_key.apiserver.private_key_pem,
     "tls/k8s/service-account.pub" = tls_private_key.service-account.public_key_pem
     "tls/k8s/service-account.key" = tls_private_key.service-account.private_key_pem
   }
