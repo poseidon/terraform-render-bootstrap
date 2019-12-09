@@ -21,16 +21,18 @@ spec:
     - /hyperkube
     - kube-controller-manager
     - --allocate-node-cidrs=true
-    - --cluster-cidr=${pod_cidr}
-    - --service-cluster-ip-range=${service_cidr}
     - --cloud-provider=${cloud_provider}
+    - --cluster-cidr=${pod_cidr}
     - --cluster-signing-cert-file=/etc/kubernetes/secrets/ca.crt
     - --cluster-signing-key-file=/etc/kubernetes/secrets/ca.key
     - --configure-cloud-routes=false
+    - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
     - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
     - --leader-elect=true
+    - --pod-eviction-timeout=1m
     - --root-ca-file=/etc/kubernetes/secrets/ca.crt
     - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
+    - --service-cluster-ip-range=${service_cidr}
     livenessProbe:
       httpGet:
         scheme: HTTPS
