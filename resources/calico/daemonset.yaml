@@ -137,7 +137,7 @@ spec:
             privileged: true
           resources:
             requests:
-              cpu: 150m
+              cpu: 100m
           livenessProbe:
             exec:
               command:

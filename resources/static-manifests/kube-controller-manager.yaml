@@ -41,7 +41,7 @@ spec:
       timeoutSeconds: 15
     resources:
       requests:
-        cpu: 200m
+        cpu: 150m
     volumeMounts:
     - name: secrets
       mountPath: /etc/kubernetes/secrets
