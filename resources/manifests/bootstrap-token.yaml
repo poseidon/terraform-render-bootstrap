@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+type: bootstrap.kubernetes.io/token
+metadata:
+  # Name MUST be of form "bootstrap-token-<token_id>"
+  name: bootstrap-token-${token_id}
+  namespace: kube-system
+stringData:
+  description: "Typhoon generated bootstrap token"
+  token-id: ${token_id}
+  token-secret: ${token_secret}
+  usage-bootstrap-authentication: "true"

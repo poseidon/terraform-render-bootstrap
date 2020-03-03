@@ -1,12 +1,13 @@
+# Bind system:bootstrappers to ClusterRole for node bootstrap
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: kubelet-delete
+  name: bootstrap-node
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: kubelet-delete
+  name: system:node-bootstrapper
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
-  name: system:nodes
+  name: system:bootstrappers

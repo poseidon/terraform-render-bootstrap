@@ -5,7 +5,7 @@ output "cluster_dns_service_ip" {
 
 // Generated kubeconfig for Kubelets (i.e. lower privilege than admin)
 output "kubeconfig-kubelet" {
-  value     = data.template_file.kubeconfig-kubelet.rendered
+  value     = data.template_file.kubeconfig-bootstrap.rendered
   sensitive = true
 }
 

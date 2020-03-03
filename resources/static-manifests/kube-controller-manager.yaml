@@ -25,6 +25,7 @@ spec:
     - --cluster-signing-cert-file=/etc/kubernetes/secrets/ca.crt
     - --cluster-signing-key-file=/etc/kubernetes/secrets/ca.key
     - --configure-cloud-routes=false
+    - --experimental-cluster-signing-duration=72h
     - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
     - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
     - --leader-elect=true

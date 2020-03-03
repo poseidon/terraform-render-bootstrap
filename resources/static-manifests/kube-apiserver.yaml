@@ -22,8 +22,10 @@ spec:
     - --advertise-address=$(POD_IP)
     - --allow-privileged=true
     - --anonymous-auth=false
-    - --authorization-mode=RBAC
+    - --authorization-mode=Node,RBAC
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
+    - --enable-admission-plugins=NodeRestriction
+    - --enable-bootstrap-token-auth=true
     - --cloud-provider=${cloud_provider}
     - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
