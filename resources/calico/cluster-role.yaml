@@ -107,3 +107,11 @@ rules:
       - blockaffinities
     verbs:
       - watch
+  # calico-node has hardcoded kubeadm assumptions :(
+  # https://github.com/projectcalico/node/pull/417
+  # https://github.com/projectcalico/calico/pull/3211
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs:
+      - get
