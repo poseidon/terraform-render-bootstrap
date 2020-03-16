@@ -16,9 +16,8 @@ spec:
     runAsUser: 65534
   containers:
   - name: kube-apiserver
-    image: ${hyperkube_image}
+    image: ${kube_apiserver_image}
     command:
-    - /hyperkube
     - kube-apiserver
     - --advertise-address=$(POD_IP)
     - --allow-privileged=true

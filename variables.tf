@@ -70,13 +70,17 @@ variable "container_images" {
   description = "Container images to use"
 
   default = {
-    calico      = "quay.io/calico/node:v3.13.1"
-    calico_cni  = "quay.io/calico/cni:v3.13.1"
-    flannel     = "quay.io/coreos/flannel:v0.11.0-amd64"
-    flannel_cni = "quay.io/coreos/flannel-cni:v0.3.0"
+    calico                  = "quay.io/calico/node:v3.13.1"
+    calico_cni              = "quay.io/calico/cni:v3.13.1"
+    coredns                 = "k8s.gcr.io/coredns:1.6.7"
+    flannel                 = "quay.io/coreos/flannel:v0.11.0-amd64"
+    flannel_cni             = "quay.io/coreos/flannel-cni:v0.3.0"
+    kube_apiserver          = "k8s.gcr.io/kube-apiserver:v1.17.4"
+    kube_controller_manager = "k8s.gcr.io/kube-controller-manager:v1.17.4"
+    kube_scheduler          = "k8s.gcr.io/kube-scheduler:v1.17.4"
+    kube_proxy              = "k8s.gcr.io/kube-proxy:v1.17.4"
+    # experimental
     kube_router = "cloudnativelabs/kube-router:v0.3.2"
-    hyperkube   = "k8s.gcr.io/hyperkube:v1.17.4"
-    coredns     = "k8s.gcr.io/coredns:1.6.7"
   }
 }
 
