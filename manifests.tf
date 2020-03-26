@@ -35,6 +35,7 @@ locals {
         cluster_dns_service_ip = cidrhost(var.service_cidr, 10)
         trusted_certs_dir      = var.trusted_certs_dir
         server                 = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+        daemonset_tolerations  = var.daemonset_tolerations
       }
     )
   }

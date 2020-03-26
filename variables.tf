@@ -117,3 +117,9 @@ variable "cluster_domain_suffix" {
   default     = "cluster.local"
 }
 
+variable "daemonset_tolerations" {
+  type        = list(string)
+  description = "List of additional taint keys kube-system DaemonSets should tolerate (e.g. ['custom-role', 'gpu-role'])"
+  default     = []
+}
+

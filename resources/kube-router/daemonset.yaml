@@ -24,10 +24,14 @@ spec:
       priorityClassName: system-node-critical
       serviceAccountName: kube-router
       tolerations:
-        - effect: NoSchedule
-          operator: Exists
-        - effect: NoExecute
-          operator: Exists
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+      %{~ for key in daemonset_tolerations ~}
+      - key: ${key}
+        operator: Exists
+      %{~ endfor ~}
       containers:
         - name: kube-router
           image: ${kube_router_image}

@@ -24,10 +24,14 @@ spec:
       priorityClassName: system-node-critical
       serviceAccountName: calico-node
       tolerations:
-        - effect: NoSchedule
-          operator: Exists
-        - effect: NoExecute
-          operator: Exists
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+      %{~ for key in daemonset_tolerations ~}
+      - key: ${key}
+        operator: Exists
+      %{~ endfor ~}
       initContainers:
         # Install Calico CNI binaries and CNI network config file on nodes
         - name: install-cni

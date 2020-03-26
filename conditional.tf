@@ -8,9 +8,10 @@ locals {
     "manifests-networking/${name}" => templatefile(
       "${path.module}/resources/flannel/${name}",
       {
-        flannel_image     = var.container_images["flannel"]
-        flannel_cni_image = var.container_images["flannel_cni"]
-        pod_cidr          = var.pod_cidr
+        flannel_image         = var.container_images["flannel"]
+        flannel_cni_image     = var.container_images["flannel_cni"]
+        pod_cidr              = var.pod_cidr
+        daemonset_tolerations = var.daemonset_tolerations
       }
     )
     if var.networking == "flannel"
@@ -33,6 +34,7 @@ locals {
         network_ip_autodetection_method = var.network_ip_autodetection_method
         pod_cidr                        = var.pod_cidr
         enable_reporting                = var.enable_reporting
+        daemonset_tolerations           = var.daemonset_tolerations
       }
     )
     if var.networking == "calico"
@@ -45,9 +47,10 @@ locals {
     "manifests-networking/${name}" => templatefile(
       "${path.module}/resources/kube-router/${name}",
       {
-        kube_router_image = var.container_images["kube_router"]
-        flannel_cni_image = var.container_images["flannel_cni"]
-        network_mtu       = var.network_mtu
+        kube_router_image     = var.container_images["kube_router"]
+        flannel_cni_image     = var.container_images["flannel_cni"]
+        network_mtu           = var.network_mtu
+        daemonset_tolerations = var.daemonset_tolerations
       }
     )
     if var.networking == "kube-router"
@@ -77,3 +80,4 @@ resource "local_file" "kube-router-manifests" {
   filename = "${var.asset_dir}/${each.key}"
   content  = each.value
 }
+
