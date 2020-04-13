@@ -22,6 +22,8 @@ spec:
     - --advertise-address=$(POD_IP)
     - --allow-privileged=true
     - --anonymous-auth=false
+    - --audit-log-path=-
+    - --audit-policy-file=/etc/kubernetes/config/audit.yaml
     - --authorization-mode=RBAC
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
     - --cloud-provider=${cloud_provider}
@@ -38,6 +40,7 @@ spec:
     - --service-cluster-ip-range=${service_cidr}
     - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
+    ${apiserver_args}
     env:
     - name: POD_IP
       valueFrom:
@@ -50,6 +53,9 @@ spec:
     - name: secrets
       mountPath: /etc/kubernetes/secrets
       readOnly: true
+    - name: config
+      mountPath: /etc/kubernetes/config
+      readOnly: true
     - name: ssl-certs-host
       mountPath: /etc/ssl/certs
       readOnly: true
@@ -57,6 +63,9 @@ spec:
   - name: secrets
     hostPath:
       path: /etc/kubernetes/bootstrap-secrets
+  - name: config
+    configMap:
+      name: kube-apiserver
   - name: ssl-certs-host
     hostPath:
       path: ${trusted_certs_dir}

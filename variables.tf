@@ -103,6 +103,18 @@ variable "enable_aggregation" {
   default     = false
 }
 
+variable "create_ca" {
+  type        = bool
+  description = "Toggles creation of a CA (omit ca_certificate when true)"
+  default     = true
+}
+
+variable "apiserver_arguments" {
+  type        = list
+  description = "List of custom arguments to pass to apiserver"
+  default     = []
+}
+
 # unofficial, temporary, may be removed without notice
 
 variable "external_apiserver_port" {

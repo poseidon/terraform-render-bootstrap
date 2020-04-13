@@ -1,5 +1,7 @@
 # terraform-render-bootstrap
 
+**Maintainer:** [@bendrucker](https://github.com/bendrucker)
+
 `terraform-render-bootstrap` is a Terraform module that renders TLS certificates, static pods, and manifests for bootstrapping a Kubernetes cluster.
 
 ## Audience
