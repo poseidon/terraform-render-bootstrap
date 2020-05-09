@@ -61,6 +61,9 @@ spec:
                   key: veth_mtu
             - name: SLEEP
               value: "false"
+          securityContext:
+            seLinuxOptions:
+              level: "s0"
           volumeMounts:
             - name: cni-bin-dir
               mountPath: /host/opt/cni/bin
