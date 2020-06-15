@@ -40,6 +40,22 @@ locals {
     if var.networking == "calico"
   }
 
+  # cilium manifests map
+  # { manifests-networking/manifest.yaml => content }
+  cilium_manifests = {
+    for name in fileset("${path.module}/resources/cilium", "**/*.yaml") :
+    "manifests-networking/${name}" => templatefile(
+      "${path.module}/resources/cilium/${name}",
+      {
+        cilium_agent_image    = var.container_images["cilium_agent"]
+        cilium_operator_image = var.container_images["cilium_operator"]
+        pod_cidr              = var.pod_cidr
+        daemonset_tolerations = var.daemonset_tolerations
+      }
+    )
+    if var.networking == "cilium"
+  }
+
   # kube-router manifests map
   # { manifests-networking/manifest.yaml => content }
   kube_router_manifests = {

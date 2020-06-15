@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cilium-operator
+  namespace: kube-system
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      name: cilium-operator
+  template:
+    metadata:
+      labels:
+        name: cilium-operator
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+    spec:
+      hostNetwork: true
+      priorityClassName: system-cluster-critical
+      serviceAccountName: cilium-operator
+      tolerations:
+      - key: node-role.kubernetes.io/controller
+        operator: Exists
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+      containers:
+      - name: cilium-operator
+        image: ${cilium_operator_image}
+        command:
+        - cilium-operator-generic
+        args:
+        - --config-dir=/tmp/cilium/config-map
+        - --debug=$(CILIUM_DEBUG)
+        env:
+        - name: K8S_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: CILIUM_K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: CILIUM_DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: cilium
+              key: debug
+              optional: true
+        ports:
+          - name: health
+            protocol: TCP
+            containerPort: 9234
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            host: 127.0.0.1
+            port: 9234
+            path: /healthz
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 3
+        volumeMounts:
+        - name: config
+          mountPath: /tmp/cilium/config-map
+          readOnly: true
+      volumes:
+      # Read configuration
+      - name: config
+        configMap:
+          name: cilium
+

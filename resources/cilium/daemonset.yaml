@@ -1,0 +1,175 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: cilium-agent
+  namespace: kube-system
+  labels:
+    k8s-app: cilium-agent
+spec:
+  selector:
+    matchLabels:
+      k8s-app: cilium-agent
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: cilium-agent
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+    spec:
+      hostNetwork: true
+      priorityClassName: system-node-critical
+      serviceAccountName: cilium-agent
+      tolerations:
+      - key: node-role.kubernetes.io/controller
+        operator: Exists
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+      %{~ for key in daemonset_tolerations ~}
+      - key: ${key}
+        operator: Exists
+      %{~ endfor ~}
+      initContainers:
+      - name: clean-cilium-state
+        image: ${cilium_agent_image}
+        command:
+        - /init-container.sh
+        env:
+        - name: CILIUM_WAIT_BPF_MOUNT
+          valueFrom:
+            configMapKeyRef:
+              name: cilium
+              key: wait-bpf-mount
+              optional: true
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+          privileged: true
+        volumeMounts:
+        - name: sys-fs-bpf
+          mountPath: /sys/fs/bpf
+          mountPropagation: HostToContainer
+        - name: var-run-cilium
+          mountPath: /var/run/cilium
+      containers:
+      - name: cilium-agent
+        image: ${cilium_agent_image}
+        command:
+        - cilium-agent
+        args:
+        - --config-dir=/tmp/cilium/config-map
+        env:
+        - name: K8S_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: CILIUM_K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        ports:
+          # Not yet used, prefer exec's
+          - name: health
+            protocol: TCP
+            containerPort: 9876
+        lifecycle:
+          # Install Cilium CNI binary and CNI network config
+          postStart:
+            exec:
+              command:
+              - "/cni-install.sh"
+              - "--enable-debug=false"
+          preStop:
+            exec:
+              command:
+              - /cni-uninstall.sh
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            - SYS_MODULE
+          privileged: true
+        livenessProbe:
+          exec:
+            command:
+            - cilium
+            - status
+            - --brief
+          periodSeconds: 30
+          initialDelaySeconds: 120
+          successThreshold: 1
+          failureThreshold: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - cilium
+            - status
+            - --brief
+          periodSeconds: 20
+          initialDelaySeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
+        volumeMounts:
+        # Load kernel modules
+        - name: lib-modules
+          mountPath: /lib/modules
+          readOnly: true
+        - name: xtables-lock
+          mountPath: /run/xtables.lock
+        # Keep state between restarts
+        - name: var-run-cilium
+          mountPath: /var/run/cilium
+        - name: sys-fs-bpf
+          mountPath: /sys/fs/bpf
+        # Configuration
+        - name: config
+          mountPath: /tmp/cilium/config-map
+          readOnly: true
+        # Install CNI plugin and config on host
+        - name: cni-bin-dir
+          mountPath: /host/opt/cni/bin
+        - name: cni-conf-dir
+          mountPath: /host/etc/cni/net.d
+      terminationGracePeriodSeconds: 1
+      volumes:
+      # Load kernel modules
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      # Access iptables concurrently with other processes (e.g. kube-proxy)
+      - name: xtables-lock
+        hostPath:
+          type: FileOrCreate
+          path: /run/xtables.lock
+      # Keep state between restarts
+      - name: var-run-cilium
+        hostPath:
+          path: /var/run/cilium
+          type: DirectoryOrCreate
+      # Keep state between restarts for bpf maps
+      - name: sys-fs-bpf
+        hostPath:
+          path: /sys/fs/bpf
+          type: DirectoryOrCreate
+      # Read configuration
+      - name: config
+        configMap:
+          name: cilium
+      # Install CNI plugin and config on host
+      - name: cni-bin-dir
+        hostPath:
+          type: DirectoryOrCreate
+          path:  /opt/cni/bin
+      - name: cni-conf-dir
+        hostPath:
+          type: DirectoryOrCreate
+          path: /etc/kubernetes/cni/net.d
+

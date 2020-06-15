@@ -1,0 +1,175 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cilium
+  namespace: kube-system
+data:
+  # Identity allocation mode selects how identities are shared between cilium
+  # nodes by setting how they are stored. The options are "crd" or "kvstore".
+  # - "crd" stores identities in kubernetes as CRDs (custom resource definition).
+  #   These can be queried with:
+  #     kubectl get ciliumid
+  # - "kvstore" stores identities in a kvstore, etcd or consul, that is
+  #   configured below. Cilium versions before 1.6 supported only the kvstore
+  #   backend. Upgrades from these older cilium versions should continue using
+  #   the kvstore by commenting out the identity-allocation-mode below, or
+  #   setting it to "kvstore".
+  identity-allocation-mode: crd
+
+  # identity-change-grace-period is the grace period that needs to pass
+  # before an endpoint that has changed its identity will start using
+  # that new identity. During the grace period, the new identity has
+  # already been allocated and other nodes in the cluster have a chance
+  # to whitelist the new upcoming identity of the endpoint.
+  identity-change-grace-period: "5s"
+
+  # If you want to run cilium in debug mode change this value to true
+  debug: "false"
+
+  # TCP liveness and readiness probes (prefer exec probe for now)
+  agent-health-port: "9876"
+
+  # Prometheus
+  # enable-metrics: "true"
+  # prometheus-serve-addr: ":foo"
+  # operator-prometheus-serve-addr: ":bar"
+
+  # Enable IPv4 addressing. If enabled, all endpoints are allocated an IPv4
+  # address.
+  enable-ipv4: "true"
+
+  # Enable IPv6 addressing. If enabled, all endpoints are allocated an IPv6
+  # address.
+  enable-ipv6: "false"
+
+  # Enable probing for a more efficient clock source for the BPF datapath
+  enable-bpf-clock-probe: "true"
+
+  # If you want cilium monitor to aggregate tracing for packets, set this level
+  # to "low", "medium", or "maximum". The higher the level, the less packets
+  # that will be seen in monitor output.
+  monitor-aggregation: medium
+
+  # The monitor aggregation interval governs the typical time between monitor
+  # notification events for each allowed connection.
+  #
+  # Only effective when monitor aggregation is set to "medium" or higher.
+  monitor-aggregation-interval: 5s
+
+  # The monitor aggregation flags determine which TCP flags which, upon the
+  # first observation, cause monitor notifications to be generated.
+  #
+  # Only effective when monitor aggregation is set to "medium" or higher.
+  monitor-aggregation-flags: all
+
+  # bpf-policy-map-max specified the maximum number of entries in endpoint
+  # policy map (per endpoint)
+  bpf-policy-map-max: "16384"
+
+  # Specifies the ratio (0.0-1.0) of total system memory to use for dynamic
+  # sizing of the TCP CT, non-TCP CT, NAT and policy BPF maps.
+  bpf-map-dynamic-size-ratio: "0.0025"
+
+  # Pre-allocation of map entries allows per-packet latency to be reduced, at
+  # the expense of up-front memory allocation for the entries in the maps. The
+  # default value below will minimize memory usage in the default installation;
+  # users who are sensitive to latency may consider setting this to "true".
+  #
+  # This option was introduced in Cilium 1.4. Cilium 1.3 and earlier ignore
+  # this option and behave as though it is set to "true".
+  #
+  # If this value is modified, then during the next Cilium startup the restore
+  # of existing endpoints and tracking of ongoing connections may be disrupted.
+  # This may lead to policy drops or a change in loadbalancing decisions for a
+  # connection for some time. Endpoints may need to be recreated to restore
+  # connectivity.
+  #
+  # If this option is set to "false" during an upgrade from 1.3 or earlier to
+  # 1.4 or later, then it may cause one-time disruptions during the upgrade.
+  preallocate-bpf-maps: "false"
+
+  # Encapsulation mode for communication between nodes
+  # Possible values:
+  #   - disabled
+  #   - vxlan (default)
+  #   - geneve
+  tunnel: vxlan
+
+  # Name of the cluster. Only relevant when building a mesh of clusters.
+  cluster-name: default
+
+  # DNS Polling periodically issues a DNS lookup for each `matchName` from
+  # cilium-agent. The result is used to regenerate endpoint policy.
+  # DNS lookups are repeated with an interval of 5 seconds, and are made for
+  # A(IPv4) and AAAA(IPv6) addresses. Should a lookup fail, the most recent IP
+  # data is used instead. An IP change will trigger a regeneration of the Cilium
+  # policy for each endpoint and increment the per cilium-agent policy
+  # repository revision.
+  #
+  # This option is disabled by default starting from version 1.4.x in favor
+  # of a more powerful DNS proxy-based implementation, see [0] for details.
+  # Enable this option if you want to use FQDN policies but do not want to use
+  # the DNS proxy.
+  #
+  # To ease upgrade, users may opt to set this option to "true".
+  # Otherwise please refer to the Upgrade Guide [1] which explains how to
+  # prepare policy rules for upgrade.
+  #
+  # [0] http://docs.cilium.io/en/stable/policy/language/#dns-based
+  # [1] http://docs.cilium.io/en/stable/install/upgrade/#changes-that-may-require-action
+  tofqdns-enable-poller: "false"
+
+  # wait-bpf-mount makes init container wait until bpf filesystem is mounted
+  wait-bpf-mount: "false"
+
+  auto-direct-node-routes: "false"
+
+  # enableXTSocketFallback enables the fallback compatibility solution
+  # when the xt_socket kernel module is missing and it is needed for
+  # the datapath L7 redirection to work properly.  See documentation
+  # for details on when this can be disabled:
+  # http://docs.cilium.io/en/latest/install/system_requirements/#admin-kernel-version.
+  enable-xt-socket-fallback: "true"
+
+  # installIptablesRules enables installation of iptables rules to allow for
+  # TPROXY (L7 proxy injection), itpables based masquerading and compatibility
+  # with kube-proxy. See documentation for details on when this can be
+  # disabled.
+  install-iptables-rules: "true"
+
+  # masquerade traffic leaving the node destined for outside
+  masquerade: "true"
+  # bpfMasquerade enables masquerading with BPF instead of iptables
+  enable-bpf-masquerade: "true"
+
+  # kube-proxy
+  kube-proxy-replacement:  "probe"
+  enable-session-affinity: "false"
+
+  # ClusterIPs from host namespace
+  enable-host-reachable-services: "false"
+
+  # NodePort
+  enable-node-port: "true"
+  node-port-bind-protection: "true"
+  enable-auto-protect-node-port-range: "true"
+
+  # IPAM
+  ipam: "cluster-pool"
+  disable-cnp-status-updates: "true"
+  k8s-require-ipv4-pod-cidr: "true"
+  k8s-require-ipv6-pod-cidr: "false"
+  cluster-pool-ipv4-cidr: "${pod_cidr}"
+  cluster-pool-ipv4-mask-size: "24"
+
+  # Health
+  enable-endpoint-health-checking: "true"
+
+  # Identity
+  enable-well-known-identities: "false"
+  enable-remote-node-identity: "true"
+
+  # Misc
+  # enable-l7-proxy: "false"
+  policy-audit-mode: "false"
+  operator-api-serve-addr: "127.0.0.1:9234"
