@@ -27,7 +27,7 @@ spec:
       priorityClassName: system-node-critical
       serviceAccountName: kube-proxy
       tolerations:
-      - key: node-role.kubernetes.io/master
+      - key: node-role.kubernetes.io/controller
         operator: Exists
       - key: node.kubernetes.io/not-ready
         operator: Exists

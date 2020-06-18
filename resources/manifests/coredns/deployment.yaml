@@ -30,7 +30,7 @@ spec:
           - weight: 100
             preference:
               matchExpressions:
-              - key: node.kubernetes.io/master
+              - key: node.kubernetes.io/controller
                 operator: Exists
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -50,7 +50,7 @@ spec:
       priorityClassName: system-cluster-critical
       serviceAccountName: coredns
       tolerations:
-        - key: node-role.kubernetes.io/master
+        - key: node-role.kubernetes.io/controller
           effect: NoSchedule
       containers:
         - name: coredns
