@@ -27,13 +27,13 @@ variable "cloud_provider" {
 
 variable "networking" {
   type        = string
-  description = "Choice of networking provider (flannel or calico or kube-router or cilium)"
+  description = "Choice of networking provider (flannel or calico or cilium)"
   default     = "flannel"
 }
 
 variable "network_mtu" {
   type        = number
-  description = "CNI interface MTU (only applies to calico and kube-router)"
+  description = "CNI interface MTU (only applies to calico)"
   default     = 1500
 }
 
@@ -80,7 +80,6 @@ variable "container_images" {
     kube_scheduler          = "k8s.gcr.io/kube-scheduler:v1.18.4"
     kube_proxy              = "k8s.gcr.io/kube-proxy:v1.18.4"
     # experimental
-    kube_router     = "cloudnativelabs/kube-router:v0.3.2"
     cilium_agent    = "docker.io/cilium/cilium:v1.8.0-rc4"
     cilium_operator = "docker.io/cilium/operator-generic:v1.8.0-rc4"
   }
