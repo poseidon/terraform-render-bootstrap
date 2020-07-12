@@ -72,7 +72,7 @@ variable "container_images" {
   default = {
     calico                  = "quay.io/calico/node:v3.15.1"
     calico_cni              = "quay.io/calico/cni:v3.15.1"
-    coredns                 = "k8s.gcr.io/coredns:1.6.7"
+    coredns                 = "k8s.gcr.io/coredns:1.7.0"
     flannel                 = "quay.io/coreos/flannel:v0.12.0-amd64"
     flannel_cni             = "quay.io/coreos/flannel-cni:v0.3.0"
     kube_apiserver          = "k8s.gcr.io/kube-apiserver:v1.18.6"
