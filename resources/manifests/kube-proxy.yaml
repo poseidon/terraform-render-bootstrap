@@ -74,6 +74,8 @@ spec:
         - name: ssl-certs-host
           mountPath: /etc/ssl/certs
           readOnly: true
+        - name: xtables-lock
+          mountPath: /run/xtables.lock
       volumes:
       - name: kubeconfig
         configMap:
@@ -84,3 +86,8 @@ spec:
       - name: ssl-certs-host
         hostPath:
           path: ${trusted_certs_dir}
+      # Access iptables concurrently
+      - name: xtables-lock
+        hostPath:
+          type: FileOrCreate
+          path: /run/xtables.lock
