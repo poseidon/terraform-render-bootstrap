@@ -59,6 +59,9 @@ spec:
               mountPath: /etc/kube-flannel/
             - name: run-flannel
               mountPath: /run/flannel
+            - name: xtables-lock
+              mountPath: /run/xtables.lock
+              readOnly: false
         - name: install-cni
           image: ${flannel_cni_image}
           command: ["/install-cni.sh"]
@@ -87,3 +90,7 @@ spec:
         - name: cni-conf-dir
           hostPath:
             path: /etc/kubernetes/cni/net.d
+        - name: xtables-lock
+          hostPath:
+            path: /run/xtables.lock
+            type: FileOrCreate
