@@ -51,6 +51,8 @@ spec:
                   fieldPath: status.podIP
           securityContext:
             privileged: true
+            capabilities:
+              add: ["NET_ADMIN"]
           resources:
             requests:
               cpu: 100m
