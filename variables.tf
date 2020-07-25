@@ -80,8 +80,8 @@ variable "container_images" {
     kube_scheduler          = "k8s.gcr.io/kube-scheduler:v1.18.6"
     kube_proxy              = "k8s.gcr.io/kube-proxy:v1.18.6"
     # experimental
-    cilium_agent    = "docker.io/cilium/cilium:v1.8.1"
-    cilium_operator = "docker.io/cilium/operator-generic:v1.8.1"
+    cilium_agent    = "docker.io/cilium/cilium:v1.8.2"
+    cilium_operator = "docker.io/cilium/operator-generic:v1.8.2"
   }
 }
 
