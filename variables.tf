@@ -74,7 +74,7 @@ variable "container_images" {
     calico_cni              = "quay.io/calico/cni:v3.15.1"
     coredns                 = "k8s.gcr.io/coredns:1.7.0"
     flannel                 = "quay.io/coreos/flannel:v0.12.0-amd64"
-    flannel_cni             = "quay.io/coreos/flannel-cni:v0.3.0"
+    flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.0"
     kube_apiserver          = "k8s.gcr.io/kube-apiserver:v1.18.6"
     kube_controller_manager = "k8s.gcr.io/kube-controller-manager:v1.18.6"
     kube_scheduler          = "k8s.gcr.io/kube-scheduler:v1.18.6"
