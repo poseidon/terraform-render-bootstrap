@@ -6,14 +6,14 @@ metadata:
   labels:
     k8s-app: kube-controller-manager
     tier: control-plane
-  annotations:
-    seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
 spec:
   hostNetwork: true
   priorityClassName: system-cluster-critical
   securityContext:
     runAsNonRoot: true
     runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
   containers:
   - name: kube-controller-manager
     image: ${kube_controller_manager_image}

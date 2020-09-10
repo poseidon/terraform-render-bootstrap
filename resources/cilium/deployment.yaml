@@ -16,12 +16,13 @@ spec:
     metadata:
       labels:
         name: cilium-operator
-      annotations:
-        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       hostNetwork: true
       priorityClassName: system-cluster-critical
       serviceAccountName: cilium-operator
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       tolerations:
       - key: node-role.kubernetes.io/controller
         operator: Exists
