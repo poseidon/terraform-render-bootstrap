@@ -3,6 +3,7 @@ kind: ClusterRole
 metadata:
   name: calico-node
 rules:
+  # The CNI plugin needs to get pods, nodes, and namespaces.
   - apiGroups: [""]
     resources:
       - pods
@@ -10,10 +11,26 @@ rules:
       - namespaces
     verbs:
       - get
+  # Used to discover service IPs for advertisement.
   - apiGroups: [""]
     resources:
       - endpoints
       - services
+    verbs:
+      - watch
+      - list
+  - apiGroups: [""]
+    resources:
+      - nodes/status
+    verbs:
+      # Calico patches the node NetworkUnavilable status
+      - patch
+      # Calico updates some info in node annotations
+      - update
+  # Calico monitors Kubernetes NetworkPolicies
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - networkpolicies
     verbs:
       - watch
       - list
@@ -26,35 +43,12 @@ rules:
     verbs:
       - list
       - watch
-  - apiGroups: [""]
-    resources:
-      - nodes/status
-    verbs:
-      # Calico patches the node NetworkUnavilable status
-      - patch
-      # Calico updates some info in node annotations
-      - update
   # CNI plugin patches pods/status
   - apiGroups: [""]
     resources:
       - pods/status
     verbs:
       - patch
-  # Calico reads some info on nodes
-  - apiGroups: [""]
-    resources:
-      - nodes
-    verbs:
-      - get
-      - list
-      - watch
-  # Calico monitors Kubernetes NetworkPolicies
-  - apiGroups: ["networking.k8s.io"]
-    resources:
-      - networkpolicies
-    verbs:
-      - watch
-      - list
   # Calico monitors its CRDs
   - apiGroups: ["crd.projectcalico.org"]
     resources:
@@ -76,6 +70,7 @@ rules:
       - get
       - list
       - watch
+  # Calico must create and update some CRDs on startup
   - apiGroups: ["crd.projectcalico.org"]
     resources:
       - ippools
@@ -84,6 +79,14 @@ rules:
     verbs:
       - create
       - update
+  # Calico reads some info on nodes
+  - apiGroups: [""]
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
   # Calico may perform IPAM allocations
   - apiGroups: ["crd.projectcalico.org"]
     resources:

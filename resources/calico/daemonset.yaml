@@ -18,6 +18,8 @@ spec:
       labels:
         k8s-app: calico-node
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
       hostNetwork: true
       priorityClassName: system-node-critical
       securityContext:
@@ -37,24 +39,22 @@ spec:
         # Install Calico CNI binaries and CNI network config file on nodes
         - name: install-cni
           image: ${calico_cni_image}
-          command: ["/install-cni.sh"]
+          command: ["/opt/cni/bin/install"]
           env:
             # Name of the CNI config file to create on each node.
             - name: CNI_CONF_NAME
               value: "10-calico.conflist"
-            # Set node name based on k8s nodeName
-            - name: KUBERNETES_NODE_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: spec.nodeName
             # Contents of the CNI config to create on each node.
             - name: CNI_NETWORK_CONFIG
               valueFrom:
                 configMapKeyRef:
                   name: calico-config
                   key: cni_network_config
-            - name: CNI_NET_DIR
-              value: "/etc/kubernetes/cni/net.d"
+            # Set node name based on k8s nodeName
+            - name: KUBERNETES_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
             - name: CNI_MTU
               valueFrom:
                 configMapKeyRef:
@@ -62,6 +62,8 @@ spec:
                   key: veth_mtu
             - name: SLEEP
               value: "false"
+            - name: CNI_NET_DIR
+              value: "/etc/kubernetes/cni/net.d"
           securityContext:
             seLinuxOptions:
               level: "s0"
