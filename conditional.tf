@@ -73,3 +73,10 @@ resource "local_file" "calico-manifests" {
   content  = each.value
 }
 
+# Cilium manifests
+resource "local_file" "cilium-manifests" {
+  for_each = var.asset_dir == "" ? {} : local.cilium_manifests
+
+  filename = "${var.asset_dir}/${each.key}"
+  content  = each.value
+}
