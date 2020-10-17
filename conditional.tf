@@ -57,26 +57,3 @@ locals {
   }
 }
 
-# flannel manifests
-resource "local_file" "flannel-manifests" {
-  for_each = var.asset_dir == "" ? {} : local.flannel_manifests
-
-  filename = "${var.asset_dir}/${each.key}"
-  content  = each.value
-}
-
-# Calico manifests
-resource "local_file" "calico-manifests" {
-  for_each = var.asset_dir == "" ? {} : local.calico_manifests
-
-  filename = "${var.asset_dir}/${each.key}"
-  content  = each.value
-}
-
-# Cilium manifests
-resource "local_file" "cilium-manifests" {
-  for_each = var.asset_dir == "" ? {} : local.cilium_manifests
-
-  filename = "${var.asset_dir}/${each.key}"
-  content  = each.value
-}

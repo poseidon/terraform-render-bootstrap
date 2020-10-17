@@ -13,12 +13,6 @@ variable "etcd_servers" {
   description = "List of URLs used to reach etcd servers."
 }
 
-variable "asset_dir" {
-  type        = string
-  description = "Absolute path to a directory where generated assets should be placed (contains secrets)"
-  default     = ""
-}
-
 variable "cloud_provider" {
   type        = string
   description = "The provider for cloud services (empty string for no provider)"

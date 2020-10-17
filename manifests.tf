@@ -43,22 +43,6 @@ locals {
   }
 }
 
-# Kubernetes static pod manifests
-resource "local_file" "static-manifests" {
-  for_each = var.asset_dir == "" ? {} : local.static_manifests
-
-  content  = each.value
-  filename = "${var.asset_dir}/${each.key}"
-}
-
-# Kubernetes control plane manifests
-resource "local_file" "manifests" {
-  for_each = var.asset_dir == "" ? {} : local.manifests
-
-  content  = each.value
-  filename = "${var.asset_dir}/${each.key}"
-}
-
 locals {
   aggregation_flags = <<EOF
 

@@ -20,7 +20,7 @@ module "bootstrap" {
 }
 ```
 
-Generate the assets.
+Generate assets in Terraform state.
 
 ```sh
 terraform init
@@ -28,5 +28,13 @@ terraform plan
 terraform apply
 ```
 
-Find bootstrap assets rendered to the `asset_dir` path. That's it.
+To inspect and write assets locally (e.g. debugging) use the `assets_dist` Terraform output.
+
+```
+resource local_file "assets" {
+  for_each = module.bootstrap.assets_dist
+  filename = "some-assets/${each.key}"
+  content = each.value
+}
+```
 

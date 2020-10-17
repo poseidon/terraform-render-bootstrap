@@ -36,20 +36,6 @@ resource "tls_self_signed_cert" "kube-ca" {
   ]
 }
 
-resource "local_file" "kube-ca-key" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_private_key.kube-ca.private_key_pem
-  filename = "${var.asset_dir}/tls/ca.key"
-}
-
-resource "local_file" "kube-ca-crt" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_self_signed_cert.kube-ca.cert_pem
-  filename = "${var.asset_dir}/tls/ca.crt"
-}
-
 # Kubernetes API Server (tls/{apiserver.key,apiserver.crt})
 
 resource "tls_private_key" "apiserver" {
@@ -96,20 +82,6 @@ resource "tls_locally_signed_cert" "apiserver" {
   ]
 }
 
-resource "local_file" "apiserver-key" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_private_key.apiserver.private_key_pem
-  filename = "${var.asset_dir}/tls/apiserver.key"
-}
-
-resource "local_file" "apiserver-crt" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_locally_signed_cert.apiserver.cert_pem
-  filename = "${var.asset_dir}/tls/apiserver.crt"
-}
-
 # Kubernetes Admin (tls/{admin.key,admin.crt})
 
 resource "tls_private_key" "admin" {
@@ -143,39 +115,11 @@ resource "tls_locally_signed_cert" "admin" {
   ]
 }
 
-resource "local_file" "admin-key" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_private_key.admin.private_key_pem
-  filename = "${var.asset_dir}/tls/admin.key"
-}
-
-resource "local_file" "admin-crt" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_locally_signed_cert.admin.cert_pem
-  filename = "${var.asset_dir}/tls/admin.crt"
-}
-
 # Kubernete's Service Account (tls/{service-account.key,service-account.pub})
 
 resource "tls_private_key" "service-account" {
   algorithm = "RSA"
   rsa_bits  = "2048"
-}
-
-resource "local_file" "service-account-key" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_private_key.service-account.private_key_pem
-  filename = "${var.asset_dir}/tls/service-account.key"
-}
-
-resource "local_file" "service-account-crt" {
-  count = var.asset_dir == "" ? 0 : 1
-
-  content  = tls_private_key.service-account.public_key_pem
-  filename = "${var.asset_dir}/tls/service-account.pub"
 }
 
 # Kubelet
