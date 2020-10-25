@@ -64,8 +64,8 @@ variable "container_images" {
   description = "Container images to use"
 
   default = {
-    calico                  = "quay.io/calico/node:v3.16.3"
-    calico_cni              = "quay.io/calico/cni:v3.16.3"
+    calico                  = "quay.io/calico/node:v3.16.4"
+    calico_cni              = "quay.io/calico/cni:v3.16.4"
     coredns                 = "k8s.gcr.io/coredns:1.7.0"
     flannel                 = "quay.io/coreos/flannel:v0.13.0"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.1"
