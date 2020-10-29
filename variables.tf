@@ -66,6 +66,8 @@ variable "container_images" {
   default = {
     calico                  = "quay.io/calico/node:v3.16.4"
     calico_cni              = "quay.io/calico/cni:v3.16.4"
+    cilium_agent            = "docker.io/cilium/cilium:v1.8.5"
+    cilium_operator         = "docker.io/cilium/operator-generic:v1.8.5"
     coredns                 = "k8s.gcr.io/coredns:1.7.0"
     flannel                 = "quay.io/coreos/flannel:v0.13.0"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.1"
@@ -73,9 +75,6 @@ variable "container_images" {
     kube_controller_manager = "k8s.gcr.io/kube-controller-manager:v1.19.3"
     kube_scheduler          = "k8s.gcr.io/kube-scheduler:v1.19.3"
     kube_proxy              = "k8s.gcr.io/kube-proxy:v1.19.3"
-    # experimental
-    cilium_agent    = "docker.io/cilium/cilium:v1.8.4"
-    cilium_operator = "docker.io/cilium/operator-generic:v1.8.4"
   }
 }
 
