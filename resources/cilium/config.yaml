@@ -45,6 +45,9 @@ data:
   # Enable probing for a more efficient clock source for the BPF datapath
   enable-bpf-clock-probe: "true"
 
+  # Enable use of transparent proxying mechanisms (Linux 5.7+)
+  enable-bpf-tproxy: "false"
+
   # If you want cilium monitor to aggregate tracing for packets, set this level
   # to "low", "medium", or "maximum". The higher the level, the less packets
   # that will be seen in monitor output.
@@ -66,6 +69,10 @@ data:
   # policy map (per endpoint)
   bpf-policy-map-max: "16384"
 
+  # bpf-lb-map-max specifies the maximum number of entries in bpf lb service,
+  # backend and affinity maps.
+  bpf-lb-map-max: "65536"
+
   # Specifies the ratio (0.0-1.0) of total system memory to use for dynamic
   # sizing of the TCP CT, non-TCP CT, NAT and policy BPF maps.
   bpf-map-dynamic-size-ratio: "0.0025"
@@ -80,9 +87,8 @@ data:
   #
   # If this value is modified, then during the next Cilium startup the restore
   # of existing endpoints and tracking of ongoing connections may be disrupted.
-  # This may lead to policy drops or a change in loadbalancing decisions for a
-  # connection for some time. Endpoints may need to be recreated to restore
-  # connectivity.
+  # As a result, reply packets may be dropped and the load-balancing decisions
+  # for established connections may change.
   #
   # If this option is set to "false" during an upgrade from 1.3 or earlier to
   # 1.4 or later, then it may cause one-time disruptions during the upgrade.
@@ -123,6 +129,7 @@ data:
 
   # kube-proxy
   kube-proxy-replacement:  "probe"
+  kube-proxy-replacement-healthz-bind-address: ""
   enable-session-affinity: "false"
 
   # ClusterIPs from host namespace
@@ -136,12 +143,11 @@ data:
   # IPAM
   ipam: "cluster-pool"
   disable-cnp-status-updates: "true"
-  k8s-require-ipv4-pod-cidr: "true"
-  k8s-require-ipv6-pod-cidr: "false"
   cluster-pool-ipv4-cidr: "${pod_cidr}"
   cluster-pool-ipv4-mask-size: "24"
 
   # Health
+  enable-health-checking: "true"
   enable-endpoint-health-checking: "true"
 
   # Identity
@@ -149,6 +155,8 @@ data:
   enable-remote-node-identity: "true"
 
   # Misc
+  enable-bandwidth-manager: "false"
+  enable-local-redirect-policy: "false"
   # enable-l7-proxy: "false"
   policy-audit-mode: "false"
   operator-api-serve-addr: "127.0.0.1:9234"

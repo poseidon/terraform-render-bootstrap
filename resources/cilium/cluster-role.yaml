@@ -39,14 +39,22 @@ rules:
   resources:
   - ciliumnetworkpolicies
   - ciliumnetworkpolicies/status
+  - ciliumnetworkpolicies/finalizers
   - ciliumclusterwidenetworkpolicies
   - ciliumclusterwidenetworkpolicies/status
+  - ciliumclusterwidenetworkpolicies/finalizers
   - ciliumendpoints
   - ciliumendpoints/status
+  - ciliumendpoints/finalizers
   - ciliumnodes
   - ciliumnodes/status
+  - ciliumnodes/finalizers
   - ciliumidentities
   - ciliumidentities/status
+  - ciliumidentities/finalizers
+  - ciliumlocalredirectpolicies
+  - ciliumlocalredirectpolicies/status
+  - ciliumlocalredirectpolicies/finalizers
   verbs:
   - '*'
 - apiGroups:
@@ -54,8 +62,10 @@ rules:
   resources:
   - customresourcedefinitions
   verbs:
+  - create
   - get
   - list
+  - update
   - watch
 # Cilium leader elects if among multiple operator replicas
 - apiGroups:
@@ -103,6 +113,15 @@ rules:
   - ""
   resources:
   - pods
+  - pods/finalizers
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+- apiGroups:
+  - ""
+  resources:
   - nodes
   verbs:
   - get
@@ -131,14 +150,22 @@ rules:
   resources:
   - ciliumnetworkpolicies
   - ciliumnetworkpolicies/status
+  - ciliumnetworkpolicies/finalizers
   - ciliumclusterwidenetworkpolicies
   - ciliumclusterwidenetworkpolicies/status
+  - ciliumclusterwidenetworkpolicies/finalizers
   - ciliumendpoints
   - ciliumendpoints/status
+  - ciliumendpoints/finalizers
   - ciliumnodes
   - ciliumnodes/status
+  - ciliumnodes/finalizers
   - ciliumidentities
   - ciliumidentities/status
+  - ciliumidentities/finalizers
+  - ciliumlocalredirectpolicies
+  - ciliumlocalredirectpolicies/status
+  - ciliumlocalredirectpolicies/finalizers
   verbs:
   - '*'
 
