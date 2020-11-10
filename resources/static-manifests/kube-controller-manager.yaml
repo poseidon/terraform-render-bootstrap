@@ -33,6 +33,7 @@ spec:
     - --root-ca-file=/etc/kubernetes/secrets/ca.crt
     - --service-account-private-key-file=/etc/kubernetes/secrets/service-account.key
     - --service-cluster-ip-range=${service_cidr}
+    - --use-service-account-credentials=true
     livenessProbe:
       httpGet:
         scheme: HTTPS
