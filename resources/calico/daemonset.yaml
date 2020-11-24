@@ -64,9 +64,6 @@ spec:
               value: "false"
             - name: CNI_NET_DIR
               value: "/etc/kubernetes/cni/net.d"
-          securityContext:
-            seLinuxOptions:
-              level: "s0"
           volumeMounts:
             - name: cni-bin-dir
               mountPath: /host/opt/cni/bin

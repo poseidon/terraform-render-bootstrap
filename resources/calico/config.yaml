@@ -8,8 +8,8 @@ data:
   typha_service_name: "none"
   # Calico backend to use
   calico_backend: "bird"
-  # Calico MTU
-  veth_mtu: "${network_mtu}"
+  # Calico autodetects MTU by default. Non-zero overrides.
+  veth_mtu: "0"
   # The CNI network configuration to install on each node.
   cni_network_config: |-
     {
