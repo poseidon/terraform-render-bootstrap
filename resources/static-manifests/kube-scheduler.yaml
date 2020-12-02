@@ -34,9 +34,9 @@ spec:
         cpu: 100m
     volumeMounts:
     - name: secrets
-      mountPath: /etc/kubernetes/secrets
+      mountPath: /etc/kubernetes/secrets/kubeconfig
       readOnly: true
   volumes:
   - name: secrets
     hostPath:
-      path: /etc/kubernetes/bootstrap-secrets
+      path: /etc/kubernetes/bootstrap-secrets/kubeconfig

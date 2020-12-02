@@ -24,9 +24,9 @@ spec:
     - --anonymous-auth=false
     - --authorization-mode=Node,RBAC
     - --client-ca-file=/etc/kubernetes/secrets/ca.crt
+    - --cloud-provider=${cloud_provider}
     - --enable-admission-plugins=NodeRestriction
     - --enable-bootstrap-token-auth=true
-    - --cloud-provider=${cloud_provider}
     - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
     - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
@@ -36,7 +36,9 @@ spec:
     - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
     - --secure-port=6443
+    - --service-account-issuer=https://kubernetes.default.svc.cluster.local
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
+    - --service-account-signing-key-file=/etc/kubernetes/secrets/service-account.key
     - --service-cluster-ip-range=${service_cidr}
     - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
