@@ -19,7 +19,7 @@ spec:
     image: ${kube_scheduler_image}
     command:
     - kube-scheduler
-    - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
+    - --kubeconfig=/etc/kubernetes/secrets/scheduler.conf
     - --leader-elect=true
     livenessProbe:
       httpGet:
@@ -34,9 +34,9 @@ spec:
         cpu: 100m
     volumeMounts:
     - name: secrets
-      mountPath: /etc/kubernetes/secrets/kubeconfig
+      mountPath: /etc/kubernetes/secrets/scheduler.conf
       readOnly: true
   volumes:
   - name: secrets
     hostPath:
-      path: /etc/kubernetes/bootstrap-secrets/kubeconfig
+      path: /etc/kubernetes/bootstrap-secrets/scheduler.conf

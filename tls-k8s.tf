@@ -82,6 +82,70 @@ resource "tls_locally_signed_cert" "apiserver" {
   ]
 }
 
+# kube-controller-manager
+
+resource "tls_private_key" "controller-manager" {
+  algorithm = "RSA"
+  rsa_bits  = "2048"
+}
+
+resource "tls_cert_request" "controller-manager" {
+  key_algorithm   = tls_private_key.controller-manager.algorithm
+  private_key_pem = tls_private_key.controller-manager.private_key_pem
+
+  subject {
+    common_name  = "system:kube-controller-manager"
+  }
+}
+
+resource "tls_locally_signed_cert" "controller-manager" {
+  cert_request_pem = tls_cert_request.controller-manager.cert_request_pem
+
+  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
+  ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
+  ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
+
+  validity_period_hours = 8760
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "client_auth",
+  ]
+}
+
+# kube-scheduler
+
+resource "tls_private_key" "scheduler" {
+  algorithm = "RSA"
+  rsa_bits  = "2048"
+}
+
+resource "tls_cert_request" "scheduler" {
+  key_algorithm   = tls_private_key.scheduler.algorithm
+  private_key_pem = tls_private_key.scheduler.private_key_pem
+
+  subject {
+    common_name  = "system:kube-scheduler"
+  }
+}
+
+resource "tls_locally_signed_cert" "scheduler" {
+  cert_request_pem = tls_cert_request.scheduler.cert_request_pem
+
+  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
+  ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
+  ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
+
+  validity_period_hours = 8760
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "client_auth",
+  ]
+}
+
 # Kubernetes Admin (tls/{admin.key,admin.crt})
 
 resource "tls_private_key" "admin" {
@@ -120,22 +184,5 @@ resource "tls_locally_signed_cert" "admin" {
 resource "tls_private_key" "service-account" {
   algorithm = "RSA"
   rsa_bits  = "2048"
-}
-
-# Kubelet
-
-resource "tls_private_key" "kubelet" {
-  algorithm = "RSA"
-  rsa_bits  = "2048"
-}
-
-resource "tls_cert_request" "kubelet" {
-  key_algorithm   = tls_private_key.kubelet.algorithm
-  private_key_pem = tls_private_key.kubelet.private_key_pem
-
-  subject {
-    common_name  = "kubelet"
-    organization = "system:nodes"
-  }
 }
 

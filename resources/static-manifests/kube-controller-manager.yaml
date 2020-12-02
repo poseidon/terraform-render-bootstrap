@@ -28,7 +28,7 @@ spec:
     - --cluster-signing-duration=72h
     - --configure-cloud-routes=false
     - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
-    - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
+    - --kubeconfig=/etc/kubernetes/secrets/controller-manager.conf
     - --leader-elect=true
     - --pod-eviction-timeout=1m
     - --root-ca-file=/etc/kubernetes/secrets/ca.crt
