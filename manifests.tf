@@ -46,9 +46,9 @@ locals {
 locals {
   aggregation_flags = <<EOF
 
-- --proxy-client-cert-file=/etc/kubernetes/secrets/aggregation-client.crt
-- --proxy-client-key-file=/etc/kubernetes/secrets/aggregation-client.key
-- --requestheader-client-ca-file=/etc/kubernetes/secrets/aggregation-ca.crt
+- --proxy-client-cert-file=/etc/kubernetes/pki/aggregation-client.crt
+- --proxy-client-key-file=/etc/kubernetes/pki/aggregation-client.key
+- --requestheader-client-ca-file=/etc/kubernetes/pki/aggregation-ca.crt
 - --requestheader-extra-headers-prefix=X-Remote-Extra-
 - --requestheader-group-headers=X-Remote-Group
 - --requestheader-username-headers=X-Remote-User

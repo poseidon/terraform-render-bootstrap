@@ -23,25 +23,25 @@ spec:
     - --allow-privileged=true
     - --anonymous-auth=false
     - --authorization-mode=Node,RBAC
-    - --client-ca-file=/etc/kubernetes/secrets/ca.crt
+    - --client-ca-file=/etc/kubernetes/pki/ca.crt
     - --cloud-provider=${cloud_provider}
     - --enable-admission-plugins=NodeRestriction
     - --enable-bootstrap-token-auth=true
-    - --etcd-cafile=/etc/kubernetes/secrets/etcd-client-ca.crt
-    - --etcd-certfile=/etc/kubernetes/secrets/etcd-client.crt
-    - --etcd-keyfile=/etc/kubernetes/secrets/etcd-client.key
+    - --etcd-cafile=/etc/kubernetes/pki/etcd-client-ca.crt
+    - --etcd-certfile=/etc/kubernetes/pki/etcd-client.crt
+    - --etcd-keyfile=/etc/kubernetes/pki/etcd-client.key
     - --etcd-servers=${etcd_servers}
     - --insecure-port=0
-    - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
-    - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
+    - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver.crt
+    - --kubelet-client-key=/etc/kubernetes/pki/apiserver.key
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
     - --secure-port=6443
     - --service-account-issuer=https://kubernetes.default.svc.cluster.local
-    - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
-    - --service-account-signing-key-file=/etc/kubernetes/secrets/service-account.key
+    - --service-account-key-file=/etc/kubernetes/pki/service-account.pub
+    - --service-account-signing-key-file=/etc/kubernetes/pki/service-account.key
     - --service-cluster-ip-range=${service_cidr}
-    - --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt
-    - --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key
+    - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
+    - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
     env:
     - name: POD_IP
       valueFrom:
@@ -52,7 +52,7 @@ spec:
         cpu: 150m
     volumeMounts:
     - name: secrets
-      mountPath: /etc/kubernetes/secrets
+      mountPath: /etc/kubernetes/pki
       readOnly: true
     - name: ssl-certs-host
       mountPath: /etc/ssl/certs
@@ -60,7 +60,7 @@ spec:
   volumes:
   - name: secrets
     hostPath:
-      path: /etc/kubernetes/bootstrap-secrets
+      path: /etc/kubernetes/pki
   - name: ssl-certs-host
     hostPath:
       path: ${trusted_certs_dir}
