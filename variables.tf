@@ -66,8 +66,8 @@ variable "container_images" {
   default = {
     calico                  = "quay.io/calico/node:v3.17.1"
     calico_cni              = "quay.io/calico/cni:v3.17.1"
-    cilium_agent            = "quay.io/cilium/cilium:v1.9.1"
-    cilium_operator         = "quay.io/cilium/operator-generic:v1.9.1"
+    cilium_agent            = "quay.io/cilium/cilium:v1.9.2"
+    cilium_operator         = "quay.io/cilium/operator-generic:v1.9.2"
     coredns                 = "k8s.gcr.io/coredns:1.7.0"
     flannel                 = "quay.io/coreos/flannel:v0.13.0"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.1"
