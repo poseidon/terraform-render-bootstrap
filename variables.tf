@@ -70,7 +70,7 @@ variable "container_images" {
     cilium_operator         = "quay.io/cilium/operator-generic:v1.9.4"
     coredns                 = "k8s.gcr.io/coredns:1.7.0"
     flannel                 = "quay.io/coreos/flannel:v0.13.0"
-    flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.1"
+    flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
     kube_apiserver          = "k8s.gcr.io/kube-apiserver:v1.20.2"
     kube_controller_manager = "k8s.gcr.io/kube-controller-manager:v1.20.2"
     kube_scheduler          = "k8s.gcr.io/kube-scheduler:v1.20.2"
