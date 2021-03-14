@@ -36,8 +36,8 @@ locals {
         trusted_certs_dir      = var.trusted_certs_dir
         server                 = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
         daemonset_tolerations  = var.daemonset_tolerations
-        token_id               = random_string.bootstrap-token-id.result
-        token_secret           = random_string.bootstrap-token-secret.result
+        token_id               = random_password.bootstrap-token-id.result
+        token_secret           = random_password.bootstrap-token-secret.result
       }
     )
   }

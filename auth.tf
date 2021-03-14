@@ -53,20 +53,20 @@ data "template_file" "kubeconfig-bootstrap" {
   vars = {
     ca_cert      = base64encode(tls_self_signed_cert.kube-ca.cert_pem)
     server       = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
-    token_id     = random_string.bootstrap-token-id.result
-    token_secret = random_string.bootstrap-token-secret.result
+    token_id     = random_password.bootstrap-token-id.result
+    token_secret = random_password.bootstrap-token-secret.result
   }
 }
 
 # Generate a cryptographically random token id (public)
-resource random_string "bootstrap-token-id" {
+resource random_password "bootstrap-token-id" {
   length  = 6
   upper   = false
   special = false
 }
 
 # Generate a cryptographically random token secret
-resource random_string "bootstrap-token-secret" {
+resource random_password "bootstrap-token-secret" {
   length  = 16
   upper   = false
   special = false
