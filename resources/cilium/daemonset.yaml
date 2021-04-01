@@ -172,5 +172,5 @@ spec:
       - name: cni-conf-dir
         hostPath:
           type: DirectoryOrCreate
-          path: /etc/kubernetes/cni/net.d
+          path: /etc/cni/net.d
 

@@ -63,7 +63,7 @@ spec:
             - name: SLEEP
               value: "false"
             - name: CNI_NET_DIR
-              value: "/etc/kubernetes/cni/net.d"
+              value: "/etc/cni/net.d"
           volumeMounts:
             - name: cni-bin-dir
               mountPath: /host/opt/cni/bin
@@ -195,4 +195,5 @@ spec:
             path: /opt/cni/bin
         - name: cni-conf-dir
           hostPath:
-            path: /etc/kubernetes/cni/net.d
+            type: DirectoryOrCreate
+            path: /etc/cni/net.d

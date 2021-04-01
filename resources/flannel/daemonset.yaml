@@ -90,7 +90,8 @@ spec:
             path: /opt/cni/bin
         - name: cni-conf-dir
           hostPath:
-            path: /etc/kubernetes/cni/net.d
+            type: DirectoryOrCreate
+            path: /etc/cni/net.d
         # Access iptables concurrently
         - name: xtables-lock
           hostPath:
