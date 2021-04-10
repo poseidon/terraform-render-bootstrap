@@ -11,7 +11,6 @@ locals {
         kube_scheduler_image          = var.container_images["kube_scheduler"]
 
         etcd_servers      = join(",", formatlist("https://%s:2379", var.etcd_servers))
-        cloud_provider    = var.cloud_provider
         pod_cidr          = var.pod_cidr
         service_cidr      = var.service_cidr
         trusted_certs_dir = var.trusted_certs_dir

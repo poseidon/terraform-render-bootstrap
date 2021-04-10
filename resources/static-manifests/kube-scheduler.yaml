@@ -19,6 +19,8 @@ spec:
     image: ${kube_scheduler_image}
     command:
     - kube-scheduler
+    - --authentication-kubeconfig=/etc/kubernetes/pki/scheduler.conf
+    - --authorization-kubeconfig=/etc/kubernetes/pki/scheduler.conf
     - --kubeconfig=/etc/kubernetes/pki/scheduler.conf
     - --leader-elect=true
     livenessProbe:

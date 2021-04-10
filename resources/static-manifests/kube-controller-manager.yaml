@@ -19,15 +19,16 @@ spec:
     image: ${kube_controller_manager_image}
     command:
     - kube-controller-manager
+    - --authentication-kubeconfig=/etc/kubernetes/pki/controller-manager.conf
+    - --authorization-kubeconfig=/etc/kubernetes/pki/controller-manager.conf
     - --allocate-node-cidrs=true
-    - --cloud-provider=${cloud_provider}
     - --client-ca-file=/etc/kubernetes/pki/ca.crt
     - --cluster-cidr=${pod_cidr}
     - --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
     - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
     - --cluster-signing-duration=72h
+    - --controllers=*,tokencleaner
     - --configure-cloud-routes=false
-    - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
     - --kubeconfig=/etc/kubernetes/pki/controller-manager.conf
     - --leader-elect=true
     - --pod-eviction-timeout=1m
@@ -43,6 +44,7 @@ spec:
         port: 10257
       initialDelaySeconds: 15
       timeoutSeconds: 15
+      failureThreshold: 8
     resources:
       requests:
         cpu: 150m
@@ -53,6 +55,8 @@ spec:
     - name: ssl-host
       mountPath: /etc/ssl/certs
       readOnly: true
+    - name: flex
+      mountPath: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
   volumes:
   - name: secrets
     hostPath:
@@ -60,3 +64,8 @@ spec:
   - name: ssl-host
     hostPath:
       path: ${trusted_certs_dir}
+  - name: flex
+    hostPath:
+      type: DirectoryOrCreate
+      path: /var/lib/kubelet/volumeplugins
+

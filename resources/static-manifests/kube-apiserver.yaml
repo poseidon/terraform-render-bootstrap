@@ -24,7 +24,6 @@ spec:
     - --anonymous-auth=false
     - --authorization-mode=Node,RBAC
     - --client-ca-file=/etc/kubernetes/pki/ca.crt
-    - --cloud-provider=${cloud_provider}
     - --enable-admission-plugins=NodeRestriction
     - --enable-bootstrap-token-auth=true
     - --etcd-cafile=/etc/kubernetes/pki/etcd-client-ca.crt
@@ -37,6 +36,7 @@ spec:
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
     - --secure-port=6443
     - --service-account-issuer=https://kubernetes.default.svc.cluster.local
+    - --service-account-jwks-uri=https://kubernetes.default.svc.cluster.local/openid/v1/jwks
     - --service-account-key-file=/etc/kubernetes/pki/service-account.pub
     - --service-account-signing-key-file=/etc/kubernetes/pki/service-account.key
     - --service-cluster-ip-range=${service_cidr}

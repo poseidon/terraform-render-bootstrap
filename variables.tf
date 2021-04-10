@@ -13,12 +13,6 @@ variable "etcd_servers" {
   description = "List of URLs used to reach etcd servers."
 }
 
-variable "cloud_provider" {
-  type        = string
-  description = "The provider for cloud services (empty string for no provider)"
-  default     = ""
-}
-
 variable "networking" {
   type        = string
   description = "Choice of networking provider (flannel or calico or cilium)"
