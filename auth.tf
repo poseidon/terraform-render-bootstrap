@@ -1,9 +1,9 @@
 locals {
   # component kubeconfigs assets map
   auth_kubeconfigs = {
-    "auth/admin.conf" = data.template_file.kubeconfig-admin.rendered,
+    "auth/admin.conf"              = data.template_file.kubeconfig-admin.rendered,
     "auth/controller-manager.conf" = data.template_file.kubeconfig-controller-manager.rendered,
-    "auth/scheduler.conf" = data.template_file.kubeconfig-scheduler.rendered,
+    "auth/scheduler.conf"          = data.template_file.kubeconfig-scheduler.rendered,
   }
 }
 
@@ -59,14 +59,14 @@ data "template_file" "kubeconfig-bootstrap" {
 }
 
 # Generate a cryptographically random token id (public)
-resource random_password "bootstrap-token-id" {
+resource "random_password" "bootstrap-token-id" {
   length  = 6
   upper   = false
   special = false
 }
 
 # Generate a cryptographically random token secret
-resource random_password "bootstrap-token-secret" {
+resource "random_password" "bootstrap-token-secret" {
   length  = 16
   upper   = false
   special = false
