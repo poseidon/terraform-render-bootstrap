@@ -100,6 +100,7 @@ data:
   #   - vxlan (default)
   #   - geneve
   tunnel: vxlan
+  enable-endpoint-routes: "true"
 
   # Name of the cluster. Only relevant when building a mesh of clusters.
   cluster-name: default
