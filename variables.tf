@@ -91,6 +91,12 @@ variable "enable_aggregation" {
   default     = false
 }
 
+variable "daemonset_tolerations" {
+  type        = list(string)
+  description = "List of additional taint keys kube-system DaemonSets should tolerate (e.g. ['custom-role', 'gpu-role'])"
+  default     = []
+}
+
 # unofficial, temporary, may be removed without notice
 
 variable "external_apiserver_port" {
@@ -104,10 +110,3 @@ variable "cluster_domain_suffix" {
   description = "Queries for domains with the suffix will be answered by kube-dns"
   default     = "cluster.local"
 }
-
-variable "daemonset_tolerations" {
-  type        = list(string)
-  description = "List of additional taint keys kube-system DaemonSets should tolerate (e.g. ['custom-role', 'gpu-role'])"
-  default     = []
-}
-
