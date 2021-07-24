@@ -34,6 +34,32 @@ spec:
         operator: Exists
       %{~ endfor ~}
       initContainers:
+      # Required to mount cgroup2 filesystem on the underlying Kubernetes node.
+      # We use nsenter command with host's cgroup and mount namespaces enabled.
+      - name: mount-cgroup
+        image: ${cilium_agent_image}
+        command:
+          - sh
+          - -c
+          # The statically linked Go program binary is invoked to avoid any
+          # dependency on utilities like sh and mount that can be missing on certain
+          # distros installed on the underlying host. Copy the binary to the
+          # same directory where we install cilium cni plugin so that exec permissions
+          # are available.
+          - 'cp /usr/bin/cilium-mount /hostbin/cilium-mount && nsenter --cgroup=/hostproc/1/ns/cgroup --mount=/hostproc/1/ns/mnt "$${BIN_PATH}/cilium-mount" $CGROUP_ROOT; rm /hostbin/cilium-mount'
+        env:
+          - name: CGROUP_ROOT
+            value: /run/cilium/cgroupv2
+          - name: BIN_PATH
+            value: /opt/cni/bin
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: hostproc
+            mountPath: /hostproc
+          - name: cni-bin-dir
+            mountPath: /hostbin
+
       - name: clean-cilium-state
         image: ${cilium_agent_image}
         command:
@@ -56,6 +82,11 @@ spec:
           mountPropagation: HostToContainer
         - name: var-run-cilium
           mountPath: /var/run/cilium
+        # Required to mount cgroup filesystem from the host to cilium agent pod
+        - name: cilium-cgroup
+          mountPath: /run/cilium/cgroupv2
+          mountPropagation: HostToContainer
+
       containers:
       - name: cilium-agent
         image: ${cilium_agent_image}
@@ -86,6 +117,7 @@ spec:
               command:
               - "/cni-install.sh"
               - "--enable-debug=false"
+              - "--cni-exclusive=true"
           preStop:
             exec:
               command:
@@ -159,6 +191,15 @@ spec:
       - name: sys-fs-bpf
         hostPath:
           path: /sys/fs/bpf
+          type: DirectoryOrCreate
+      # Mount host cgroup2 filesystem
+      - name: hostproc
+        hostPath:
+          path: /proc
+          type: Directory
+      - name: cilium-cgroup
+        hostPath:
+          path: /run/cilium/cgroupv2
           type: DirectoryOrCreate
       # Read configuration
       - name: config
