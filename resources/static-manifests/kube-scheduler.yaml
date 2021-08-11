@@ -23,6 +23,7 @@ spec:
     - --authorization-kubeconfig=/etc/kubernetes/pki/scheduler.conf
     - --kubeconfig=/etc/kubernetes/pki/scheduler.conf
     - --leader-elect=true
+    - --port=0
     livenessProbe:
       httpGet:
         scheme: HTTPS

@@ -42,7 +42,7 @@ spec:
         host: 127.0.0.1
         path: /healthz
         port: 10257
-      initialDelaySeconds: 15
+      initialDelaySeconds: 25
       timeoutSeconds: 15
       failureThreshold: 8
     resources:

@@ -30,7 +30,6 @@ spec:
     - --etcd-certfile=/etc/kubernetes/pki/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/pki/etcd-client.key
     - --etcd-servers=${etcd_servers}
-    - --insecure-port=0
     - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/pki/apiserver.key
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
