@@ -106,7 +106,7 @@ spec:
                 failsafeInboundHostPorts:
                   description: 'FailsafeInboundHostPorts is a list of UDP/TCP ports and CIDRs that Felix will allow incoming traffic to host endpoints on irrespective of the security policy. This is useful to avoid accidentally cutting off a host with incorrect configuration. For back-compatibility, if the protocol is not specified, it defaults to "tcp". If a CIDR is not specified, it will allow traffic from all addresses. To disable all inbound host ports, use the value none. The default value allows ssh access and DHCP. [Default: tcp:22, udp:68, tcp:179, tcp:2379, tcp:2380, tcp:6443, tcp:6666, tcp:6667]'
                   items:
-                    description: ProtoPort is combination of protocol, port, and CIDR. All three must be specified.
+                    description: ProtoPort is combination of protocol, port, and CIDR. Protocol and port must be specified.
                     properties:
                       net:
                         type: string
@@ -115,7 +115,6 @@ spec:
                       protocol:
                         type: string
                     required:
-                      - net
                       - port
                       - protocol
                     type: object
@@ -123,7 +122,7 @@ spec:
                 failsafeOutboundHostPorts:
                   description: 'FailsafeOutboundHostPorts is a list of UDP/TCP ports and CIDRs that Felix will allow outgoing traffic from host endpoints to irrespective of the security policy. This is useful to avoid accidentally cutting off a host with incorrect configuration. For back-compatibility, if the protocol is not specified, it defaults to "tcp". If a CIDR is not specified, it will allow traffic from all addresses. To disable all outbound host ports, use the value none. The default value opens etcd''s standard ports to ensure that Felix does not get cut off from etcd as well as allowing DHCP and DNS. [Default: tcp:179, tcp:2379, tcp:2380, tcp:6443, tcp:6666, tcp:6667, udp:53, udp:67]'
                   items:
-                    description: ProtoPort is combination of protocol, port, and CIDR. All three must be specified.
+                    description: ProtoPort is combination of protocol, port, and CIDR. Protocol and port must be specified.
                     properties:
                       net:
                         type: string
@@ -132,7 +131,6 @@ spec:
                       protocol:
                         type: string
                     required:
-                      - net
                       - port
                       - protocol
                     type: object
@@ -264,6 +262,9 @@ spec:
                 prometheusProcessMetricsEnabled:
                   description: 'PrometheusProcessMetricsEnabled disables process metrics collection, which the Prometheus client does by default, when set to false. This reduces the number of metrics reported, reducing Prometheus load. [Default: true]'
                   type: boolean
+                prometheusWireGuardMetricsEnabled:
+                  description: 'PrometheusWireGuardMetricsEnabled disables wireguard metrics collection, which the Prometheus client does by default, when set to false. This reduces the number of metrics reported, reducing Prometheus load. [Default: true]'
+                  type: boolean
                 removeExternalRoutes:
                   description: Whether or not to remove device routes that have not been programmed by Felix. Disabling this will allow external applications to also add device routes. This is enabled by default which means we will remove externally added routes.
                   type: boolean
@@ -318,6 +319,9 @@ spec:
                   type: integer
                 wireguardEnabled:
                   description: 'WireguardEnabled controls whether Wireguard is enabled. [Default: false]'
+                  type: boolean
+                wireguardHostEncryptionEnabled:
+                  description: 'WireguardHostEncryptionEnabled controls whether Wireguard host-to-host encryption is enabled. [Default: false]'
                   type: boolean
                 wireguardInterfaceName:
                   description: 'WireguardInterfaceName specifies the name to use for the Wireguard interface. [Default: wg.calico]'

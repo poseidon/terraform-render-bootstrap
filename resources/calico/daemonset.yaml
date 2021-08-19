@@ -135,9 +135,6 @@ spec:
             # Disable IPV6 on Kubernetes.
             - name: FELIX_IPV6SUPPORT
               value: "false"
-            # Enable felix info logging.
-            - name: FELIX_LOGSEVERITYSCREEN
-              value: "info"
             - name: FELIX_HEALTHENABLED
               value: "true"
           securityContext:
@@ -153,6 +150,7 @@ spec:
             periodSeconds: 10
             initialDelaySeconds: 10
             failureThreshold: 6
+            timeoutSeconds: 10
           readinessProbe:
             exec:
               command:
@@ -172,6 +170,10 @@ spec:
               readOnly: false
             - name: xtables-lock
               mountPath: /run/xtables.lock
+              readOnly: false
+            # For maintaining CNI plugin API credentials
+            - name: cni-conf-dir
+              mountPath: /host/etc/cni/net.d
               readOnly: false
       terminationGracePeriodSeconds: 0
       volumes:

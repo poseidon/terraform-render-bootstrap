@@ -33,6 +33,9 @@ spec:
                 keepOriginalNextHop:
                   description: Option to keep the original nexthop field when routes are sent to a BGP Peer. Setting "true" configures the selected BGP Peers node to use the "next hop keep;" instead of "next hop self;"(default) in the specific branch of the Node on "bird.cfg".
                   type: boolean
+                maxRestartTime:
+                  description: Time to allow for software restart.  When specified, this is configured as the graceful restart timeout.  When not specified, the BIRD default of 120s is used.
+                  type: string
                 node:
                   description: The node name identifying the Calico node instance that is targeted by this peer. If this is not set, and no nodeSelector is specified, then this BGP peer selects all nodes in the cluster.
                   type: string
