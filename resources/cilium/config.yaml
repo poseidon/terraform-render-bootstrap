@@ -126,6 +126,7 @@ data:
   masquerade: "true"
   # bpfMasquerade enables masquerading with BPF instead of iptables
   enable-bpf-masquerade: "true"
+  bpf-lb-external-clusterip: "true"
 
   # kube-proxy
   kube-proxy-replacement:  "probe"
