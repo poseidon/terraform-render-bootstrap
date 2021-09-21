@@ -64,13 +64,6 @@ spec:
         image: ${cilium_agent_image}
         command:
         - /init-container.sh
-        env:
-        - name: CILIUM_WAIT_BPF_MOUNT
-          valueFrom:
-            configMapKeyRef:
-              name: cilium
-              key: wait-bpf-mount
-              optional: true
         securityContext:
           capabilities:
             add:
@@ -79,7 +72,6 @@ spec:
         volumeMounts:
         - name: sys-fs-bpf
           mountPath: /sys/fs/bpf
-          mountPropagation: HostToContainer
         - name: var-run-cilium
           mountPath: /var/run/cilium
         # Required to mount cgroup filesystem from the host to cilium agent pod
@@ -162,6 +154,7 @@ spec:
           mountPath: /var/run/cilium
         - name: sys-fs-bpf
           mountPath: /sys/fs/bpf
+          mountPropagation: Bidirectional
         # Configuration
         - name: config
           mountPath: /tmp/cilium/config-map

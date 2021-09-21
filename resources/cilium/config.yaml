@@ -104,9 +104,6 @@ data:
   # Name of the cluster. Only relevant when building a mesh of clusters.
   cluster-name: default
 
-  # wait-bpf-mount makes init container wait until bpf filesystem is mounted
-  wait-bpf-mount: "false"
-
   auto-direct-node-routes: "false"
 
   # enableXTSocketFallback enables the fallback compatibility solution
