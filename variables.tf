@@ -87,8 +87,8 @@ variable "enable_reporting" {
 
 variable "enable_aggregation" {
   type        = bool
-  description = "Enable the Kubernetes Aggregation Layer (defaults to false, recommended)"
-  default     = false
+  description = "Enable the Kubernetes Aggregation Layer (defaults to true)"
+  default     = true
 }
 
 variable "daemonset_tolerations" {
