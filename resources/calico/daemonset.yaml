@@ -137,6 +137,9 @@ spec:
               value: "false"
             - name: FELIX_HEALTHENABLED
               value: "true"
+            # Detect iptables legacy or nft
+            - name: FELIX_IPTABLESBACKEND
+              value: "Auto"
           securityContext:
             privileged: true
           resources:
