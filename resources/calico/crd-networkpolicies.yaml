@@ -85,7 +85,7 @@ spec:
                                 type: string
                             type: object
                           services:
-                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Ports, NotPorts, Nets, NotNets or ServiceAccounts. \n Only valid on egress rules."
+                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Nets, NotNets or ServiceAccounts. \n Ports and NotPorts can only be specified with Services on ingress rules."
                             properties:
                               name:
                                 description: Name specifies the name of a Kubernetes Service to match.
@@ -214,7 +214,7 @@ spec:
                                 type: string
                             type: object
                           services:
-                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Ports, NotPorts, Nets, NotNets or ServiceAccounts. \n Only valid on egress rules."
+                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Nets, NotNets or ServiceAccounts. \n Ports and NotPorts can only be specified with Services on ingress rules."
                             properties:
                               name:
                                 description: Name specifies the name of a Kubernetes Service to match.
@@ -288,7 +288,7 @@ spec:
                                 type: string
                             type: object
                           services:
-                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Ports, NotPorts, Nets, NotNets or ServiceAccounts. \n Only valid on egress rules."
+                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Nets, NotNets or ServiceAccounts. \n Ports and NotPorts can only be specified with Services on ingress rules."
                             properties:
                               name:
                                 description: Name specifies the name of a Kubernetes Service to match.
@@ -417,7 +417,7 @@ spec:
                                 type: string
                             type: object
                           services:
-                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Ports, NotPorts, Nets, NotNets or ServiceAccounts. \n Only valid on egress rules."
+                            description: "Services is an optional field that contains options for matching Kubernetes Services. If specified, only traffic that originates from or terminates at endpoints within the selected service(s) will be matched, and only to/from each endpoint's port. \n Services cannot be specified on the same rule as Selector, NotSelector, NamespaceSelector, Nets, NotNets or ServiceAccounts. \n Ports and NotPorts can only be specified with Services on ingress rules."
                             properties:
                               name:
                                 description: Name specifies the name of a Kubernetes Service to match.
