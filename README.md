@@ -37,4 +37,3 @@ resource local_file "assets" {
   content = each.value
 }
 ```
-
