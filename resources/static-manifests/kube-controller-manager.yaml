@@ -52,8 +52,11 @@ spec:
     - name: secrets
       mountPath: /etc/kubernetes/pki
       readOnly: true
-    - name: ssl-host
+    - name: etc-ssl
       mountPath: /etc/ssl/certs
+      readOnly: true
+    - name: etc-pki
+      mountPath: /etc/pki
       readOnly: true
     - name: flex
       mountPath: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
@@ -61,11 +64,13 @@ spec:
   - name: secrets
     hostPath:
       path: /etc/kubernetes/pki
-  - name: ssl-host
+  - name: etc-ssl
     hostPath:
-      path: ${trusted_certs_dir}
+      path: /etc/ssl/certs
+  - name: etc-pki
+    hostPath:
+      path: /etc/pki
   - name: flex
     hostPath:
       type: DirectoryOrCreate
       path: /var/lib/kubelet/volumeplugins
-

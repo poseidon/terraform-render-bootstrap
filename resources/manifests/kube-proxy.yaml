@@ -71,8 +71,11 @@ spec:
         - name: lib-modules
           mountPath: /lib/modules
           readOnly: true
-        - name: ssl-certs-host
+        - name: etc-ssl
           mountPath: /etc/ssl/certs
+          readOnly: true
+        - name: etc-pki
+          mountPath: /etc/pki
           readOnly: true
         - name: xtables-lock
           mountPath: /run/xtables.lock
@@ -83,9 +86,12 @@ spec:
       - name: lib-modules
         hostPath:
           path: /lib/modules
-      - name: ssl-certs-host
+      - name: etc-ssl
         hostPath:
-          path: ${trusted_certs_dir}
+          path: /etc/ssl/certs
+      - name: etc-pki
+        hostPath:
+          path: /etc/pki
       # Access iptables concurrently
       - name: xtables-lock
         hostPath:

@@ -53,13 +53,19 @@ spec:
     - name: secrets
       mountPath: /etc/kubernetes/pki
       readOnly: true
-    - name: ssl-certs-host
+    - name: etc-ssl
       mountPath: /etc/ssl/certs
+      readOnly: true
+    - name: etc-pki
+      mountPath: /etc/pki
       readOnly: true
   volumes:
   - name: secrets
     hostPath:
       path: /etc/kubernetes/pki
-  - name: ssl-certs-host
+  - name: etc-ssl
     hostPath:
-      path: ${trusted_certs_dir}
+      path: /etc/ssl/certs
+  - name: etc-pki
+    hostPath:
+      path: /etc/pki

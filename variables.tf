@@ -74,13 +74,6 @@ variable "container_images" {
   }
 }
 
-
-variable "trusted_certs_dir" {
-  type        = string
-  description = "Path to the directory on cluster nodes where trust TLS certs are kept"
-  default     = "/usr/share/ca-certificates"
-}
-
 variable "enable_reporting" {
   type        = bool
   description = "Enable usage or analytics reporting to upstream component owners (Tigera: Calico)"
