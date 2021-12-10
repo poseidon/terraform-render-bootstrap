@@ -82,4 +82,3 @@ spec:
       - name: config
         configMap:
           name: cilium
-
