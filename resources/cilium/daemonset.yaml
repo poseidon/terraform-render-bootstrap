@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: cilium-agent
+  name: cilium
   namespace: kube-system
   labels:
-    k8s-app: cilium-agent
+    k8s-app: cilium
 spec:
   selector:
     matchLabels:
