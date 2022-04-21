@@ -18,7 +18,6 @@ resource "tls_private_key" "kube-ca" {
 }
 
 resource "tls_self_signed_cert" "kube-ca" {
-  key_algorithm   = tls_private_key.kube-ca.algorithm
   private_key_pem = tls_private_key.kube-ca.private_key_pem
 
   subject {
@@ -44,7 +43,6 @@ resource "tls_private_key" "apiserver" {
 }
 
 resource "tls_cert_request" "apiserver" {
-  key_algorithm   = tls_private_key.apiserver.algorithm
   private_key_pem = tls_private_key.apiserver.private_key_pem
 
   subject {
@@ -68,7 +66,6 @@ resource "tls_cert_request" "apiserver" {
 resource "tls_locally_signed_cert" "apiserver" {
   cert_request_pem = tls_cert_request.apiserver.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
   ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
 
@@ -90,7 +87,6 @@ resource "tls_private_key" "controller-manager" {
 }
 
 resource "tls_cert_request" "controller-manager" {
-  key_algorithm   = tls_private_key.controller-manager.algorithm
   private_key_pem = tls_private_key.controller-manager.private_key_pem
 
   subject {
@@ -101,7 +97,6 @@ resource "tls_cert_request" "controller-manager" {
 resource "tls_locally_signed_cert" "controller-manager" {
   cert_request_pem = tls_cert_request.controller-manager.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
   ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
 
@@ -122,7 +117,6 @@ resource "tls_private_key" "scheduler" {
 }
 
 resource "tls_cert_request" "scheduler" {
-  key_algorithm   = tls_private_key.scheduler.algorithm
   private_key_pem = tls_private_key.scheduler.private_key_pem
 
   subject {
@@ -133,7 +127,6 @@ resource "tls_cert_request" "scheduler" {
 resource "tls_locally_signed_cert" "scheduler" {
   cert_request_pem = tls_cert_request.scheduler.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
   ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
 
@@ -154,7 +147,6 @@ resource "tls_private_key" "admin" {
 }
 
 resource "tls_cert_request" "admin" {
-  key_algorithm   = tls_private_key.admin.algorithm
   private_key_pem = tls_private_key.admin.private_key_pem
 
   subject {
@@ -166,7 +158,6 @@ resource "tls_cert_request" "admin" {
 resource "tls_locally_signed_cert" "admin" {
   cert_request_pem = tls_cert_request.admin.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
   ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
 

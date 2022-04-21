@@ -20,7 +20,6 @@ resource "tls_private_key" "aggregation-ca" {
 resource "tls_self_signed_cert" "aggregation-ca" {
   count = var.enable_aggregation ? 1 : 0
 
-  key_algorithm   = tls_private_key.aggregation-ca[0].algorithm
   private_key_pem = tls_private_key.aggregation-ca[0].private_key_pem
 
   subject {
@@ -50,7 +49,6 @@ resource "tls_private_key" "aggregation-client" {
 resource "tls_cert_request" "aggregation-client" {
   count = var.enable_aggregation ? 1 : 0
 
-  key_algorithm   = tls_private_key.aggregation-client[0].algorithm
   private_key_pem = tls_private_key.aggregation-client[0].private_key_pem
 
   subject {
@@ -63,7 +61,6 @@ resource "tls_locally_signed_cert" "aggregation-client" {
 
   cert_request_pem = tls_cert_request.aggregation-client[0].cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.aggregation-ca[0].key_algorithm
   ca_private_key_pem = tls_private_key.aggregation-ca[0].private_key_pem
   ca_cert_pem        = tls_self_signed_cert.aggregation-ca[0].cert_pem
 
