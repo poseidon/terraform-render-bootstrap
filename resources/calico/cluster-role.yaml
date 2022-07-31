@@ -57,6 +57,14 @@ rules:
       - pods/status
     verbs:
       - patch
+  # Used for creating service account tokens to be used by the CNI plugin
+  - apiGroups: [""]
+    resources:
+      - serviceaccounts/token
+    resourceNames:
+      - calico-node
+    verbs:
+      - create
   # Calico monitors its CRDs
   - apiGroups: ["crd.projectcalico.org"]
     resources:
