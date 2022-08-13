@@ -64,7 +64,7 @@ variable "container_images" {
     calico_cni              = "quay.io/calico/cni:v3.23.3"
     cilium_agent            = "quay.io/cilium/cilium:v1.12.0"
     cilium_operator         = "quay.io/cilium/operator-generic:v1.12.0"
-    coredns                 = "k8s.gcr.io/coredns/coredns:v1.8.6"
+    coredns                 = "registry.k8s.io/coredns/coredns:v1.9.3"
     flannel                 = "quay.io/coreos/flannel:v0.15.1"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
     kube_apiserver          = "k8s.gcr.io/kube-apiserver:v1.24.3"
