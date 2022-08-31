@@ -69,3 +69,26 @@ output "etcd_peer_key" {
   value     = tls_private_key.peer.private_key_pem
   sensitive = true
 }
+
+output "kubernetes_ca_cert" {
+  value     = tls_self_signed_cert.kube-ca.cert_pem
+  sensitive = true
+}
+output "kubernetes_ca_key_algorithm" {
+  value     = tls_self_signed_cert.kube-ca.key_algorithm
+  sensitive = true
+}
+output "kubernetes_ca_private_key_pem" {
+  value     = tls_self_signed_cert.kube-ca.private_key_pem
+  sensitive = true
+}
+
+output "kubernetes_cert" {
+  value     = tls_locally_signed_cert.admin.cert_pem
+  sensitive = true
+}
+
+output "kubernetes_key" {
+  value     = tls_private_key.admin.private_key_pem
+  sensitive = true
+}
