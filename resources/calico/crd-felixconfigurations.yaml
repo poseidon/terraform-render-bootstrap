@@ -9,6 +9,7 @@ spec:
     listKind: FelixConfigurationList
     plural: felixconfigurations
     singular: felixconfiguration
+  preserveUnknownFields: false
   scope: Cluster
   versions:
     - name: v1
@@ -56,7 +57,7 @@ spec:
                   description: 'BPFEnforceRPF enforce strict RPF on all interfaces with BPF programs regardless of what is the per-interfaces or global setting. Possible values are Disabled or Strict. [Default: Strict]'
                   type: string
                 bpfExtToServiceConnmark:
-                  description: 'BPFExtToServiceConnmark in BPF mode, control a 32bit mark that is set on connections from an external client to a local service. This mark allows us to control how packets of that connection are routed within the host and how is routing intepreted by RPF check. [Default: 0]'
+                  description: 'BPFExtToServiceConnmark in BPF mode, control a 32bit mark that is set on connections from an external client to a local service. This mark allows us to control how packets of that connection are routed within the host and how is routing interpreted by RPF check. [Default: 0]'
                   type: integer
                 bpfExternalServiceMode:
                   description: 'BPFExternalServiceMode in BPF mode, controls how connections from outside the cluster to services (node ports and cluster IPs) are forwarded to remote workloads.  If set to "Tunnel" then both request and response traffic is tunneled to the remote node.  If set to "DSR", the request traffic is tunneled but the response traffic is sent directly from the remote node.  In "DSR" mode, the remote node appears to use the IP of the ingress node; this requires a permissive L2 network.  [Default: Tunnel]'
@@ -79,6 +80,9 @@ spec:
                 bpfMapSizeIPSets:
                   description: BPFMapSizeIPSets sets the size for ipsets map.  The IP sets map must be large enough to hold an entry for each endpoint matched by every selector in the source/destination matches in network policy.  Selectors such as "all()" can result in large numbers of entries (one entry per endpoint in that case).
                   type: integer
+                bpfMapSizeIfState:
+                  description: BPFMapSizeIfState sets the size for ifstate map.  The ifstate map must be large enough to hold an entry for each device (host + workloads) on a host.
+                  type: integer
                 bpfMapSizeNATAffinity:
                   type: integer
                 bpfMapSizeNATBackend:
@@ -97,6 +101,9 @@ spec:
                   description: 'BPFPSNATPorts sets the range from which we randomly pick a port if there is a source port collision. This should be within the ephemeral range as defined by RFC 6056 (1024–65535) and preferably outside the  ephemeral ranges used by common operating systems. Linux uses 32768–60999, while others mostly use the IANA defined range 49152–65535. It is not necessarily a problem if this range overlaps with the operating systems. Both ends of the range are inclusive. [Default: 20000:29999]'
                   pattern: ^.*
                   x-kubernetes-int-or-string: true
+                bpfPolicyDebugEnabled:
+                  description: BPFPolicyDebugEnabled when true, Felix records detailed information about the BPF policy programs, which can be examined with the calico-bpf command-line tool.
+                  type: boolean
                 chainInsertMode:
                   description: 'ChainInsertMode controls whether Felix hooks the kernel''s top-level iptables chains by inserting a rule at the top of the chain or by appending a rule at the bottom. insert is the safe default since it prevents Calico''s rules from being bypassed. If you switch to append mode, be sure that the other rules in the chains signal acceptance by falling through to the Calico rules, otherwise the Calico policy will be bypassed. [Default: insert]'
                   type: string
@@ -173,7 +180,6 @@ spec:
                   description: FeatureDetectOverride is used to override the feature detection. Values are specified in a comma separated list with no spaces, example; "SNATFullyRandom=true,MASQFullyRandom=false,RestoreSupportsLock=". "true" or "false" will force the feature, empty or omitted values are auto-detected.
                   type: string
                 floatingIPs:
-                  default: Disabled
                   description: FloatingIPs configures whether or not Felix will program floating IP addresses.
                   enum:
                     - Enabled
@@ -326,6 +332,9 @@ spec:
                 routeSource:
                   description: 'RouteSource configures where Felix gets its routing information. - WorkloadIPs: use workload endpoints to construct routes. - CalicoIPAM: the default - use IPAM data to construct routes.'
                   type: string
+                routeSyncDisabled:
+                  description: RouteSyncDisabled will disable all operations performed on the route table. Set to true to run in network-policy mode only.
+                  type: boolean
                 routeTableRange:
                   description: Deprecated in favor of RouteTableRanges. Calico programs additional Linux route tables for various purposes. RouteTableRange specifies the indices of the route tables that Calico should use.
                   properties:
@@ -382,22 +391,34 @@ spec:
                 vxlanVNI:
                   type: integer
                 wireguardEnabled:
-                  description: 'WireguardEnabled controls whether Wireguard is enabled. [Default: false]'
+                  description: 'WireguardEnabled controls whether Wireguard is enabled for IPv4 (encapsulating IPv4 traffic over an IPv4 underlay network). [Default: false]'
+                  type: boolean
+                wireguardEnabledV6:
+                  description: 'WireguardEnabledV6 controls whether Wireguard is enabled for IPv6 (encapsulating IPv6 traffic over an IPv6 underlay network). [Default: false]'
                   type: boolean
                 wireguardHostEncryptionEnabled:
                   description: 'WireguardHostEncryptionEnabled controls whether Wireguard host-to-host encryption is enabled. [Default: false]'
                   type: boolean
                 wireguardInterfaceName:
-                  description: 'WireguardInterfaceName specifies the name to use for the Wireguard interface. [Default: wg.calico]'
+                  description: 'WireguardInterfaceName specifies the name to use for the IPv4 Wireguard interface. [Default: wireguard.cali]'
+                  type: string
+                wireguardInterfaceNameV6:
+                  description: 'WireguardInterfaceNameV6 specifies the name to use for the IPv6 Wireguard interface. [Default: wg-v6.cali]'
                   type: string
                 wireguardKeepAlive:
                   description: 'WireguardKeepAlive controls Wireguard PersistentKeepalive option. Set 0 to disable. [Default: 0]'
                   type: string
                 wireguardListeningPort:
-                  description: 'WireguardListeningPort controls the listening port used by Wireguard. [Default: 51820]'
+                  description: 'WireguardListeningPort controls the listening port used by IPv4 Wireguard. [Default: 51820]'
+                  type: integer
+                wireguardListeningPortV6:
+                  description: 'WireguardListeningPortV6 controls the listening port used by IPv6 Wireguard. [Default: 51821]'
                   type: integer
                 wireguardMTU:
-                  description: 'WireguardMTU controls the MTU on the Wireguard interface. See Configuring MTU [Default: 1420]'
+                  description: 'WireguardMTU controls the MTU on the IPv4 Wireguard interface. See Configuring MTU [Default: 1440]'
+                  type: integer
+                wireguardMTUV6:
+                  description: 'WireguardMTUV6 controls the MTU on the IPv6 Wireguard interface. See Configuring MTU [Default: 1420]'
                   type: integer
                 wireguardRoutingRulePriority:
                   description: 'WireguardRoutingRulePriority controls the priority value to use for the Wireguard routing rule. [Default: 99]'

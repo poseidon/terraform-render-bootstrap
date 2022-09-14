@@ -128,6 +128,7 @@ rules:
       - ipamconfigs
     verbs:
       - get
+      - create
   # Watch block affinities for route aggregation
   - apiGroups: ["crd.projectcalico.org"]
     resources:
