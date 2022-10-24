@@ -8,3 +8,16 @@ rules:
       - nodes
     verbs:
       - delete
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - daemonsets
+      - statefulsets
+    verbs:
+      - get
+      - list
+  - apiGroups: [""]
+    resources:
+      - pods/eviction
+    verbs:
+      - create
