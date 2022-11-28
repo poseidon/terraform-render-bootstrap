@@ -105,3 +105,9 @@ variable "cluster_domain_suffix" {
   description = "Queries for domains with the suffix will be answered by kube-dns"
   default     = "cluster.local"
 }
+
+variable "certificates_validity_period" {
+  type = number
+  default = 8760
+  description = "Validity in hours for kubernetes certificates"
+}
