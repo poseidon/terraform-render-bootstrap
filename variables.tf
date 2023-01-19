@@ -64,13 +64,13 @@ variable "container_images" {
     calico_cni              = "quay.io/calico/cni:v3.24.5"
     cilium_agent            = "quay.io/cilium/cilium:v1.12.5"
     cilium_operator         = "quay.io/cilium/operator-generic:v1.12.5"
-    coredns                 = "registry.k8s.io/coredns/coredns:v1.9.3"
+    coredns                 = "registry.k8s.io/coredns/coredns:v1.9.4"
     flannel                 = "docker.io/flannelcni/flannel:v0.20.2"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
-    kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.26.0"
-    kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.26.0"
-    kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.26.0"
-    kube_proxy              = "registry.k8s.io/kube-proxy:v1.26.0"
+    kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.26.1"
+    kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.26.1"
+    kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.26.1"
+    kube_proxy              = "registry.k8s.io/kube-proxy:v1.26.1"
   }
 }
 
