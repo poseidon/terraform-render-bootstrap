@@ -85,6 +85,8 @@ rules:
   - ciliumlocalredirectpolicies/status
   - ciliumlocalredirectpolicies/finalizers
   - ciliumendpointslices
+  - ciliumloadbalancerippools
+  - ciliumloadbalancerippools/status
   verbs:
   - '*'
 - apiGroups:

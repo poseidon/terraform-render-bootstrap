@@ -125,12 +125,12 @@ data:
   enable-bpf-masquerade: "true"
 
   # kube-proxy
-  kube-proxy-replacement:  "probe"
+  kube-proxy-replacement:  "partial"
   kube-proxy-replacement-healthz-bind-address: ""
   enable-session-affinity: "true"
 
   # ClusterIPs from host namespace
-  bpf-lb-sock: "false"
+  bpf-lb-sock: "true"
 
   # NodePort
   enable-node-port: "true"
@@ -147,7 +147,7 @@ data:
   agent-health-port: "9876"
   enable-health-checking: "true"
   enable-endpoint-health-checking: "true"
-  enable-health-check-nodeport: "true"
+  enable-health-check-nodeport: "false"
 
   # Identity
   enable-well-known-identities: "false"
