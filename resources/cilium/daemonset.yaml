@@ -34,6 +34,21 @@ spec:
         operator: Exists
       %{~ endfor ~}
       initContainers:
+      # Cilium v1.13.1 starts installing CNI plugins in yet another init container
+      # https://github.com/cilium/cilium/pull/24075
+      - name: install-cni
+        image: ${cilium_agent_image}
+        command:
+          - /install-plugin.sh
+        securityContext:
+          privileged: true
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+          - name: cni-bin-dir
+            mountPath: /host/opt/cni/bin
+
       # Required to mount cgroup2 filesystem on the underlying Kubernetes node.
       # We use nsenter command with host's cgroup and mount namespaces enabled.
       - name: mount-cgroup
@@ -152,9 +167,7 @@ spec:
         - name: config
           mountPath: /tmp/cilium/config-map
           readOnly: true
-        # Install CNI plugin and config on host
-        - name: cni-bin-dir
-          mountPath: /host/opt/cni/bin
+        # Install config on host
         - name: cni-conf-dir
           mountPath: /host/etc/cni/net.d
       terminationGracePeriodSeconds: 1
