@@ -60,8 +60,8 @@ variable "container_images" {
   description = "Container images to use"
 
   default = {
-    calico                  = "quay.io/calico/node:v3.25.1"
-    calico_cni              = "quay.io/calico/cni:v3.25.1"
+    calico                  = "quay.io/calico/node:v3.26.1"
+    calico_cni              = "quay.io/calico/cni:v3.26.1"
     cilium_agent            = "quay.io/cilium/cilium:v1.13.4"
     cilium_operator         = "quay.io/cilium/operator-generic:v1.13.4"
     coredns                 = "registry.k8s.io/coredns/coredns:v1.9.4"

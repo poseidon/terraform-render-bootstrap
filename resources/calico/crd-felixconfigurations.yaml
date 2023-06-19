@@ -44,6 +44,11 @@ spec:
                 bpfConnectTimeLoadBalancingEnabled:
                   description: 'BPFConnectTimeLoadBalancingEnabled when in BPF mode, controls whether Felix installs the connection-time load balancer.  The connect-time load balancer is required for the host to be able to reach Kubernetes services and it improves the performance of pod-to-service connections.  The only reason to disable it is for debugging purposes.  [Default: true]'
                   type: boolean
+                bpfDSROptoutCIDRs:
+                  description: BPFDSROptoutCIDRs is a list of CIDRs which are excluded from DSR. That is, clients in those CIDRs will accesses nodeports as if BPFExternalServiceMode was set to Tunnel.
+                  items:
+                    type: string
+                  type: array
                 bpfDataIfacePattern:
                   description: BPFDataIfacePattern is a regular expression that controls which interfaces Felix should attach BPF programs to in order to catch traffic to/from the network.  This needs to match the interfaces that Calico workload traffic flows over as well as any interfaces that handle incoming traffic to nodeports and services from outside the cluster.  It should not match the workload interfaces (usually named cali...).
                   type: string
@@ -54,7 +59,7 @@ spec:
                   description: 'BPFEnabled, if enabled Felix will use the BPF dataplane. [Default: false]'
                   type: boolean
                 bpfEnforceRPF:
-                  description: 'BPFEnforceRPF enforce strict RPF on all host interfaces with BPF programs regardless of what is the per-interfaces or global setting. Possible values are Disabled, Strict or Loose. [Default: Strict]'
+                  description: 'BPFEnforceRPF enforce strict RPF on all host interfaces with BPF programs regardless of what is the per-interfaces or global setting. Possible values are Disabled, Strict or Loose. [Default: Loose]'
                   type: string
                 bpfExtToServiceConnmark:
                   description: 'BPFExtToServiceConnmark in BPF mode, control a 32bit mark that is set on connections from an external client to a local service. This mark allows us to control how packets of that connection are routed within the host and how is routing interpreted by RPF check. [Default: 0]'
@@ -204,7 +209,7 @@ spec:
                 healthPort:
                   type: integer
                 healthTimeoutOverrides:
-                  description: HealthTimeoutOverrides allows the internal watchdog timeouts of individual subcomponents to be overriden.  This is useful for working around "false positive" liveness timeouts that can occur in particularly stressful workloads or if CPU is constrained.  For a list of active subcomponents, see Felix's logs.
+                  description: HealthTimeoutOverrides allows the internal watchdog timeouts of individual subcomponents to be overridden.  This is useful for working around "false positive" liveness timeouts that can occur in particularly stressful workloads or if CPU is constrained.  For a list of active subcomponents, see Felix's logs.
                   items:
                     properties:
                       name:
@@ -238,6 +243,9 @@ spec:
                   description: IptablesBackend specifies which backend of iptables will be used. The default is Auto.
                   type: string
                 iptablesFilterAllowAction:
+                  type: string
+                iptablesFilterDenyAction:
+                  description: IptablesFilterDenyAction controls what happens to traffic that is denied by network policy. By default Calico blocks traffic with an iptables "DROP" action. If you want to use "REJECT" action instead you can configure it in here.
                   type: string
                 iptablesLockFilePath:
                   description: 'IptablesLockFilePath is the location of the iptables lock file. You may need to change this if the lock file is not in its standard location (for example if you have mapped it into Felix''s container at a different path). [Default: /run/xtables.lock]'
