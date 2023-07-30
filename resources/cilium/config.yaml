@@ -100,6 +100,7 @@ data:
   #   - disabled
   #   - vxlan (default)
   #   - geneve
+  routing-mode: "tunnel"
   tunnel: vxlan
   # Enables L7 proxy for L7 policy enforcement and visibility
   enable-l7-proxy: "true"
@@ -127,7 +128,7 @@ data:
   enable-bpf-masquerade: "true"
 
   # kube-proxy
-  kube-proxy-replacement:  "partial"
+  kube-proxy-replacement:  "false"
   kube-proxy-replacement-healthz-bind-address: ""
   enable-session-affinity: "true"
 
@@ -162,3 +163,8 @@ data:
   operator-api-serve-addr: "127.0.0.1:9234"
   enable-l2-neigh-discovery: "true"
   enable-k8s-terminating-endpoint: "true"
+  enable-k8s-networkpolicy: "true"
+  external-envoy-proxy: "false"
+  write-cni-conf-when-ready: /host/etc/cni/net.d/05-cilium.conflist
+  cni-exclusive: "true"
+  cni-log-file: "/var/run/cilium/cilium-cni.log"

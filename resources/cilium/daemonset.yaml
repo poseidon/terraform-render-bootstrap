@@ -115,13 +115,6 @@ spec:
             protocol: TCP
             containerPort: 9876
         lifecycle:
-          # Install Cilium CNI binary and CNI network config
-          postStart:
-            exec:
-              command:
-              - "/cni-install.sh"
-              - "--enable-debug=false"
-              - "--cni-exclusive=true"
           preStop:
             exec:
               command:

@@ -87,6 +87,10 @@ rules:
   - ciliumendpointslices
   - ciliumloadbalancerippools
   - ciliumloadbalancerippools/status
+  - ciliumcidrgroups
+  - ciliuml2announcementpolicies
+  - ciliuml2announcementpolicies/status
+  - ciliumpodippools
   verbs:
   - '*'
 - apiGroups:
@@ -175,6 +179,10 @@ rules:
   - ciliumlocalredirectpolicies/status
   - ciliumegressnatpolicies
   - ciliumendpointslices
+  - ciliumcidrgroups
+  - ciliuml2announcementpolicies
+  - ciliuml2announcementpolicies/status
+  - ciliumpodippools
   verbs:
   - '*'
 
