@@ -128,7 +128,7 @@ data:
   enable-bpf-masquerade: "true"
 
   # kube-proxy
-  kube-proxy-replacement:  "false"
+  kube-proxy-replacement:  "true"
   kube-proxy-replacement-healthz-bind-address: ""
   enable-session-affinity: "true"
 
