@@ -70,7 +70,6 @@ data:
   # bpf-lb-map-max specifies the maximum number of entries in bpf lb service,
   # backend and affinity maps.
   bpf-lb-map-max: "65536"
-  bpf-lb-external-clusterip: "true"
 
   # Pre-allocation of map entries allows per-packet latency to be reduced, at
   # the expense of up-front memory allocation for the entries in the maps. The
@@ -128,17 +127,24 @@ data:
   enable-bpf-masquerade: "true"
 
   # kube-proxy
-  kube-proxy-replacement:  "true"
+  kube-proxy-replacement:  "false"
   kube-proxy-replacement-healthz-bind-address: ""
   enable-session-affinity: "true"
 
   # ClusterIPs from host namespace
   bpf-lb-sock: "true"
+  # ClusterIPs from external nodes
+  bpf-lb-external-clusterip: "true"
 
   # NodePort
   enable-node-port: "true"
-  node-port-bind-protection: "true"
-  enable-auto-protect-node-port-range: "true"
+  enable-health-check-nodeport: "false"
+
+  # ExternalIPs
+  enable-external-ips: "true"
+
+  # HostPort
+  enable-host-port: "true"
 
   # IPAM
   ipam: "cluster-pool"
@@ -150,7 +156,6 @@ data:
   agent-health-port: "9876"
   enable-health-checking: "true"
   enable-endpoint-health-checking: "true"
-  enable-health-check-nodeport: "false"
 
   # Identity
   enable-well-known-identities: "false"
