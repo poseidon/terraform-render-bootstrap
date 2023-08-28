@@ -32,6 +32,8 @@ locals {
         cluster_domain_suffix  = var.cluster_domain_suffix
         cluster_dns_service_ip = cidrhost(var.service_cidr, 10)
         server                 = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+        apiserver_host         = var.api_servers[0]
+        apiserver_port         = var.external_apiserver_port
         daemonset_tolerations  = var.daemonset_tolerations
         token_id               = random_password.bootstrap-token-id.result
         token_secret           = random_password.bootstrap-token-secret.result

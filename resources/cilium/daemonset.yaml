@@ -109,6 +109,16 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
+        - name: KUBERNETES_SERVICE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: in-cluster
+              key: apiserver-host
+        - name: KUBERNETES_SERVICE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: in-cluster
+              key: apiserver-port
         ports:
           # Not yet used, prefer exec's
           - name: health

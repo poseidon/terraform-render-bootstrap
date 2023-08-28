@@ -1,0 +1,10 @@
+# in-cluster ConfigMap is for control plane components that must reach
+# kube-apiserver before service IPs are available (e.g. 10.3.0.1)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: in-cluster
+  namespace: kube-system
+data:
+  apiserver-host: ${apiserver_host}
+  apiserver-port: "${apiserver_port}"
