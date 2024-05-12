@@ -5,7 +5,7 @@ locals {
   # { manifests-networking/manifest.yaml => content }
   flannel_manifests = {
     for name in fileset("${path.module}/resources/flannel", "*.yaml") :
-    "manifests-networking/${name}" => templatefile(
+    "manifests/network/${name}" => templatefile(
       "${path.module}/resources/flannel/${name}",
       {
         flannel_image         = var.container_images["flannel"]
@@ -21,7 +21,7 @@ locals {
   # { manifests-networking/manifest.yaml => content }
   calico_manifests = {
     for name in fileset("${path.module}/resources/calico", "*.yaml") :
-    "manifests-networking/${name}" => templatefile(
+    "manifests/network/${name}" => templatefile(
       "${path.module}/resources/calico/${name}",
       {
         calico_image                    = var.container_images["calico"]
@@ -44,7 +44,7 @@ locals {
   # { manifests-networking/manifest.yaml => content }
   cilium_manifests = {
     for name in fileset("${path.module}/resources/cilium", "**/*.yaml") :
-    "manifests-networking/${name}" => templatefile(
+    "manifests/network/${name}" => templatefile(
       "${path.module}/resources/cilium/${name}",
       {
         cilium_agent_image    = var.container_images["cilium_agent"]

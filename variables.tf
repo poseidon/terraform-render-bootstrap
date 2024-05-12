@@ -54,11 +54,9 @@ EOD
   default     = "10.3.0.0/24"
 }
 
-
 variable "container_images" {
   type        = map(string)
   description = "Container images to use"
-
   default = {
     calico                  = "quay.io/calico/node:v3.27.3"
     calico_cni              = "quay.io/calico/cni:v3.27.3"
@@ -104,4 +102,35 @@ variable "cluster_domain_suffix" {
   type        = string
   description = "Queries for domains with the suffix will be answered by kube-dns"
   default     = "cluster.local"
+}
+
+variable "components" {
+  description = "Configure pre-installed cluster components"
+  type = object({
+    enable = optional(bool, true)
+    coredns = optional(
+      object({
+        enable = optional(bool, true)
+      }),
+      {
+        enable = true
+      }
+    )
+    kube_proxy = optional(
+      object({
+        enable = optional(bool, true)
+      }),
+      {
+        enable = true
+      }
+    )
+  })
+  default = {
+    enable     = true
+    coredns    = null
+    kube_proxy = null
+  }
+  # Set the variable value to the default value when the caller
+  # sets it to null.
+  nullable = false
 }

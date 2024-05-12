@@ -20,26 +20,45 @@ locals {
 
   # Kubernetes control plane manifests map
   # { manifests/manifest.yaml => content }
-  manifests = {
+  manifests = merge({
     for name in fileset("${path.module}/resources/manifests", "**/*.yaml") :
     "manifests/${name}" => templatefile(
       "${path.module}/resources/manifests/${name}",
       {
-        kube_proxy_image       = var.container_images["kube_proxy"]
-        coredns_image          = var.container_images["coredns"]
-        control_plane_replicas = max(2, length(var.etcd_servers))
-        pod_cidr               = var.pod_cidr
-        cluster_domain_suffix  = var.cluster_domain_suffix
-        cluster_dns_service_ip = cidrhost(var.service_cidr, 10)
-        server                 = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
-        apiserver_host         = var.api_servers[0]
-        apiserver_port         = var.external_apiserver_port
-        daemonset_tolerations  = var.daemonset_tolerations
-        token_id               = random_password.bootstrap-token-id.result
-        token_secret           = random_password.bootstrap-token-secret.result
+        server         = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+        apiserver_host = var.api_servers[0]
+        apiserver_port = var.external_apiserver_port
+        token_id       = random_password.bootstrap-token-id.result
+        token_secret   = random_password.bootstrap-token-secret.result
       }
     )
-  }
+    },
+    # CoreDNS manifests (optional)
+    {
+      for name in fileset("${path.module}/resources/coredns", "*.yaml") :
+      "manifests/coredns/${name}" => templatefile(
+        "${path.module}/resources/coredns/${name}",
+        {
+          coredns_image          = var.container_images["coredns"]
+          control_plane_replicas = max(2, length(var.etcd_servers))
+          cluster_domain_suffix  = var.cluster_domain_suffix
+          cluster_dns_service_ip = cidrhost(var.service_cidr, 10)
+        }
+      ) if var.components.enable && var.components.coredns.enable
+    },
+    # kube-proxy manifests (optional)
+    {
+      for name in fileset("${path.module}/resources/kube-proxy", "*.yaml") :
+      "manifests/kube-proxy/${name}" => templatefile(
+        "${path.module}/resources/kube-proxy/${name}",
+        {
+          kube_proxy_image      = var.container_images["kube_proxy"]
+          pod_cidr              = var.pod_cidr
+          daemonset_tolerations = var.daemonset_tolerations
+        }
+      ) if var.components.enable && var.components.kube_proxy.enable
+    }
+  )
 }
 
 locals {
