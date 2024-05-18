@@ -14,7 +14,7 @@ locals {
         daemonset_tolerations = var.daemonset_tolerations
       }
     )
-    if var.networking == "flannel"
+    if var.components.enable && var.components.flannel.enable && var.networking == "flannel"
   }
 
   # calico manifests map
@@ -37,7 +37,7 @@ locals {
         daemonset_tolerations           = var.daemonset_tolerations
       }
     )
-    if var.networking == "calico"
+    if var.components.enable && var.components.calico.enable && var.networking == "calico"
   }
 
   # cilium manifests map
@@ -53,7 +53,7 @@ locals {
         daemonset_tolerations = var.daemonset_tolerations
       }
     )
-    if var.networking == "cilium"
+    if var.components.enable && var.components.cilium.enable && var.networking == "cilium"
   }
 }
 
