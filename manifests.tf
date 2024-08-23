@@ -56,7 +56,7 @@ locals {
           pod_cidr              = var.pod_cidr
           daemonset_tolerations = var.daemonset_tolerations
         }
-      ) if var.components.enable && var.components.kube_proxy.enable
+      ) if var.components.enable && var.components.kube_proxy.enable && var.networking != "cilium"
     }
   )
 }
