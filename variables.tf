@@ -68,7 +68,7 @@ variable "container_images" {
     cilium_operator         = "quay.io/cilium/operator-generic:v1.16.1"
     coredns                 = "registry.k8s.io/coredns/coredns:v1.11.3"
     flannel                 = "docker.io/flannel/flannel:v0.25.5"
-    flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.4"
+    flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
     kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.31.0"
     kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.31.0"
     kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.31.0"
