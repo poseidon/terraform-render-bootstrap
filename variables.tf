@@ -69,10 +69,10 @@ variable "container_images" {
     coredns                 = "registry.k8s.io/coredns/coredns:v1.11.4"
     flannel                 = "docker.io/flannel/flannel:v0.26.2"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
-    kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.31.4"
-    kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.31.4"
-    kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.31.4"
-    kube_proxy              = "registry.k8s.io/kube-proxy:v1.31.4"
+    kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.32.0"
+    kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.32.0"
+    kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.32.0"
+    kube_proxy              = "registry.k8s.io/kube-proxy:v1.32.0"
   }
 }
 
