@@ -17,30 +17,12 @@ variable "etcd_servers" {
 
 variable "networking" {
   type        = string
-  description = "Choice of networking provider (flannel or calico or cilium)"
-  default     = "flannel"
+  description = "Choice of networking provider (flannel or cilium)"
+  default     = "cilium"
   validation {
-    condition     = contains(["flannel", "calico", "cilium"], var.networking)
-    error_message = "networking can be flannel, calico, or cilium."
+    condition     = contains(["flannel", "cilium"], var.networking)
+    error_message = "networking can be flannel or cilium."
   }
-}
-
-variable "network_mtu" {
-  type        = number
-  description = "CNI interface MTU (only applies to calico)"
-  default     = 1500
-}
-
-variable "network_encapsulation" {
-  type        = string
-  description = "Network encapsulation mode either ipip or vxlan (only applies to calico)"
-  default     = "ipip"
-}
-
-variable "network_ip_autodetection_method" {
-  type        = string
-  description = "Method to autodetect the host IPv4 address (only applies to calico)"
-  default     = "first-found"
 }
 
 variable "pod_cidr" {
@@ -62,8 +44,6 @@ variable "container_images" {
   type        = map(string)
   description = "Container images to use"
   default = {
-    calico                  = "quay.io/calico/node:v3.27.3"
-    calico_cni              = "quay.io/calico/cni:v3.27.3"
     cilium_agent            = "quay.io/cilium/cilium:v1.16.5"
     cilium_operator         = "quay.io/cilium/operator-generic:v1.16.5"
     coredns                 = "registry.k8s.io/coredns/coredns:v1.11.4"
@@ -74,12 +54,6 @@ variable "container_images" {
     kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.32.0"
     kube_proxy              = "registry.k8s.io/kube-proxy:v1.32.0"
   }
-}
-
-variable "enable_reporting" {
-  type        = bool
-  description = "Enable usage or analytics reporting to upstream component owners (Tigera: Calico)"
-  default     = false
 }
 
 variable "enable_aggregation" {
@@ -138,14 +112,6 @@ variable "components" {
         enable = true
       }
     )
-    calico = optional(
-      object({
-        enable = optional(bool, true)
-      }),
-      {
-        enable = true
-      }
-    )
     cilium = optional(
       object({
         enable = optional(bool, true)
@@ -160,7 +126,6 @@ variable "components" {
     coredns    = null
     kube_proxy = null
     flannel    = null
-    calico     = null
     cilium     = null
   }
   # Set the variable value to the default value when the caller
