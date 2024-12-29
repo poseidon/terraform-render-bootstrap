@@ -27,7 +27,6 @@ output "assets_dist" {
     local.static_manifests,
     local.manifests,
     local.flannel_manifests,
-    local.calico_manifests,
     local.cilium_manifests,
   )
   sensitive = true
