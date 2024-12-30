@@ -32,6 +32,6 @@ data:
       "Network": "${pod_cidr}",
       "Backend": {
         "Type": "vxlan",
-        "Port": 4789
+        "Port": 8472
       }
     }
