@@ -10,10 +10,12 @@ locals {
         kube_controller_manager_image = var.container_images["kube_controller_manager"]
         kube_scheduler_image          = var.container_images["kube_scheduler"]
 
-        etcd_servers      = join(",", formatlist("https://%s:2379", var.etcd_servers))
-        pod_cidr          = var.pod_cidr
-        service_cidr      = var.service_cidr
-        aggregation_flags = var.enable_aggregation ? indent(4, local.aggregation_flags) : ""
+        etcd_servers = join(",", formatlist("https://%s:2379", var.etcd_servers))
+        pod_cidr     = var.pod_cidr
+        service_cidr = var.service_cidr
+
+        service_account_issuer = var.service_account_issuer
+        aggregation_flags      = var.enable_aggregation ? indent(4, local.aggregation_flags) : ""
       }
     )
   }

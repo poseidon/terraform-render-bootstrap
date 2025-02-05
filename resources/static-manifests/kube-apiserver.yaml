@@ -36,8 +36,8 @@ spec:
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
     - --runtime-config=admissionregistration.k8s.io/v1alpha1=true
     - --secure-port=6443
-    - --service-account-issuer=https://kubernetes.default.svc.cluster.local
-    - --service-account-jwks-uri=https://kubernetes.default.svc.cluster.local/openid/v1/jwks
+    - --service-account-issuer=${service_account_issuer}
+    - --service-account-jwks-uri=${service_account_issuer}/openid/v1/jwks
     - --service-account-key-file=/etc/kubernetes/pki/service-account.pub
     - --service-account-signing-key-file=/etc/kubernetes/pki/service-account.key
     - --service-cluster-ip-range=${service_cidr}

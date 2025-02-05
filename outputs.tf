@@ -68,3 +68,9 @@ output "etcd_peer_key" {
   value     = tls_private_key.peer.private_key_pem
   sensitive = true
 }
+
+# Kubernetes TLS assets
+
+output "service_account_public_key" {
+  value = tls_private_key.service-account.public_key_pem
+}
