@@ -44,15 +44,15 @@ variable "container_images" {
   type        = map(string)
   description = "Container images to use"
   default = {
-    cilium_agent            = "quay.io/cilium/cilium:v1.17.2"
-    cilium_operator         = "quay.io/cilium/operator-generic:v1.17.2"
-    coredns                 = "registry.k8s.io/coredns/coredns:v1.12.0"
+    cilium_agent            = "quay.io/cilium/cilium:v1.17.3"
+    cilium_operator         = "quay.io/cilium/operator-generic:v1.17.3"
+    coredns                 = "registry.k8s.io/coredns/coredns:v1.12.1"
     flannel                 = "docker.io/flannel/flannel:v0.26.5"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
-    kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.32.3"
-    kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.32.3"
-    kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.32.3"
-    kube_proxy              = "registry.k8s.io/kube-proxy:v1.32.3"
+    kube_apiserver          = "registry.k8s.io/kube-apiserver:v1.33.0"
+    kube_controller_manager = "registry.k8s.io/kube-controller-manager:v1.33.0"
+    kube_scheduler          = "registry.k8s.io/kube-scheduler:v1.33.0"
+    kube_proxy              = "registry.k8s.io/kube-proxy:v1.33.0"
   }
 }
 
