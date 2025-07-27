@@ -44,8 +44,8 @@ variable "container_images" {
   type        = map(string)
   description = "Container images to use"
   default = {
-    cilium_agent            = "quay.io/cilium/cilium:v1.17.6"
-    cilium_operator         = "quay.io/cilium/operator-generic:v1.17.6"
+    cilium_agent            = "quay.io/cilium/cilium:v1.17.5"
+    cilium_operator         = "quay.io/cilium/operator-generic:v1.17.5"
     coredns                 = "registry.k8s.io/coredns/coredns:v1.12.1"
     flannel                 = "docker.io/flannel/flannel:v0.27.0"
     flannel_cni             = "quay.io/poseidon/flannel-cni:v0.4.2"
