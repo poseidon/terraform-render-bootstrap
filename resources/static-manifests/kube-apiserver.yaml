@@ -30,11 +30,11 @@ spec:
     - --etcd-certfile=/etc/kubernetes/pki/etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/pki/etcd-client.key
     - --etcd-servers=${etcd_servers}
-    - --feature-gates=kube:MutatingAdmissionPolicy=true
+    - --feature-gates=MutatingAdmissionPolicy=true
     - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/pki/apiserver.key
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
-    - --runtime-config=admissionregistration.k8s.io/v1alpha1=true
+    - --runtime-config=admissionregistration.k8s.io/v1beta1=true,admissionregistration.k8s.io/v1alpha1=true
     - --secure-port=6443
     - --service-account-issuer=${service_account_issuer}
     - --service-account-jwks-uri=${service_account_issuer}/openid/v1/jwks
