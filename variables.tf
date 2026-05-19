@@ -138,3 +138,9 @@ variable "service_account_issuer" {
   description = "kube-apiserver service account token issuer (used as an identifier in 'iss' claims)"
   default     = "https://kubernetes.default.svc.cluster.local"
 }
+
+variable "cloud_provider" {
+  type        = string
+  description = "Cloud provider to set on Kubernetes components (e.g. external)"
+  default     = null
+}

@@ -15,6 +15,7 @@ locals {
         service_cidr = var.service_cidr
 
         service_account_issuer = var.service_account_issuer
+        cloud_provider_flag    = var.cloud_provider == null ? "" : indent(4, local.cloud_provider_flag)
         aggregation_flags      = var.enable_aggregation ? indent(4, local.aggregation_flags) : ""
       }
     )
@@ -64,6 +65,8 @@ locals {
 }
 
 locals {
+  cloud_provider_flag = "\n- --cloud-provider=${var.cloud_provider}"
+
   aggregation_flags = <<EOF
 
 - --proxy-client-cert-file=/etc/kubernetes/pki/aggregation-client.crt
@@ -74,4 +77,3 @@ locals {
 - --requestheader-username-headers=X-Remote-User
 EOF
 }
-

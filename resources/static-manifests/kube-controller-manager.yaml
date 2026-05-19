@@ -22,7 +22,7 @@ spec:
     - --authentication-kubeconfig=/etc/kubernetes/pki/controller-manager.conf
     - --authorization-kubeconfig=/etc/kubernetes/pki/controller-manager.conf
     - --allocate-node-cidrs=true
-    - --client-ca-file=/etc/kubernetes/pki/ca.crt
+    - --client-ca-file=/etc/kubernetes/pki/ca.crt${cloud_provider_flag}
     - --cluster-cidr=${pod_cidr}
     - --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
     - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
