@@ -65,7 +65,7 @@ locals {
 }
 
 locals {
-  cloud_provider_flag = "\n- --cloud-provider=${var.cloud_provider}"
+  cloud_provider_flag = "\n- --cloud-provider=${var.cloud_provider == null ? "" : var.cloud_provider}"
 
   aggregation_flags = <<EOF
 
